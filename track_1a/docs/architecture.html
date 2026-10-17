@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Red-Team Graph Architecture</title>
+<style>
+:root{--bg:#f6f5f1;--panel:#fff;--ink:#1d2433;--muted:#6b7280;--line:#d9d6cc;--red:#e30613;--ok:#0f9d76;--blue:#4778ff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#12141a;--panel:#1b1e26;--ink:#e8e9ee;--muted:#9aa1ad;--line:#343947}}
+:root[data-theme="dark"]{--bg:#12141a;--panel:#1b1e26;--ink:#e8e9ee;--muted:#9aa1ad;--line:#343947}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 ui-sans-serif,system-ui,-apple-system,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:28px 16px}
+h1{font-size:24px;margin:0 0 4px}.sub{color:var(--muted);margin:0 0 22px}
+svg{width:100%;height:auto;display:block;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+svg text{fill:var(--ink);font:13px ui-sans-serif,system-ui,sans-serif}
+svg .m{fill:var(--muted);font-size:11.5px}
+svg .box{fill:var(--panel);stroke:var(--line);stroke-width:1.5}
+svg .hot{stroke:var(--red);stroke-width:2}
+svg .arr{stroke:var(--muted);stroke-width:1.6;fill:none;marker-end:url(#a)}
+svg .loop{stroke:var(--red);stroke-dasharray:5 4}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.card h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 8px}
+.card ul{margin:0;padding-left:18px}
+</style>
+</head>
+<body>
+<main>
+<h1>Apertus Red-Team Graph</h1>
+<p class="sub">HackApertus Track 1A · automated multilingual red-teaming harness · one-page overview for mentor review</p>
+
+<svg viewBox="0 0 1000 330" role="img" aria-label="Agent graph: attacker, mutator, target, judge, verifier, scribe with a refinement loop">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" style="color:var(--muted)"/></marker></defs>
+  <text x="20" y="34">hypotheses/*.json</text><text class="m" x="20" y="50">hypothesis + sourced reference</text>
+  <path class="arr" d="M95 70 V105"/>
+  <!-- nodes -->
+  <g><rect class="box" x="20" y="110" width="140" height="80" rx="12"/><text x="40" y="140">Attacker</text><text class="m" x="40" y="160">realistic probe,</text><text class="m" x="40" y="175">refines on feedback</text></g>
+  <g><rect class="box" x="185" y="110" width="140" height="80" rx="12"/><text x="205" y="140">Mutator</text><text class="m" x="205" y="160">en · de · gsw</text><text class="m" x="205" y="175">fr · it · rm</text></g>
+  <g><rect class="box hot" x="350" y="110" width="140" height="80" rx="12"/><text x="370" y="140">Target</text><text class="m" x="370" y="160">Apertus v1.5</text><text class="m" x="370" y="175">8B / 70B (vLLM)</text></g>
+  <g><rect class="box" x="515" y="110" width="140" height="80" rx="12"/><text x="535" y="140">Judge</text><text class="m" x="535" y="160">temp 0, JSON verdict</text><text class="m" x="535" y="175">+ evidence quote</text></g>
+  <g><rect class="box" x="680" y="110" width="140" height="80" rx="12"/><text x="700" y="140">Verifier</text><text class="m" x="700" y="160">langs × seeds grid</text><text class="m" x="700" y="175">reproduction rate</text></g>
+  <g><rect class="box" x="845" y="110" width="135" height="80" rx="12"/><text x="865" y="140">Scribe</text><text class="m" x="865" y="160">schema-valid</text><text class="m" x="865" y="175">findings/*.json</text></g>
+  <path class="arr" d="M160 150 H182"/><path class="arr" d="M325 150 H347"/><path class="arr" d="M490 150 H512"/>
+  <path class="arr" d="M655 150 H677"/><text class="m" x="640" y="100">violation</text>
+  <path class="arr" d="M820 150 H842"/><text class="m" x="800" y="100">rate ≥ min</text>
+  <path class="arr loop" d="M585 192 V240 H90 V194"/>
+  <text class="m" x="230" y="258" style="fill:var(--red)">no violation → feedback to Attacker (max 3 attempts)</text>
+  <!-- infra -->
+  <rect class="box" x="20" y="272" width="960" height="50" rx="10"/>
+  <text class="m" x="36" y="292">Events → runs/&lt;id&gt;/events.jsonl → live dashboard (127.0.0.1:8765) · make run = Docker, validates every finding</text>
+  <text class="m" x="36" y="310">LLM only via LLM_BASE_URL (SSH tunnel to Exoscale A30, CH-GVA-2) · MOCK fallback when unreachable, always labelled</text>
+</svg>
+
+<div class="grid">
+  <div class="card"><h2>Why this scores in 1A</h2><ul>
+    <li>Validity 10: "end-to-end harness … across multiple variations" is the verifier grid</li>
+    <li>Breadth: one issue measured across 6 Swiss language variants</li>
+    <li>Novelty: dialect / Romansh / speech pathways specific to a Swiss model</li>
+    <li>Code 10: plug-and-play, tests, Docker, stdlib only</li>
+  </ul></div>
+  <div class="card"><h2>Questions for mentors</h2><ul>
+    <li>Vasco: how to make the judge trustworthy (second judge? human-agreement sample?)</li>
+    <li>Mike: structured-output reliability from Apertus; sovereign framing</li>
+    <li>Corina: reproduction-rate thresholds and confidence intervals at small n</li>
+    <li>Fabian: diverse attack generation without near-duplicates</li>
+  </ul></div>
+  <div class="card"><h2>Next</h2><ul>
+    <li>Real endpoint: Apertus 8B on A30 Medium; 70B for final verification</li>
+    <li>Image mutator (text-in-image) and Swiss German speech mutator</li>
+    <li>Split roles: 70B as attacker/judge, 8B as target</li>
+    <li>Human review step before <code>--promote</code></li>
+  </ul></div>
+</div>
+</main>
+</body>
+</html>

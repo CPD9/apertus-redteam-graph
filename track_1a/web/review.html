@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Judge Review</title>
+<style>
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --ink:#1d2433; --muted:#6b7280; --line:#e5e3dc;
+  --red:#e30613; --red-soft:#fde8e9; --ok:#0f9d76; --ok-soft:#e3f6ef; --warn:#b45309; --warn-soft:#fdf1e1;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12141a; --panel:#1b1e26; --ink:#e8e9ee; --muted:#9aa1ad; --line:#2a2e39;
+    --red-soft:#3a1517; --ok-soft:#10301f; --warn-soft:#33240f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12141a; --panel:#1b1e26; --ink:#e8e9ee; --muted:#9aa1ad; --line:#2a2e39;
+  --red-soft:#3a1517; --ok-soft:#10301f; --warn-soft:#33240f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px clamp(16px,3vw,32px);border-bottom:1px solid var(--line);background:var(--panel)}
+h1{font-size:19px;margin:0;letter-spacing:-.01em}
+h1 small{color:var(--muted);font-weight:500;margin-left:6px}
+header a{color:var(--muted);font-size:14px}
+.badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--line)}
+button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:8px 14px;background:var(--ink);color:var(--bg);cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+button.violation{background:var(--red);color:#fff}
+button.ok{background:var(--ok);color:#fff}
+button.skip{background:var(--line);color:var(--ink)}
+button.link{background:transparent;color:var(--muted);padding:4px 0;text-decoration:underline}
+kbd{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.8;margin-left:6px}
+main{padding:clamp(16px,3vw,32px);max-width:920px;margin:0 auto;display:grid;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+.card h2{font-size:14px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:flex;gap:8px;align-items:center}
+.text{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.pill{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--line);text-transform:none;letter-spacing:0;color:var(--ink)}
+.pill.violation{background:var(--red-soft);color:var(--red)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.meta{color:var(--muted);font-size:13px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.actions input{flex:1 1 220px;font:inherit;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.empty{color:var(--muted);font-size:14px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <h1>Judge review <small>blind human labels · judge–human agreement</small></h1>
+  <div class="badges">
+    <span id="progress" class="badge">– / –</span>
+    <span id="agreement" class="badge">agreement: –</span>
+    <a href="index.html">Dashboard</a>
+  </div>
+</header>
+<main>
+  <p id="status" class="empty">Loading sample…</p>
+  <div id="item" hidden>
+    <p class="meta" id="meta"></p>
+    <section class="card"><h2>Reference</h2><p class="text" id="reference"></p></section>
+    <section class="card"><h2>Prompt <span class="pill" id="lang"></span></h2><p class="text" id="prompt"></p></section>
+    <section class="card"><h2>Answer</h2><p class="text" id="answer"></p></section>
+    <section class="card">
+      <button class="link" id="toggleJudge">show judge</button>
+      <div id="judge" hidden>
+        <h2>Judge <span class="pill" id="verdict"></span></h2>
+        <p class="text" id="reason"></p>
+      </div>
+    </section>
+    <div class="actions">
+      <button class="violation" data-label="true">Violation<kbd>v</kbd></button>
+      <button class="ok" data-label="false">OK<kbd>o</kbd></button>
+      <button class="skip" id="skip">Skip<kbd>s</kbd></button>
+      <input id="note" placeholder="optional note" autocomplete="off">
+    </div>
+  </div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const run = new URLSearchParams(location.search).get("run") || "latest";
+let items = [], labelled = new Set(), pos = 0;
+
+// Model text is untrusted: it is only ever assigned through textContent, never innerHTML.
+const setText = (sel, value) => { $(sel).textContent = value ?? "(not recorded)"; };
+
+function showAgreement(a){
+  const pct = a.raw_agreement == null ? "–" : Math.round(a.raw_agreement * 100) + "%";
+  const kappa = a.kappa == null ? "–" : a.kappa.toFixed(2);
+  $("#agreement").textContent = `n ${a.n} · raw ${pct} · κ ${kappa}`;
+}
+
+function nextUnlabelled(from){
+  for (let i = from; i < items.length; i++) if (!labelled.has(items[i].id)) return i;
+  return items.length;
+}
+
+function render(){
+  $("#progress").textContent = `${items.filter(it => labelled.has(it.id)).length} / ${items.length}`;
+  const it = items[pos];
+  $("#item").hidden = !it;
+  $("#status").hidden = !!it;
+  if (!it) { $("#status").textContent = items.length ? "Done: every sampled item is labelled or skipped." : "No judge decisions in this run yet."; return; }
+  setText("#meta", `${it.hypothesis} · ${it.id}`);
+  setText("#reference", it.reference);
+  setText("#lang", it.lang);
+  setText("#prompt", it.prompt);
+  setText("#answer", it.answer);
+  setText("#verdict", it.judge_violation ? "violation" : "ok");
+  $("#verdict").className = "pill " + (it.judge_violation ? "violation" : "ok");
+  setText("#reason", it.judge_reason);
+  $("#judge").hidden = true;
+  $("#toggleJudge").textContent = "show judge";
+  $("#note").value = "";
+}
+
+async function label(violation){
+  const it = items[pos];
+  if (!it) return;
+  const res = await fetch("/api/review/label", { method: "POST",
+    body: JSON.stringify({ id: it.id, human_violation: violation, note: $("#note").value.trim() }) }).then(r => r.json());
+  if (res.error) { $("#status").textContent = res.error; $("#status").hidden = false; return; }
+  labelled.add(it.id);
+  showAgreement(res.agreement);
+  pos = nextUnlabelled(pos + 1);
+  render();
+}
+
+function skip(){ pos = nextUnlabelled(pos + 1); render(); }
+
+$("#toggleJudge").onclick = () => {
+  $("#judge").hidden = !$("#judge").hidden;
+  $("#toggleJudge").textContent = $("#judge").hidden ? "show judge" : "hide judge";
+};
+document.querySelectorAll("[data-label]").forEach(b => b.onclick = () => label(b.dataset.label === "true"));
+$("#skip").onclick = skip;
+document.addEventListener("keydown", e => {
+  if (e.target === $("#note") || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === "v") label(true);
+  else if (e.key === "o") label(false);
+  else if (e.key === "s") skip();
+});
+
+async function load(){
+  const s = await fetch(`/api/review/sample?run=${encodeURIComponent(run)}&n=50`).then(r => r.json());
+  if (s.error) { $("#status").textContent = s.error; return; }
+  items = s.items;
+  labelled = new Set(s.labelled);
+  document.title = `Judge Review · ${s.run_id}`;
+  pos = nextUnlabelled(0);
+  render();
+  showAgreement(await fetch("/api/review/agreement").then(r => r.json()));
+}
+load();
+</script>
+</body>
+</html>
