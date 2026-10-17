@@ -25,7 +25,7 @@ attacker ─► mutator ─► target ─► judge ──(clean, attempts left)�
 | `make run` | Docker, no GPU (what judges run): replays the canonical run from `data/llm_cache` (forces `REDTEAM_BACKEND=replay`, so no live server is called), validates every findings file, rebuilds the five findings from `data/runs` and fails on any difference with `findings/`, then prints the report's summary table |
 | `make live` | Docker, a new run against the live servers (`LIVE_LLM_BASE_URL`, default `http://host.docker.internal:8000/v1`; `LIVE_RED_LLM_BASE_URL`, default `:8002/v1`; extra flags via `ARGS="--only <id>"`). Stops if a server does not answer, never replays, adds new calls to `data/llm_cache`, then validates the findings |
 | `make dev` | `python -m redteam.run` locally without Docker: live endpoints if they answer, else replay, else MOCK (no check or rebuild) |
-| `make dashboard` | live dashboard on http://127.0.0.1:8765 (graph, findings, persona studio) |
+| `make dashboard` | live dashboard on http://127.0.0.1:8765 (graph, findings, language gap) |
 | `make test` | unit tests |
 
 The target is reached only via `LLM_BASE_URL` / `LLM_NAME` / `LLM_API_KEY` (OpenAI-compatible, e.g.
@@ -42,8 +42,9 @@ each finding's `steps_to_reproduce` gives the command), and `make run` fails on 
 
 ## Agent avatars
 The six agent avatars in `web/avatars/` were made with the Dot Avatar Maker studio
-(`web/studio/dot-avatar-maker.html`). The dashboard's *Persona studio* tab embeds that studio so
-anyone can redesign an agent and save it as its avatar. The studio loads three.js from jsDelivr
+(`web/studio/dot-avatar-maker.html`), which is not in the repository. When a local copy is present,
+the dashboard shows a *Persona studio* tab that embeds it, so anyone can redesign an agent and save
+it as its avatar; without it the tab stays hidden. The studio loads three.js from jsDelivr
 (UI only, no inference); vendor it for air-gapped use.
 
 ## Known issue in the template

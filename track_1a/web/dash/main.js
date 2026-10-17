@@ -3,8 +3,9 @@ import {attacks} from "./evidence.js";
 import {byStrength, cardModel, renderChips, renderFacts, renderFindings} from "./findings.js";
 import {renderGap, scaleHtml, verified} from "./heat.js";
 import {drawAgents, hypothesisStatus, plannedHypotheses, renderGraphTab, renderLive} from "./graph.js";
+import {loadStudio, offerStudio, saveAvatar} from "./studio.js";
 
-const TABS = ["graph", "findings", "gap", "studio"];
+const TABS = ["graph", "findings", "gap"];  // the studio tab only where offerStudio finds it
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const RECORDED = "20261016-172309-1f71";  // the canonical 8B run of the report
 const params = new URLSearchParams(location.search);
@@ -118,7 +119,7 @@ function showTab(name) {
   view.tab = name;
   document.querySelectorAll("nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === name));
   document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "tab-" + name);
-  if (name === "studio" && !$("#studio").src) $("#studio").src = $("#studio").dataset.src;
+  if (name === "studio") loadStudio();
   syncUrl();
 }
 
@@ -145,17 +146,6 @@ function placeTip(e) {
   tip.style.top = (r.top - h - 8 < 8 ? r.bottom + 8 : r.top - h - 8) + "px";
 }
 
-async function saveAvatar() {
-  const dot = $("#studio").contentWindow?.__dot;
-  if (!dot) { $("#saveMsg").textContent = "Studio is still loading."; return; }
-  const agent = document.querySelector("input[name=agent]:checked").value;
-  const url = await dot.snapshot(320);
-  const res = await fetch(`/api/avatar/${agent}`, {method: "POST", body: url}).then(r => r.json());
-  $("#saveMsg").textContent = res.saved ? `Saved ${agent}'s avatar.` : res.error;
-  const fresh = `avatars/${agent}.png?${Date.now()}`;
-  document.querySelectorAll(`img[src^="avatars/${agent}.png"]`).forEach(img => img.src = fresh);
-}
-
 async function startRun() {
   $("#runBtn").disabled = true;
   // Until the server has started the run, "latest" can still name no run; drop polls sent before.
@@ -171,6 +161,7 @@ drawAgents(Date.now());
 document.querySelectorAll(".scale").forEach(el => el.insertAdjacentHTML("afterbegin", scaleHtml()));
 document.querySelectorAll("nav button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
 showTab(TABS.includes(params.get("tab")) ? params.get("tab") : "graph");
+offerStudio().then(present => { if (present && params.get("tab") === "studio") showTab("studio"); });
 
 $("#runPick").onchange = e => { view.run = e.target.value; syncUrl(); poll(); };
 $("#domains").onclick = e => {

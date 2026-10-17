@@ -107,6 +107,15 @@ class ServerTest(unittest.TestCase):
         status, s = self.request("GET", "/api/review/sample?run=latest")
         self.assertEqual((status, s), (404, {"error": "no run on this machine yet"}))
 
+    def test_the_studio_is_offered_only_where_a_local_copy_exists(self):
+        # web/studio/ is not in git; the page hides its tab unless this says it is there.
+        with tempfile.TemporaryDirectory() as d:
+            page = Path(d) / "dot-avatar-maker.html"
+            with mock.patch.object(server, "STUDIO", page):
+                self.assertEqual(self.request("GET", "/api/studio"), (200, {"present": False}))
+                page.write_text("<!doctype html>")
+                self.assertEqual(self.request("GET", "/api/studio"), (200, {"present": True}))
+
     def test_state_names_every_hypothesis_by_its_bank_title(self):
         status, s = self.request("GET", "/api/state?run=latest")
         self.assertEqual((status, s["run_id"], s["running"]), (200, None, False))

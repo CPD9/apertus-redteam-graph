@@ -8,6 +8,8 @@ POST /api/run                      start a run in the background
 GET  /api/review/sample?run=<id|latest>&n=50   judge decisions for blind human labelling
 POST /api/review/label             {id, human_violation, note}
 GET  /api/review/agreement         judge-human agreement (n, raw, Cohen's kappa)
+GET  /api/studio                   whether web/studio/ holds a copy of the avatar studio, which
+                                   is not in git
 POST /api/avatar/<agent>           save the avatar studio's PNG for an agent
 Binds 127.0.0.1 by default (HOST env overrides, e.g. 0.0.0.0 inside Docker). POSTs are refused
 unless they come from this server's own pages on 127.0.0.1 or localhost.
@@ -27,6 +29,7 @@ from .paths import ROOT
 
 _running = threading.Lock()
 AGENTS = {"attacker", "mutator", "target", "judge", "verifier", "scribe"}
+STUDIO = ROOT / "web" / "studio" / "dot-avatar-maker.html"
 LOOPBACK = {"127.0.0.1", "localhost"}
 
 
@@ -82,6 +85,8 @@ class Handler(SimpleHTTPRequestHandler):
                                "labelled": [it["id"] for it in items if it["id"] in done]})
         if u.path == "/api/review/agreement":
             return self._json(review.agreement())
+        if u.path == "/api/studio":
+            return self._json({"present": STUDIO.is_file()})
         return super().do_GET()
 
     def do_POST(self):
