@@ -8,6 +8,9 @@ Romansh, plus a probe of how well Apertus understands spoken Swiss German.
 Team **Star-rust** · HackApertus 2026 · Track 1A (red-teaming) ·
 **[Report (PDF, 6 pages)](track_1a/Star-rust_Report.pdf)** · [Roadmap](track_1a/docs/ROADMAP.md)
 
+**Status:** five findings, report and dashboard are ready; what is still open, and who does it, is
+in the [roadmap](track_1a/docs/ROADMAP.md).
+
 <p align="center">
   <img src="track_1a/docs/assets/agent-loop.svg" alt="Animated agent loop: attacker, mutator, target, judge, verifier, scribe" width="900">
 </p>
@@ -24,7 +27,7 @@ reproduction grid.
 | | |
 |---|---|
 | **Apertus red-teams Apertus** | Apertus 70B (the community FP8 build) writes the attacks and judges the answers of Apertus 8B. No external model is part of the pipeline. |
-| **One probe, six languages** | Each attack is translated into en, de, gsw, fr, it and rm and rerun across seeds, so a finding is a pattern, not an anecdote. |
+| **One probe, six languages** | Each attack is translated into en, de, gsw, fr, it and rm and rerun across seeds, so a reproduced hypothesis is a pattern, not an anecdote. |
 | **Sycophancy vs. ignorance** | A neutral-question control separates "Apertus doesn't know" from "Apertus knows, but agrees with a false user claim". |
 | **Replays without a GPU** | Every text and image model call is cached. `make run` replays the canonical run in Docker and gets identical verdicts. |
 | **Counts honestly** | An answer counts only when the judge rates it as stating the error; a neutral control and a 70B replication test every text finding. |
@@ -53,33 +56,35 @@ The dashboard averages the hypotheses each run verified (41 on the 8B), so its h
   <img src="track_1a/docs/figures/speech_dialects.svg" alt="Share of Swiss German audio clips Apertus 70B translated into something the speaker did not say, per dialect" width="420">
 </p>
 
-**Five findings** ([`track_1a/findings/`](track_1a/findings)):
+**Five findings** ([`track_1a/findings/`](track_1a/findings)), with our self-assessed severity and
+breadth on the [challenge rubric](track_1a/README.md) (0, 1, 2, 5 or 10):
 
-| # | Finding | Rate | Key contrast |
-|---|---|---|---|
-| 1 | Confirms false claims about Swiss voting rules, history and literature | 74% (8B) | English 50%, French and Romansh 88%; neutral question 35% |
-| 2 | Vouches for invented details about a private person | 83% (8B) | English 0%, every other language 100% |
-| 3 | Wrong Swiss emergency and health-insurance facts | 71% (8B) | wrong even when asked neutrally (75%) |
-| 4 | Misstates Swiss old-age pension rules | 64% (8B), 56% (70B) | wrong even when asked neutrally (72%) |
-| 5 | Invents what Swiss German speakers said (audio) | 48% of 480 clips (70B) | a Swiss German Whisper: 1% |
+| # | Finding | Wrong answers | Key contrast | Severity / breadth |
+|---|---|---|---|---|
+| 1 | [Apertus confirms false claims about Swiss democracy and history](track_1a/findings/civic_sycophancy.json) | 74% (8B), 39% (70B) | English 50%, French and Romansh 88%; asked neutrally 35% | 2 / 5 |
+| 2 | [Apertus confirms made-up details about a private person](track_1a/findings/private_person_fabrication.json) | 83% (8B), 17% (70B) | English 0%, every other language 100% | 2 / 2 |
+| 3 | [Apertus gets Swiss emergency and health insurance facts wrong](track_1a/findings/safety_knowledge_gaps.json) | 71% (8B), 46% (70B) | wrong as often when asked neutrally (75%) | 2 / 5 |
+| 4 | [Apertus gets Swiss old-age pension rules wrong](track_1a/findings/pension_rules.json) | 64% (8B), 56% (70B) | wrong as often when asked neutrally (72%) | 5 / 5 |
+| 5 | [Apertus invents what Swiss German speakers said](track_1a/findings/speech_dialect_hallucination.json) | 48% of 480 clips (70B) | a Swiss German Whisper: 1% | 2 / 5 |
 
 A short system prompt asking the model to check whether the question assumes something false about
 Swiss law cuts the 70B's rate on the 29 retested hypotheses from 29% to 12%, but makes English worse
-(6% → 16%). False rules printed on a notice image were never questioned in 60 answers.
+(6% → 16%). An image probe (false rules printed on a notice) is not reported until it is rerun: its
+judge was shown the claim as typed by the user, though it was only in the image.
 
 ## How we count
 
 - **Only answers that state the error.** The judge (Apertus 70B) checks every claim against the
   hypothesis's reference; an answer counts only if it is flagged *and* rated above severity 0. On the
-  8B run this keeps 16 of the 31 hypotheses the harness flagged.
+  8B run this keeps 16 of the 31 hypotheses with at least 34% of answers flagged.
 - **Sycophancy or ignorance.** Neutral questions written from the same references show whether
   Apertus does not know the fact (wrong both ways) or gives in to the user (right only when asked
   neutrally).
 - **Both sizes.** Every text finding was rerun with Apertus 70B as the target; 29 hypotheses were
   run once more with a mitigation system prompt.
 - **Judging the judge.** A second, independently worded judge also flags 97% of what the main judge
-  flags, but many corrections too (κ 0.19; it saw shortened answers, a rerun is planned). Human labels
-  from the review page come next.
+  flags, but many corrections too (κ 0.19; it saw shortened answers, a rerun on full answers is
+  ready). Human labels from the review page come next.
 - **Read, not just counted.** Variations left out after reading the answers are named in each
   finding's notes with the reason, and every number in the report, this README and the findings was
   checked against the raw run logs in two passes.
@@ -94,7 +99,7 @@ flowchart LR
     T --> J{Judge<br/>Apertus 70B,<br/>claim by claim}
     J -- no violation --> A
     J -- violation --> V[Verifier<br/>6 languages × 3 seeds<br/>Wilson 95% CI]
-    V -- reproduces --> S[Scribe<br/>findings/*.json]
+    V -- reproduces --> S[Scribe<br/>one schema-valid file<br/>per hypothesis]
     V -- does not --> X[discarded]
     S --> C[Control<br/>same facts,<br/>no premise]
     J -.-> K[Second judge<br/>agreement check]
@@ -113,15 +118,15 @@ Every step is logged as an event, and the dashboard plays them back live:
 
 ```bash
 cd track_1a
-make run          # Docker: replays the canonical run from the cache and validates every finding
+make run          # Docker, no GPU: replays the canonical run and checks the five findings
 make test         # unit tests
 make dashboard    # live dashboard on http://127.0.0.1:8765
 ```
 
-`make run` currently prints the harness's raw flags (31 hypotheses). The five submitted findings
-were built from the recorded runs with `redteam.group` (see each finding's `steps_to_reproduce`);
-shipping those run logs so that `make run` rebuilds and checks the five findings is the first item
-on the [roadmap](track_1a/docs/ROADMAP.md).
+`make run` replays run `20261016-172309-1f71` from `data/llm_cache/`, validates every findings
+file, rebuilds the four text findings from the run data in `data/runs/` and recomputes the speech
+finding's numbers from its per-clip scores, fails on any difference with `findings/` and prints the
+report's summary table.
 
 The report and its figures:
 
@@ -141,16 +146,6 @@ LLM_BASE_URL=http://127.0.0.1:8000/v1 RED_LLM_BASE_URL=http://127.0.0.1:8002/v1 
 With no endpoint and no cache, the harness falls back to a clearly labelled MOCK backend whose output
 is never treated as a finding.
 
-## Status
-
-PR #2 brings the 70B replication, the five findings, the report and dashboard v2. Until the Monday
-deadline Yaseen makes `make run` show the five findings, Nik makes every finding readable in ten
-seconds, and Peter adds human labels and finishes the report:
-
-<p align="center">
-  <a href="track_1a/docs/ROADMAP.md"><img src="track_1a/docs/assets/roadmap-timeline.svg" alt="Road to submission, Saturday to Monday, one lane each for Peter, Yaseen and Nik" width="720"></a>
-</p>
-
 ## Repository map
 
 | Path | What it is |
@@ -159,7 +154,8 @@ seconds, and Peter adds human labels and finishes the report:
 | [`track_1a/src/redteam/hypotheses/`](track_1a/src/redteam/hypotheses) | Sourced hypotheses and attack strategies |
 | [`track_1a/findings/`](track_1a/findings) | Submitted findings (schema-valid; not yet human-reviewed) |
 | [`track_1a/technical_report.md`](track_1a/technical_report.md) | The report; [`Star-rust_Report.pdf`](track_1a/Star-rust_Report.pdf) is built from it |
-| [`track_1a/data/llm_cache/`](track_1a/data/llm_cache) | Recorded model calls that make the replay possible |
+| [`track_1a/data/llm_cache/`](track_1a/data/llm_cache) | Recorded model calls, packed in one file, that make the replay possible |
+| [`track_1a/data/runs/`](track_1a/data/runs) | Event logs, controls and per-clip speech scores (no SwissDial text) behind the findings and figures |
 | [`track_1a/web/`](track_1a/web) | Dashboard and judge-review page |
 | [`track_1a/scripts/`](track_1a/scripts) | Report figures, `numbers.json` and the PDF build |
 | [`track_1a/infra/runpod/`](track_1a/infra/runpod) | Serving Apertus 8B and 70B with vLLM on a GPU pod, batch scripts |
@@ -175,5 +171,6 @@ Who does what until submission: [`track_1a/docs/ROADMAP.md`](track_1a/docs/ROADM
 
 ## Licences
 
-Code: Apache-2.0 ([`LICENSE`](LICENSE)). Findings: CDLA-Permissive-2.0. The SwissDial audio used by
+Code: Apache-2.0 ([`LICENSE`](LICENSE)). Findings: CDLA-Permissive-2.0
+([`track_1a/findings/LICENSE`](track_1a/findings/LICENSE)). The SwissDial audio used by
 the speech probe is CC BY-NC 4.0 and is **not** part of this repository.

@@ -1,6 +1,8 @@
 """Human review of judge decisions: blind labelling and judge-human agreement (Cohen's kappa).
 
 Item ids are "<run_id>:<event line>", so a label can be resolved back to its event after a restart.
+The event log keeps only the start of each answer; reviewers see the whole answer, replayed from
+the LLM cache.
 """
 from __future__ import annotations
 
@@ -9,29 +11,35 @@ import random
 import time
 from pathlib import Path
 
+from . import agents, paths
+from .cache import CACHE_DIR, Cached, CacheMiss
+from .events import first_event, numbered_events
+from .graph import PROBE_LOGGED_CHARS
 from .run import load_hypotheses
 
-ROOT = Path(__file__).resolve().parents[2]
-RUNS = ROOT / "runs"
-LABELS = ROOT / "tests" / "judge_cases.jsonl"
+LABELS = paths.ROOT / "tests" / "judge_cases.jsonl"
+
+
+def run_dir(run_id: str) -> Path:
+    """A local run or a recorded one in data/runs/ ("latest" for the newest local run)."""
+    d = paths.run_dir(run_id)
+    if d is None:
+        raise ValueError("no run on this machine yet" if run_id == "latest"
+                         else f"unknown run {run_id!r}")
+    return d
 
 
 def resolve_run(run_id: str) -> str:
-    if run_id == "latest":
-        run_id = (RUNS / "latest").read_text().strip()
-    # Compare against real directory names so a crafted id cannot escape runs/.
-    if run_id not in {p.name for p in RUNS.iterdir()} or not (RUNS / run_id / "events.jsonl").exists():
-        raise ValueError(f"unknown run {run_id!r}")
-    return run_id
+    return run_dir(run_id).name
 
 
 def items(run_id: str) -> list[dict]:
     """Every judge verdict of a run, joined with the prompt and answer it judged."""
     refs = {h["id"]: h["reference"] for h in load_hypotheses()}
-    lines = (RUNS / run_id / "events.jsonl").read_text().splitlines()
+    folder = run_dir(run_id)
+    run_id = folder.name
     prompts, answers, out = {}, {}, []
-    for i, line in enumerate(lines):
-        e = json.loads(line) if line.strip() else {}
+    for i, e in numbered_events(folder / "events.jsonl"):
         if e.get("status") != "done":
             continue
         hyp, d = e["hypothesis"], e["data"]
@@ -45,6 +53,28 @@ def items(run_id: str) -> list[dict]:
                         "answer": answers.get((hyp, d["lang"])),
                         "judge_violation": bool(d["violation"]), "judge_reason": d.get("reason", "")})
     return out
+
+
+def in_full(run_id: str, chosen: list[dict]) -> list[dict]:
+    """The chosen items with each answer replayed whole from the LLM cache, asked as the run asked
+    it: seed 0, temperature 0 and the run's system prompt. Only the chosen ones, because a replay
+    is a cache lookup per item."""
+    start = first_event(run_dir(run_id) / "events.jsonl")
+    target = Cached(None, start.get("model", ""), replay=True, root=CACHE_DIR)
+    system = start.get("data", {}).get("system")
+    return [{**it, "answer": full_answer(target, it, system)} for it in chosen]
+
+
+def full_answer(target: Cached, item: dict, system: str | None) -> str | None:
+    """The whole answer, or, when the cache does not hold it (mock runs), the logged start with a
+    note that it was cut."""
+    try:
+        return agents.target(target, item["prompt"], 0, 0.0, system)
+    except CacheMiss:
+        logged = item["answer"]
+        if logged and len(logged) >= PROBE_LOGGED_CHARS:
+            return logged + f" [cut: the event log keeps {PROBE_LOGGED_CHARS} characters]"
+        return logged
 
 
 def _spread(pool: list[dict], k: int, rng: random.Random) -> list[dict]:
@@ -61,7 +91,7 @@ def _spread(pool: list[dict], k: int, rng: random.Random) -> list[dict]:
 
 def sample(run_id: str, n: int = 50, seed: int = 0) -> list[dict]:
     rng = random.Random(seed)
-    pool = items(resolve_run(run_id))
+    pool = items(run_id)
     hits = [it for it in pool if it["judge_violation"]]
     clean = [it for it in pool if not it["judge_violation"]]
     # Violations are the rarer class; give clean items whatever share they cannot fill.
@@ -70,14 +100,14 @@ def sample(run_id: str, n: int = 50, seed: int = 0) -> list[dict]:
     n_hits = min(len(hits), n - n_clean)
     chosen = _spread(hits, n_hits, rng) + _spread(clean, n_clean, rng)
     rng.shuffle(chosen)
-    return chosen
+    return in_full(run_id, chosen)
 
 
 def find(item_id: str) -> dict:
     run_id, _, _ = item_id.rpartition(":")
-    for it in items(resolve_run(run_id)):
+    for it in items(run_id):
         if it["id"] == item_id:
-            return it
+            return in_full(run_id, [it])[0]
     raise ValueError(f"unknown item {item_id!r}")
 
 

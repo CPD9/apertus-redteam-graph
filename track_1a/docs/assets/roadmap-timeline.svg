@@ -14,6 +14,7 @@
     .initial { fill: #1d2433; font-size: 15px; font-weight: 700; }
     .pt { fill: #1d2433; font-size: 11.5px; font-weight: 600; }
     .ptDone { fill: #1a7f37; }
+    .pillDone { stroke: #1a7f37; }
     .chipText { fill: #1d2433; font-size: 11px; font-weight: 600; }
     .sub { fill: #646b78; font-size: 11.5px; }
     .tag { fill: #ffffff; font-size: 11px; font-weight: 700; letter-spacing: .06em; }
@@ -55,6 +56,7 @@
       .nowDot { stroke: #0d1117; }
       .title, .day, .name, .initial, .pt, .chipText { fill: #e8e9ee; }
       .ptDone { fill: #3fb950; }
+      .pillDone { stroke: #3fb950; }
       .sub { fill: #9aa1ad; }
       .road { stroke: #2a2e39; }
       .done { stroke: #238636; }
@@ -110,7 +112,7 @@
   <text class="day" x="550" y="114" text-anchor="middle">SUN 18 OCT</text>
   <text class="day" x="790" y="114" text-anchor="middle">MON 19 OCT</text>
 
-  <!-- lanes -->
+  <!-- lanes; green pills with a tick are done in PR #2 -->
   <rect class="box" x="20" y="140" width="860" height="108" rx="12"/>
   <rect class="box" x="20" y="256" width="860" height="108" rx="12"/>
   <rect class="box" x="20" y="372" width="860" height="138" rx="12"/>
@@ -139,8 +141,9 @@
 
   <rect class="pill" x="489" y="152" width="122" height="24" rx="12"/>
   <text class="pt" x="550" y="168" text-anchor="middle">Mentor sessions</text>
-  <rect class="pill" x="469" y="182" width="162" height="24" rx="12"/>
-  <text class="pt" x="550" y="198" text-anchor="middle">Findings + self-scores</text>
+  <rect class="pill pillDone" x="451" y="182" width="180" height="24" rx="12"/>
+  <path class="tick" d="M461 194.5 l3 3 l5.5 -6.5"/>
+  <text class="pt ptDone" x="550" y="198" text-anchor="middle">Findings + self-scores</text>
   <rect class="pill" x="510" y="212" width="80" height="24" rx="12"/>
   <text class="pt" x="550" y="228" text-anchor="middle">Report v3</text>
 
@@ -158,12 +161,14 @@
   <rect class="pill" x="237" y="283" width="116" height="24" rx="12"/>
   <text class="pt" x="295" y="299" text-anchor="middle">Approve PR #2</text>
   <rect class="pill" x="227" y="313" width="136" height="24" rx="12"/>
-  <text class="pt" x="295" y="329" text-anchor="middle">Start make-run fix</text>
+  <text class="pt" x="295" y="329" text-anchor="middle">Tests in the image</text>
 
-  <rect class="pill" x="492" y="268" width="116" height="24" rx="12"/>
-  <text class="pt" x="550" y="284" text-anchor="middle">Ship data/runs</text>
-  <rect class="pill" x="470" y="298" width="160" height="24" rx="12"/>
-  <text class="pt" x="550" y="314" text-anchor="middle">make run = 5 findings</text>
+  <rect class="pill pillDone" x="474" y="268" width="134" height="24" rx="12"/>
+  <path class="tick" d="M484 280.5 l3 3 l5.5 -6.5"/>
+  <text class="pt ptDone" x="550" y="284" text-anchor="middle">Ship data/runs</text>
+  <rect class="pill pillDone" x="452" y="298" width="178" height="24" rx="12"/>
+  <path class="tick" d="M462 310.5 l3 3 l5.5 -6.5"/>
+  <text class="pt ptDone" x="550" y="314" text-anchor="middle">make run = 5 findings</text>
   <rect class="pill" x="469" y="328" width="162" height="24" rx="12"/>
   <text class="pt" x="550" y="344" text-anchor="middle">One pod batch → stop</text>
 
@@ -181,12 +186,13 @@
   <rect class="pill" x="213" y="444" width="164" height="24" rx="12"/>
   <text class="pt" x="295" y="460" text-anchor="middle">Review page for labels</text>
 
-  <rect class="pill" x="490" y="384" width="120" height="24" rx="12"/>
-  <text class="pt" x="550" y="400" text-anchor="middle">Honest wording</text>
+  <rect class="pill pillDone" x="472" y="384" width="138" height="24" rx="12"/>
+  <path class="tick" d="M482 396.5 l3 3 l5.5 -6.5"/>
+  <text class="pt ptDone" x="550" y="400" text-anchor="middle">Honest wording</text>
   <rect class="pill" x="477" y="414" width="146" height="24" rx="12"/>
   <text class="pt" x="550" y="430" text-anchor="middle">Explain-mode demo</text>
   <rect class="pill" x="483" y="444" width="134" height="24" rx="12"/>
-  <text class="pt" x="550" y="460" text-anchor="middle">390 px + contrast</text>
+  <text class="pt" x="550" y="460" text-anchor="middle">390 px + motion</text>
   <rect class="pill" x="469" y="474" width="162" height="24" rx="12"/>
   <text class="pt" x="550" y="490" text-anchor="middle">Screenshots by 23:00</text>
 

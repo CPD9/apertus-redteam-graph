@@ -1,5 +1,6 @@
 """Per-dialect speech understanding of Apertus on SwissDial: chrF against gold Standard German, and
-(with --judge) a meaning check by the red-team model: same, partial or unrelated.
+(with --judge) a meaning check by the red-team model: same, partial or unrelated, or unknown when
+the judge fails on a clip. Unknown clips are counted per dialect and left out of the shares.
 
     PYTHONPATH=src python -m redteam.speech_eval [--dialects zh be ...] [--limit N] [--judge]
 """
@@ -14,7 +15,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from statistics import mean
 
-from redteam import llm as llm_mod
+from redteam import llm as llm_mod, paths
 from redteam.llm_json import ask_json
 from redteam.speech import DEFAULT_INSTRUCTION, ask_with_audio
 from redteam.stats import wilson
@@ -25,7 +26,7 @@ MODEL = os.environ.get("LLM_NAME", "swiss-ai/Apertus-v1.5-8B")
 DATA_DIR = Path(os.environ.get("SWISSDIAL_DIR", Path.home() / "Developer/sentinel/data/swissdial/data1.1"))
 DIALECTS = ["ag", "be", "bs", "gr", "lu", "sg", "vs", "zh"]
 FFMPEG = os.environ.get("FFMPEG", "ffmpeg")
-RUNS_DIR = Path(__file__).resolve().parents[2] / "runs" / "speech"
+RUNS_DIR = paths.RUNS / "speech"
 # The inference server is usually shared with a red-team run.
 MAX_WORKERS = int(os.environ.get("SPEECH_WORKERS", "4"))
 HALLUCINATION_CHRF = 40.0
@@ -69,12 +70,21 @@ MEANING_PROMPT = (
     "TRANSLATION: {output}\nREFERENCE: {gold}\n"
     'Reply with JSON only: {{"meaning": "same|partial|unrelated"}}'
 )
+VERDICTS = ("same", "partial", "unrelated")
 
 
 def judge_meaning(red, output, gold):
-    out = ask_json(red, MEANING_PROMPT.format(output=output, gold=gold), role="judge", max_tokens=60)
+    """{"meaning": verdict}, or "unknown" with the reason when the judge times out, replies with
+    something unparseable or off the scale. A failed verdict costs one clip, never the run."""
+    try:
+        out = ask_json(red, MEANING_PROMPT.format(output=output, gold=gold), role="judge",
+                       max_tokens=60)
+    except Exception as e:
+        return {"meaning": "unknown", "meaning_error": f"{type(e).__name__}: {e}"}
     verdict = str(out.get("meaning", "")).lower()
-    return verdict if verdict in ("same", "partial", "unrelated") else "unknown"
+    if verdict not in VERDICTS:
+        return {"meaning": "unknown", "meaning_error": f"verdict off the scale: {verdict!r}"}
+    return {"meaning": verdict}
 
 
 def to_24k_mono(src, tmp_dir):
@@ -102,14 +112,35 @@ def evaluate_clip(dialect, wav, gold, tmp_dir, red=None):
     record = {"dialect": dialect, "sentence_id": sentence_id, "gold": gold[sentence_id]}
     try:
         output = ask_with_audio(BASE_URL, MODEL, to_24k_mono(wav, tmp_dir), DEFAULT_INSTRUCTION)
-    except (RuntimeError, OSError, subprocess.CalledProcessError) as e:
-        return record | {"error": str(e)}
+    except Exception as e:  # kept on the record and counted; the other clips go on
+        return record | {"error": f"{type(e).__name__}: {e}"}
     score = chrf(output, record["gold"])
     record |= {"chrf": round(score, 2), "hallucinated": is_hallucinated(score, output),
                "output": output}
     if red is not None:
-        record["meaning"] = judge_meaning(red, output, record["gold"])
+        record |= judge_meaning(red, output, record["gold"])
     return record
+
+
+def evaluate_all(clips, gold, red=None):
+    with tempfile.TemporaryDirectory() as tmp_dir, ThreadPoolExecutor(MAX_WORKERS) as pool:
+        return list(pool.map(lambda clip: evaluate_clip(*clip, gold, tmp_dir, red), clips))
+
+
+def meaning_counts(scored):
+    """Shares over the clips the judge rated. Clips it could not rate are counted as unknown and
+    left out of the shares, so a judge outage never reads as a verdict."""
+    meanings = [r["meaning"] for r in scored if "meaning" in r]
+    if not meanings:
+        return {}
+    judged = [m for m in meanings if m in VERDICTS]
+    counts = {"unknown": len(meanings) - len(judged)}
+    if judged:
+        u = judged.count("unrelated")
+        counts |= {"unrelated": u, "unrelated_rate": u / len(judged),
+                   "unrelated_ci95": [round(x, 3) for x in wilson(u, len(judged))],
+                   "same_rate": judged.count("same") / len(judged)}
+    return counts
 
 
 def summarize(records):
@@ -122,18 +153,13 @@ def summarize(records):
         low, high = wilson(k, n)
         row = {"dialect": dialect, "n": n, "mean_chrf": round(mean(r["chrf"] for r in scored), 1),
                "hallucinated": k, "rate": k / n, "ci95": [round(low, 3), round(high, 3)]}
-        judged = [r for r in scored if r.get("meaning") in ("same", "partial", "unrelated")]
-        if judged:
-            u = sum(r["meaning"] == "unrelated" for r in judged)
-            row |= {"unrelated": u, "unrelated_rate": u / len(judged),
-                    "unrelated_ci95": [round(x, 3) for x in wilson(u, len(judged))],
-                    "same_rate": sum(r["meaning"] == "same" for r in judged) / len(judged)}
-        rows.append(row)
+        rows.append(row | meaning_counts(scored))
     return sorted(rows, key=lambda row: row["mean_chrf"])
 
 
 def print_table(rows):
-    print(f"{'dialect':<8}{'n':>4}{'chrF':>8}{'low chrF':>10}   95% CI   unrelated   95% CI")
+    print(f"{'dialect':<8}{'n':>4}{'chrF':>8}{'low chrF':>10}   95% CI   unrelated   95% CI"
+          "   unknown")
     for row in rows:
         low, high = row["ci95"]
         line = (f"{row['dialect']:<8}{row['n']:>4}{row['mean_chrf']:>8.1f}"
@@ -141,6 +167,10 @@ def print_table(rows):
         if "unrelated_rate" in row:
             ul, uh = row["unrelated_ci95"]
             line += f"   {row['unrelated_rate']:>8.0%}   [{ul:.0%}, {uh:.0%}]"
+        elif "unknown" in row:  # judged, but no clip got a verdict
+            line += f"   {'-':>8}   {'-':^10}"
+        if "unknown" in row:
+            line += f"   {row['unknown']:>7d}"
         print(line)
 
 
@@ -156,8 +186,7 @@ def main():
     gold = load_gold()
     clips = list_clips(args.dialects, args.limit)
     started = time.time()
-    with tempfile.TemporaryDirectory() as tmp_dir, ThreadPoolExecutor(MAX_WORKERS) as pool:
-        records = list(pool.map(lambda clip: evaluate_clip(*clip, gold, tmp_dir, red), clips))
+    records = evaluate_all(clips, gold, red)
     elapsed = time.time() - started
 
     rows = summarize(records)
@@ -171,7 +200,9 @@ def main():
 
     print_table(rows)
     errors = sum("error" in r for r in records)
-    print(f"\n{len(records)} clips, {errors} errors, {elapsed:.0f}s -> {out_dir / 'results.json'}")
+    unknown = sum(r.get("meaning") == "unknown" for r in records)
+    print(f"\n{len(records)} clips, {errors} errors, {unknown} meaning unknown, {elapsed:.0f}s"
+          f" -> {out_dir / 'results.json'}")
 
 
 if __name__ == "__main__":

@@ -2,3 +2,5 @@ runs/
 web/
 __pycache__/
 .env
+# Model calls of live runs, one file each; make run replays from the committed pack alone.
+data/llm_cache/??/

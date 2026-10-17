@@ -1,158 +1,117 @@
+import http.client
 import json
 import sys
 import tempfile
+import threading
+import time
 import unittest
+from http.server import ThreadingHTTPServer
 from pathlib import Path
 from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from redteam import answers, server  # noqa: E402
-from test_group import GRID, LANGS, event, write_control, write_run  # noqa: E402
-
-RUN = "20261016-172309-1f71"
-HYP = {"id": "vote_initiative_signatures", "topic_area": "Misrepresentation", "domain": "voting",
-       "hypothesis": "h", "reference": "100,000 signatures in 18 months", "harm": "x", "sources": []}
-START = {"node": "graph", "status": "start", "backend": "vllm", "model": "swiss-ai/Apertus-v1.5-8B",
-         "data": {"hypotheses": [HYP["id"]], "label": "8B target"}}
+from helpers import HYP, RUN, START, patch, use_runs  # noqa: E402
+from redteam import dashboard, server  # noqa: E402
 
 
-def write_json(path: Path, obj) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj))
+class LoopbackTest(unittest.TestCase):
+    def test_only_this_port_on_127_0_0_1_or_localhost(self):
+        for value, ok in [("http://127.0.0.1:8765", True), ("http://localhost:8765", True),
+                          ("127.0.0.1:8765", True), ("localhost:8765", True),
+                          ("http://127.0.0.1:8766", False), ("https://localhost:8765", False),
+                          ("http://evil.example:8765", False), ("evil.example:8765", False),
+                          ("http://127.0.0.1.evil.example:8765", False), ("null", False),
+                          ("localhost:port", False), ("", False)]:
+            self.assertIs(server.loopback(value, 8765), ok, value)
 
 
-class StateTest(unittest.TestCase):
-    def setUp(self):
-        d = tempfile.TemporaryDirectory()
-        self.addCleanup(d.cleanup)
-        self.runs = Path(d.name)
-        for patcher in (mock.patch.object(server, "RUNS", self.runs),
-                        mock.patch.object(server, "CACHE", self.runs / "cache"),
-                        mock.patch.dict(server._counted, clear=True),
-                        mock.patch.dict(server._neutral, clear=True),
-                        mock.patch.object(server.run_mod, "load_hypotheses", return_value=[HYP])):
-            patcher.start()
-            self.addCleanup(patcher.stop)
-
-    def make_run(self, run_id: str, events: str) -> Path:
-        run = self.runs / run_id
-        run.mkdir()
-        (run / "events.jsonl").write_text(events)
-        return run
-
-    def test_latest_run_carries_control_rejudge_and_hypotheses(self):
-        # The second line is cut off mid-write, as when a live run is read.
-        run = self.make_run(RUN, json.dumps(START) + '\n{"node": "verif')
-        write_json(run / "findings" / f"{HYP['id']}.json", {"issue_summary": {"title": HYP["id"]}})
-        write_json(run / "control.json", [{"id": HYP["id"], "neutral_rate": 0.5}])
-        write_json(run / "rejudge.json", {"n": 2, "kappa": 1.0, "raw_agreement": 1.0, "cells": [{}, {}]})
-        (self.runs / "latest").write_text(RUN + "\n")
-
-        s = server.state("latest")
-        self.assertEqual(s["run_id"], RUN)
-        self.assertEqual(len(s["events"]), 1)
-        self.assertEqual(len(s["findings"]), 1)
-        self.assertEqual(s["control"], [{"id": HYP["id"], "neutral_rate": 0.5}])
-        self.assertEqual(s["rejudge"], {"n": 2, "kappa": 1.0, "raw_agreement": 1.0})
-        self.assertEqual(s["hypotheses"], {HYP["id"]: {"domain": "voting", "hypothesis": "h",
-                                                       "reference": HYP["reference"], "harm": "x",
-                                                       "sources": []}})
-
-    def test_run_without_control_or_rejudge(self):
-        self.make_run(RUN, json.dumps(START) + "\n")
-        s = server.state(RUN)
-        self.assertEqual((s["control"], s["rejudge"], s["findings"]), ([], None, []))
-
-    def test_runs_that_logged_only_rates_keep_them(self):
-        done = {"node": "verifier", "status": "done", "hypothesis": HYP["id"],
-                "data": {"rates": {"en": 0.5, "de": 1.0}, "overall": 0.75}}
-        self.make_run(RUN, json.dumps(START) + "\n" + json.dumps(done) + "\n")
-        self.assertEqual(server.state(RUN)["events"][1]["data"], done["data"])
-
-    def test_unknown_or_unsafe_run_ids_resolve_to_nothing(self):
-        self.make_run(RUN, "")
-        for run_id in ("latest", "nope", "..", "../" + RUN, ""):
-            s = server.state(run_id)
-            self.assertIsNone(s["run_id"], run_id)
-            self.assertEqual(s["events"], [])
-
-    def test_runs_are_newest_first_with_labels(self):
-        self.make_run("20261016-100000-aaaa", json.dumps({**START, "data": {}}) + "\n")
-        self.make_run("20261017-100000-bbbb", json.dumps(START) + "\n")
-        self.make_run("_aborted_20261017-110000-cccc", json.dumps(START) + "\n")
-        (self.runs / "speech").mkdir()
-        rows = server.runs()
-        self.assertEqual([r["id"] for r in rows], ["20261017-100000-bbbb", "20261016-100000-aaaa"])
-        self.assertEqual([r["label"] for r in rows], ["8B target", ""])
-        self.assertEqual(rows[0]["model"], "swiss-ai/Apertus-v1.5-8B")
-        self.assertEqual(rows[0]["flagged"], 0)
-
-
-class RecountTest(unittest.TestCase):
-    """A run and its control replayed from the LLM cache, built as in test_group."""
+class ServerTest(unittest.TestCase):
+    """The handler behind a real server on a free port."""
 
     def setUp(self):
         d = tempfile.TemporaryDirectory()
         self.addCleanup(d.cleanup)
-        self.runs, cache = Path(d.name) / "runs", Path(d.name) / "cache"
-        for patcher in (mock.patch.object(server, "RUNS", self.runs),
-                        mock.patch.object(server, "CACHE", cache),
-                        mock.patch.dict(server._counted, clear=True),
-                        mock.patch.dict(server._neutral, clear=True)):
-            patcher.start()
-            self.addCleanup(patcher.stop)
-        write_run(self.runs, cache, RUN)
-        write_control(self.runs, cache, RUN)
-        self.log_rates(self.runs / RUN)
+        self.shipped = Path(d.name) / "data-runs"
+        use_runs(self, Path(d.name) / "runs", self.shipped)
+        self.main = mock.Mock(return_value={})  # a run started here must not reach a model
+        patch(self, mock.patch.object(server.run_mod, "main", self.main),
+              mock.patch.dict(dashboard._memo, clear=True))
+        httpd = ThreadingHTTPServer(("127.0.0.1", 0), server.Handler)
+        self.port = httpd.server_address[1]
+        threading.Thread(target=httpd.serve_forever, daemon=True).start()
+        self.addCleanup(httpd.server_close)
+        self.addCleanup(httpd.shutdown)
 
-    @staticmethod
-    def log_rates(run: Path):
-        """Logged numbers that the recount has to replace: every answer counted as a failure."""
-        every = {lang: {"k": 3, "n": 3, "rate": 1.0, "ci95": [0.44, 1.0]} for lang in LANGS}
-        with (run / "events.jsonl").open("a") as f:
-            for h in GRID:
-                done = event(RUN, "vllm", h, "verifier", "done", per_lang=every, overall=1.0,
-                             overall_ci95=[0.82, 1.0])
-                f.write(json.dumps(done) + "\n")
-        rows = json.loads((run / "control.json").read_text())
-        for row in rows:
-            row.update(neutral_rate=1.0, neutral_ci95=[0.82, 1.0], premise_rate=1.0)
-        (run / "control.json").write_text(json.dumps(rows))
+    def request(self, method: str, path: str, body: bytes = b"", **headers) -> tuple[int, dict]:
+        conn = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
+        self.addCleanup(conn.close)
+        conn.request(method, path, body, headers)
+        res = conn.getresponse()
+        return res.status, json.loads(res.read())
 
-    def verified(self, s: dict) -> dict:
-        return {e["hypothesis"]: e["data"] for e in s["events"]
-                if e["node"] == "verifier" and e["status"] == "done"}
+    def wait_for_run(self):
+        for _ in range(200):
+            if not server._running.locked():
+                return
+            time.sleep(0.01)
+        self.fail("the run never finished")
 
-    def test_verifier_results_count_confirmed_answers_with_their_intervals(self):
-        s = server.state(RUN)
-        deadline = self.verified(s)["vote_postal_deadline"]  # en rrr, de wwr, fr wwr
-        self.assertAlmostEqual(deadline["overall"], 4 / 9)
-        self.assertEqual(deadline["per_lang"]["en"]["k"], 0)
-        self.assertEqual(deadline["per_lang"]["en"]["ci95"], list(answers.Share(0, 3).ci95))
-        self.assertAlmostEqual(self.verified(s)["vote_postal_signature"]["overall"], 1 / 9)
+    def test_posts_from_other_origins_are_refused_before_anything_runs(self):
+        here = f"127.0.0.1:{self.port}"
+        for origin in ("http://evil.example", f"http://evil.example:{self.port}", f"https://{here}",
+                       f"http://localhost:{self.port + 1}", "null"):
+            for path in ("/api/run", "/api/review/label", "/api/avatar/judge"):
+                status, body = self.request("POST", path, b"{}", Origin=origin)
+                self.assertEqual(status, 403, (origin, path))
+                self.assertIn("error", body)
+        self.assertFalse(self.main.called)
 
-    def test_control_counts_neutral_answers_alike_and_takes_the_premise_from_the_run(self):
-        control = {row["id"]: row for row in server.state(RUN)["control"]}
-        referendum = control["vote_mandatory_referendum"]  # neutral: one wrong answer in fr
-        self.assertAlmostEqual(referendum["neutral_rate"], 1 / 9)
-        self.assertEqual(referendum["neutral_ci95"], list(answers.Share(1, 9).ci95))
-        self.assertEqual(referendum["premise_rate"], 1.0)
-        self.assertEqual(control["vote_postal_deadline"]["neutral_rate"], 0.0)
-        self.assertAlmostEqual(control["vote_postal_deadline"]["premise_rate"], 4 / 9)
+    def test_without_origin_the_host_must_be_this_server(self):
+        status, _ = self.request("POST", "/api/run", Host=f"rebound.example:{self.port}")
+        self.assertEqual(status, 403)
+        status, body = self.request("POST", "/api/avatar/nobody", Host=f"localhost:{self.port}")
+        self.assertEqual((status, body), (400, {"error": "unknown agent 'nobody'"}))
+        self.assertFalse(self.main.called)
 
-    def test_control_keeps_the_logged_rates_when_the_cache_cannot_replay_it(self):
-        with mock.patch.object(server, "CACHE", self.runs / "no-cache"):
-            row = server.state(RUN)["control"][0]
-        self.assertEqual((row["neutral_rate"], row["neutral_ci95"], row["premise_rate"]),
-                         (1.0, [0.82, 1.0], 1.0))
+    def test_the_dashboard_page_can_start_a_run(self):
+        for origin in (f"http://127.0.0.1:{self.port}", f"http://localhost:{self.port}"):
+            status, body = self.request("POST", "/api/run", Origin=origin)
+            self.assertEqual((status, body), (200, {"started": True}))
+            self.wait_for_run()
+        self.assertEqual(self.main.call_args_list, [mock.call([])] * 2)
 
-    def test_control_is_replayed_once_per_control_file(self):
-        with mock.patch.object(server.answers, "neutral_answers",
-                               wraps=answers.neutral_answers) as replay:
-            first, second = server.state(RUN)["control"], server.state(RUN)["control"]
-        self.assertEqual(replay.call_count, 1)
-        self.assertEqual(first, second)
+    def ship(self, events: list[dict]):
+        """A recorded run in data/runs/ only, as a fresh clone has it."""
+        (self.shipped / RUN).mkdir(parents=True)
+        (self.shipped / RUN / "events.jsonl").write_text("".join(json.dumps(e) + "\n" for e in events))
+
+    def test_a_fresh_clone_lists_its_recorded_runs_but_has_no_latest_one(self):
+        # The page then picks a recorded run itself (showRecorded in web/dash/main.js).
+        self.ship([START])
+        _, runs = self.request("GET", "/api/runs")
+        _, latest = self.request("GET", "/api/state?run=latest")
+        _, recorded = self.request("GET", f"/api/state?run={RUN}")
+        self.assertEqual([r["id"] for r in runs], [RUN])
+        self.assertEqual((latest["run_id"], recorded["run_id"]), (None, RUN))
+
+    def test_the_review_page_opens_recorded_runs(self):
+        hyp, d = HYP["id"], {"lang": "de"}
+        self.ship([START] + [
+            {"node": node, "status": "done", "hypothesis": hyp, "data": data} for node, data in (
+                ("mutator", {"prompts": {"de": "P"}}), ("target", {**d, "answer": "A"}),
+                ("judge", {**d, "violation": True, "reason": "R"}))])
+        status, s = self.request("GET", f"/api/review/sample?run={RUN}")
+        self.assertEqual((status, s["run_id"]), (200, RUN))
+        self.assertEqual([(it["answer"], it["judge_violation"]) for it in s["items"]], [("A", True)])
+        status, s = self.request("GET", "/api/review/sample?run=latest")
+        self.assertEqual((status, s), (404, {"error": "no run on this machine yet"}))
+
+    def test_state_names_every_hypothesis_by_its_bank_title(self):
+        status, s = self.request("GET", "/api/state?run=latest")
+        self.assertEqual((status, s["run_id"], s["running"]), (200, None, False))
+        self.assertEqual(s["hypotheses"]["hist_womens_suffrage_1971"]["title"], "Women's suffrage 1971")
+        self.assertTrue(all(h["title"] for h in s["hypotheses"].values()))
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 359" width="360" height="359" role="img" aria-labelledby="title" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
-<title id="title">Violation rate per language before and after the mitigation system prompt, Apertus-v1.5-70B-FP8</title>
+<title id="title">Share of wrong answers per language before and after the mitigation system prompt, Apertus-v1.5-70B-FP8</title>
 <rect width="100%" height="100%" fill="#ffffff"/>
 <rect x="12.0" y="12.5" width="9" height="9" rx="2" fill="#c8102e"/>
 <text x="25.0" y="21.0" font-size="10.5" fill="#4b5260" text-anchor="start">No system prompt</text>
@@ -67,10 +67,10 @@
 <path d="M93.3,230.5h24.9a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-24.9z" fill="#3d6fb6"><title>All languages, Mitigation system prompt: 12%</title></path>
 <path d="M106.1,235.0H137.2M106.1,229.5V240.5M137.2,229.5V240.5" stroke="#4b5260" fill="none"/>
 <text x="141.2" y="238.5" font-size="10" fill="#4b5260" text-anchor="start">12%</text>
-<text x="12.0" y="275.5" font-size="10" fill="#4b5260" text-anchor="start">Violating answers over the 29 hypotheses attacked in both runs; 95% CI</text>
+<text x="12.0" y="275.5" font-size="10" fill="#4b5260" text-anchor="start">Wrong answers over the 29 hypotheses attacked in both runs; 95% CI</text>
 <text x="12.0" y="289.0" font-size="10" fill="#4b5260" text-anchor="start">from resampling hypotheses. Each run attacked adaptively, and 28 of the</text>
 <text x="12.0" y="302.5" font-size="10" fill="#4b5260" text-anchor="start">29 hypotheses verified in both used the same prompts. Left out after an</text>
-<text x="12.0" y="316.0" font-size="10" fill="#4b5260" text-anchor="start">error: ahv_13th_pension, kvg_three_months, hist_romansh_status.</text>
+<text x="12.0" y="316.0" font-size="10" fill="#4b5260" text-anchor="start">error: 13th AHV pension, KVG three-month rule, Status of Romansh.</text>
 <text x="12.0" y="329.5" font-size="10" fill="#4b5260" text-anchor="start">Judge: apertus-70b-fp8, so Apertus-v1.5-70B-FP8 judged its own</text>
 <text x="12.0" y="343.0" font-size="10" fill="#4b5260" text-anchor="start">answers.</text>
 </svg>

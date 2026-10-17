@@ -66,6 +66,68 @@ class SpeechFindingTest(unittest.TestCase):
         self.assertEqual((summary["self_assessed_severity"], summary["self_assessed_breadth"]),
                          ("2", "5"))
         self.assertIn("from 0% in Graubünden to 75% in Aargau", summary["overview"])
+        self.assertEqual(summary["title"], "Apertus invents what Swiss German speakers said")
+        self.assertEqual(self.finding["model"]["version"],
+                         "70378c8df951c9f932e0a28f72e0148d868b5f6b")
+        parameters = self.finding["model"]["parameters"]
+        self.assertEqual(parameters["whisper_model_version"],
+                         "38955e408982fbdd6163f823bc821542b44751a5")
+
+    def test_the_main_interval_resamples_speakers_and_sentences(self):
+        low, high = (round(x, 3) for x in speech_finding.clustered(self.results["clips"]))
+        overview = self.finding["issue_summary"]["overview"]
+        self.assertIn(f"(35%, 95% CI {low:.0%}-{high:.0%} over speakers and sentences)", overview)
+        self.assertIn("The clips come from 6 speakers, one per dialect, each reading the same 4 "
+                      "sentences", overview)
+        self.assertIn("rarely invents content: the same judge rated 1 of its 24 outputs", overview)
+        self.assertNotIn("understood", overview)
+        notes = self.finding["notes"]
+        self.assertIn("The 23 clips (6 speakers x 4 sentences) are not independent", notes)
+        self.assertNotIn("clips are 6 speakers", notes)
+        self.assertEqual(self.finding["model"]["parameters"]["unrelated_cluster_ci95"],
+                         {"apertus": [low, high],
+                          "whisper": [round(x, 3) for x in speech_finding.clustered(
+                              self.compare["whisper_clips"])], "draws": 2000, "seed": 1})
+
+    def test_breadth_gives_the_lowest_dialect_as_a_count(self):
+        # A rounded share can overstate the floor: 19 of 60 is 31.7%, not "at least 32%". The
+        # failed Graubünden clip is not counted.
+        self.assertIn("in every dialect measured at least 0 of 3 translations were unrelated "
+                      "(0% in Graubünden)",
+                      self.finding["issue_summary"]["self_assessed_breadth_justification"])
+
+    def test_the_interval_is_drawn_once_and_shown_as_stored(self):
+        # One draw per model: a second one would raise StopIteration.
+        drawn = [(0.31234, 0.59876), (0.0, 0.04321)]
+        with mock.patch.object(speech_finding, "clustered", side_effect=drawn):
+            written, printed = self.write()
+        self.assertEqual(written["model"]["parameters"]["unrelated_cluster_ci95"],
+                         {"apertus": [0.312, 0.599], "whisper": [0.0, 0.043], "draws": 2000,
+                          "seed": 1})
+        overview = written["issue_summary"]["overview"]
+        self.assertIn("95% CI 31%-60% over speakers and sentences", overview)
+        self.assertIn("(4%, 95% CI 0%-4%)", overview)
+        self.assertIn("95% CI over speakers and sentences: Apertus 31%-60%, Whisper 0%-4%",
+                      printed.splitlines())
+
+    def test_the_last_step_runs_the_check_of_every_measured_number(self):
+        step = self.finding["steps_to_reproduce"][-1]
+        self.assertIn("PYTHONPATH=src python3 -m redteam.reproduce recomputes", step)
+        self.assertIn("data/runs/speech/20990101-000000/scores.json", step)
+        self.assertNotIn("every number", step)
+        for key in speech_finding.measured(self.results["clips"], self.compare["whisper_clips"]):
+            self.assertIn(key, step)
+
+    def test_every_number_can_be_rebuilt_from_scores_without_swissdial_text(self):
+        keys = ("dialect", "sentence_id", "meaning", "chrf")
+        apertus, whisper = ([{k: c[k] for k in keys if k in c} for c in clips]
+                            for clips in (self.results["clips"], self.compare["whisper_clips"]))
+        parameters = self.finding["model"]["parameters"]
+        self.assertEqual(speech_finding.measured(apertus, whisper),
+                         {k: parameters[k] for k in speech_finding.measured(apertus, whisper)})
+        self.assertIn("rated 96% of gcoli/whisper-large-v3-swiss-german-mit's outputs as keeping "
+                      "the meaning of the clip and 0% as keeping part of it",
+                      self.finding["issue_summary"]["desired_behavior"])
 
     def test_rates_per_dialect_leave_out_failed_clips(self):
         unrelated = self.finding["model"]["parameters"]["unrelated"]
@@ -112,7 +174,8 @@ class SpeechFindingTest(unittest.TestCase):
         self.assertIn('[SwissDial ag sentence 103] "Mein Nachbar aus ag hat gestern 103', observed)
         self.assertIn('[SwissDial be sentence 102] "Mein Nachbar aus be', observed)
 
-    def test_write_prints_the_table_and_writes_a_valid_file(self):
+    def write(self) -> tuple[dict, str]:
+        """The finding speech_finding --write writes from these inputs, and what it prints."""
         with tempfile.TemporaryDirectory() as d:
             run = Path(d) / "runs" / "speech" / "20990101-000000"
             run.mkdir(parents=True)
@@ -123,8 +186,11 @@ class SpeechFindingTest(unittest.TestCase):
                     contextlib.redirect_stdout(io.StringIO()) as out:
                 speech_finding.main([str(run / "results.json"), str(run / "whisper_compare.json"),
                                      "--write"])
-            written = json.loads(target.read_text())
-        rows = out.getvalue().splitlines()
+            return json.loads(target.read_text()), out.getvalue()
+
+    def test_write_prints_the_table_and_writes_a_valid_file(self):
+        written, printed = self.write()
+        rows = printed.splitlines()
         self.assertTrue(rows[1].startswith("ag") and rows[7].startswith("all"))
         self.assertIn("75% (30%-95%)", rows[1])
         self.assertEqual(scribe.validate(written), [])

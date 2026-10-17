@@ -50,7 +50,7 @@ pre { background: #f6f5f1; border-radius: 1.5mm; padding: 2.5mm 3mm; margin: 0 0
 pre code { background: none; padding: 0; font-size: 8.4pt; line-height: 1.4; }
 li > pre { margin: 1mm 0 1.5mm; }
 blockquote { margin: 0 0 4mm; padding: 1.5mm 0 1.5mm 4mm; border-left: 0.6mm solid #c8102e;
-  font-size: 9.8pt; color: #333a46; }
+  font-size: 9.8pt; color: #333a46; break-inside: avoid; }
 blockquote p:last-child { margin-bottom: 0; }
 hr { border: 0; border-top: 0.3mm solid #d8d5cc; margin: 4mm 0; }
 ul, ol { margin: 0 0 2.4mm; padding-left: 5.5mm; }

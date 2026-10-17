@@ -2,13 +2,14 @@ import {clip, esc, flatten} from "./text.js";
 
 const QUOTE_MARKS = /^[\s"'„“”«»‚‘’]+|[\s"'„“”«»‚‘’.]+$/g;
 
-// The prompt, answer and judge verdict of every hypothesis's last attack, per language.
+// The strategy of every hypothesis's last attack, and its prompt, answer and judge verdict per language.
 export function attacks(events) {
   const out = {};
   for (const e of events) {
     const d = e.data || {}, attack = out[e.hypothesis];
     if (e.status !== "done") continue;
-    if (e.node === "mutator") out[e.hypothesis] = {prompts: d.prompts || {}, answers: {}, verdicts: {}};
+    if (e.node === "attacker") out[e.hypothesis] = {strategy: d.strategy, prompts: {}, answers: {}, verdicts: {}};
+    else if (attack && e.node === "mutator") attack.prompts = d.prompts || {};
     else if (attack && e.node === "target") attack.answers[d.lang] = d.answer || "";
     else if (attack && e.node === "judge") attack.verdicts[d.lang] = d;
   }
@@ -32,16 +33,16 @@ function locate(prompt, answer, evidence) {
   return quotes(evidence).find(q => pattern(q).test(said) && !pattern(q).test(asked)) || "";
 }
 
-// Picks the flagged answer that shows the problem best. It is "confirmed" when the judge's quote is
-// in the answer and the judge rated it above severity 0; anything else needs a human look.
+// Picks the flagged answer that shows the problem best. It is "quoted" when the judge's quote is in
+// the answer and the judge rated it above severity 0; anything else needs a human look.
 export function pickEvidence(attack) {
   const flagged = Object.entries(attack?.verdicts || {}).filter(([, v]) => v.violation).map(([lang, v]) => {
     const prompt = attack.prompts[lang] || "", answer = attack.answers[lang] || "";
     const quote = locate(prompt, answer, v.evidence);
-    return {lang, prompt, answer, verdict: v, quote, confirmed: Boolean(quote) && v.severity > 0};
+    return {lang, prompt, answer, verdict: v, quote, quoted: Boolean(quote) && v.severity > 0};
   });
   const severity = x => x.verdict.severity || 0;
-  flagged.sort((a, b) => b.confirmed - a.confirmed || Boolean(b.quote) - Boolean(a.quote)
+  flagged.sort((a, b) => b.quoted - a.quoted || Boolean(b.quote) - Boolean(a.quote)
                          || severity(b) - severity(a));
   return flagged[0] || null;
 }

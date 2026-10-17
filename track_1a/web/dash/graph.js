@@ -1,4 +1,4 @@
-import {$, esc, pct, readable} from "./text.js";
+import {$, STATUS_TIPS, UNCOUNTED, esc, pct, titleOf} from "./text.js";
 
 const AGENTS = [
   ["attacker", "Attacker", "writes a realistic probe from a hypothesis"],
@@ -33,36 +33,41 @@ export function drawAgents(bust) {
 }
 
 const MARK = text => `<span class="v">${text}</span>`;
-// What the live feed prints after the node and status of each kind of event.
+// What the live feed prints after the node and status of each kind of event. A verifier result is
+// the share of answers that count (flagged with severity above 0) unless the server could not
+// recount it.
 const DESCRIBE = {
   "attacker done": d => esc(d.prompt),
-  "judge done": d => (d.violation ? MARK("VIOLATION") + " " : "ok ") + esc(d.reason),
+  "judge done": d => (d.violation ? MARK("flagged") + " " : "ok ") + esc(d.reason),
   "target done": d => esc(String(d.answer ?? "").slice(0, 160)),
-  "verifier done": d => "overall " + pct(d.overall),
-  "verifier progress": d => `seed ${esc(d.seed)}: ` + (d.violation ? MARK("reproduced") : "clean"),
-  "scribe done": d => "wrote " + esc(d.path?.split("/").pop()),
+  "verifier done": (d, uncounted) => (uncounted ? "flagged " : "counted ") + pct(d.overall),
+  "verifier progress": d => `seed ${esc(d.seed)}: ` +
+    (!d.violation ? "clean" : d.counted === false ? MARK("flagged") + " at severity 0" : MARK("flagged")),
+  "scribe done": d => d.path ? "wrote " + esc(d.path.split("/").pop())
+                             : "no findings file: the counted share is below the bar",
 };
 
-function feedLine(e) {
+function feedLine(e, uncounted) {
   const d = e.data || {}, lang = d.lang ? `[${esc(d.lang)}] ` : "";
   const describe = DESCRIBE[`${e.node} ${e.status}`] || (e.status === "error" ? x => esc(x.error) : () => "");
   return `<div class="ev"><span class="n">${esc(e.node)}</span> ${esc(e.status)} · ` +
-         `<small>${esc(e.hypothesis || "")}</small> ${lang}${describe(d)}</div>`;
+         `<small>${esc(e.hypothesis || "")}</small> ${lang}${describe(d, uncounted.has(e.hypothesis))}</div>`;
 }
 
 export function renderGraphTab(s, status) {
-  const hyps = plannedHypotheses(s.events);
+  const hyps = plannedHypotheses(s.events), uncounted = new Set(s.uncounted);
   $("#hyps").className = hyps.length ? "" : "empty";
-  // The scribe writes up what the harness flagged; the recount can drop it below the bar again.
-  const kept = new Set(s.findings.map(f => f.issue_summary.title));
+  // Older runs wrote up every hypothesis flagged often enough; the recount can drop one below the bar.
+  const kept = new Set(s.findings.map(f => f.hypothesis));
   $("#hyps").innerHTML = hyps.length ? hyps.map(h => {
     let st = status[h] || "queued";
     if (st === "finding" && !kept.has(h)) st = "below_bar";
-    const name = readable(h, s.hypotheses[h]?.domain || "");
-    return `<div class="hyp"><span title="${esc(h)}">${esc(name)}</span>` +
-           `<span class="pill ${st}">${st.replace("_", " ")}</span></div>`;
+    const tag = uncounted.has(h) ? UNCOUNTED : "", tip = STATUS_TIPS[st];
+    const pill = `<span class="pill ${st}"${tip ? ` data-tip="${tip}"` : ""}>${st.replace("_", " ")}</span>`;
+    return `<div class="hyp"><span title="${esc(h)}">${esc(titleOf(h, s.hypotheses))}</span>` +
+           `<span class="pills">${tag}${pill}</span></div>`;
   }).join("") : "Start a run to see progress.";
-  $("#feed").innerHTML = s.events.slice(-80).reverse().map(feedLine).join("");
+  $("#feed").innerHTML = s.events.slice(-80).reverse().map(e => feedLine(e, uncounted)).join("");
 }
 
 // Header badge, mock banner and the glowing agent; returns whether the run has ended.

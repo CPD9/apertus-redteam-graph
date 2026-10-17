@@ -1,7 +1,11 @@
-runs
+# Runs made on this machine; the recorded runs the findings rest on are in data/runs/.
+/runs
+# Model calls of live runs, one file each; scripts/pack_cache.py folds them into pack.jsonl.xz.
+data/llm_cache/??/
 __pycache__/
 *.pyc
+*.egg-info/
 .env
-# Dot Avatar Maker studio copy: no redistribution licence found. Regenerate locally:
-#   node ~/.claude/skills/bs-dot-avatar-maker/scripts/open-maker.mjs --no-open --out web/studio/dot-avatar-maker.html
+# The dashboard's Persona studio tab embeds a local copy of the Dot Avatar Maker in web/studio/.
+# We found no licence that allows redistributing it, so each developer keeps their own copy.
 web/studio/

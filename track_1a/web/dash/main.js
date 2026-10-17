@@ -6,21 +6,23 @@ import {drawAgents, hypothesisStatus, plannedHypotheses, renderGraphTab, renderL
 
 const TABS = ["graph", "findings", "gap", "studio"];
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const RECORDED = "20261016-172309-1f71";  // the canonical 8B run of the report
 const params = new URLSearchParams(location.search);
 const view = {tab: "graph", run: params.get("run") || "latest", domain: "", query: ""};
 const shown = {graph: "", data: ""};
 let cards = [], runList = [], pollId = 0, timer;
 
 function renderData(s, {ver, status, finished}) {
-  const run = {ver, hypotheses: s.hypotheses, control: Object.fromEntries(s.control.map(c => [c.id, c])),
-               attacks: attacks(s.events)};
+  const seeds = s.events.find(e => e.node === "verifier" && e.status === "start")?.data.seeds || [];
+  const run = {ver, status, seeds, hypotheses: s.hypotheses, uncounted: new Set(s.uncounted),
+               control: Object.fromEntries(s.control.map(c => [c.id, c])), attacks: attacks(s.events)};
   cards = s.findings.map(f => cardModel(f, run)).sort(byStrength);
   if (!cards.some(x => x.domain === view.domain)) view.domain = "";
   $("#fcount").textContent = cards.length || "";
   renderFacts(cards, {planned: plannedHypotheses(s.events).length, finished, rejudge: s.rejudge});
   renderChips(cards, view);
   renderFindings(cards, view);
-  renderGap(ver, new Map(cards.map(x => [x.id, x])), status, s.hypotheses);
+  renderGap(ver, new Map(cards.map(x => [x.id, x])), run);
 }
 
 // The findings and the heatmap change once per finished hypothesis, the graph tab with every event.
@@ -37,11 +39,22 @@ function update(s) {
   const ver = verified(s.events), status = hypothesisStatus(s.events);
   const finished = Object.values(status).filter(v => v !== "running").length;
   if (changed("graph", s.run_id, s.events.length)) renderGraphTab(s, status);
-  if (changed("data", s.run_id, s.findings.length, s.control.length, s.rejudge?.n, finished)) {
+  if (changed("data", s.run_id, s.findings.length, s.control.length, s.rejudge?.n, s.uncounted.length,
+              finished)) {
     renderData(s, {ver, status, finished});
   }
   syncRunOption(s);
+  $("#reviewLink").href = "review.html" + (s.run_id ? "?run=" + encodeURIComponent(s.run_id) : "");
   return s.running || (s.run_id && !ended);
+}
+
+// A fresh clone has no run of its own, only the recorded runs in data/runs/: show the canonical one
+// (else the newest) instead of an empty page. Not while a run starts, which is the latest one.
+function showRecorded(s) {
+  if (s.run_id || s.running || view.run !== "latest" || !runList.length) return false;
+  view.run = $("#runPick").value = (runList.find(r => r.id === RECORDED) || runList[0]).id;
+  syncUrl();
+  return true;
 }
 
 async function poll() {
@@ -51,6 +64,7 @@ async function poll() {
   const s = await fetch(url).then(r => r.json()).catch(() => null);
   // Switching runs starts a newer poll; this answer may belong to the run that was left.
   if (id !== pollId) return;
+  if (s && showRecorded(s)) return poll();
   let live = false;
   try {
     if (s) live = update(s);
@@ -65,8 +79,9 @@ function runName(r) {
   const when = mo ? `${+d} ${MONTHS[mo - 1]} ${h}:${mi}` : r.id;
   const what = r.label || String(r.model ?? "").split("/").pop();
   const how = r.backend && r.backend !== "vllm" ? ` (${r.backend})` : "";
-  const count = r.findings == null ? `${r.flagged} flagged` : `${r.findings} findings`;
-  return `${when} · ${what}${how} · ${count}`;
+  // The copies of the recorded runs in data/runs/ ship without findings files: no count until shown.
+  const count = r.findings != null ? ` · ${r.findings} findings` : r.written ? ` · ${r.written} written up` : "";
+  return `${when} · ${what}${how}${count}`;
 }
 
 async function loadRuns() {
@@ -79,8 +94,8 @@ async function loadRuns() {
   $("#runPick").value = view.run;
 }
 
-// The picker lists what the harness flagged in each run until a run is shown: only then are its
-// findings recounted. A live run keeps adding them.
+// The picker lists the findings files the harness wrote for each run until a run is shown: only then
+// are its findings recounted. A live run keeps adding them.
 function syncRunOption(s) {
   const r = runList.find(r => r.id === s.run_id);
   if (!r) {
@@ -143,6 +158,9 @@ async function saveAvatar() {
 
 async function startRun() {
   $("#runBtn").disabled = true;
+  // Until the server has started the run, "latest" can still name no run; drop polls sent before.
+  clearTimeout(timer);
+  pollId++;
   view.run = $("#runPick").value = "latest";
   syncUrl();
   await fetch("/api/run", {method: "POST"});

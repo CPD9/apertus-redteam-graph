@@ -144,9 +144,9 @@ def heat_legend(rows):
     sizes = {c["n"] for r in rows for c in r["per_lang"].values()}
     if len(sizes) == 1:
         n = sizes.pop()
-        stops, caption = [(k / n, str(k)) for k in range(n + 1)], f"Violating answers of {n}"
+        stops, caption = [(k / n, str(k)) for k in range(n + 1)], f"Wrong answers of {n}"
     else:
-        stops, caption = [(q, f"{q:.0%}") for q in (0, .25, .5, .75, 1)], "Violation rate"
+        stops, caption = [(q, f"{q:.0%}") for q in (0, .25, .5, .75, 1)], "Share wrong"
     x = FULL - PAD - 30 * len(stops)
     parts = [text(PAD, PAD + 10, "Gap: highest minus lowest language rate, in points", 10.5, SOFT),
              text(x - 8, PAD + 10, caption, 10.5, SOFT, "end")]
@@ -166,8 +166,8 @@ def gap_axis(left, base):
 
 def heatmap(rows, columns, sentence, title):
     """Hypotheses as columns in the caller's order, languages as rows, the gap as a bar on top.
-    Rows with a false "finding" get a grey label."""
-    longest = max(text_width(r["id"], 10) for r in rows)
+    Each row has a "label"; rows that are not "reproduced" get a grey one."""
+    longest = max(text_width(r["label"], 10) for r in rows)
     left = PAD + max(max(text_width(name, 11) for name in columns.values()) + 8, SIN45 * longest)
     col, cell = (FULL - left - PAD) / len(rows), 17
     base = PAD + 28 + GAP_BAND
@@ -184,9 +184,10 @@ def heatmap(rows, columns, sentence, title):
             c = r["per_lang"][lang]
             parts.append(f'<rect x="{x:.1f}" y="{top + j * (cell + 2)}" width="{col - 2:.1f}" '
                          f'height="{cell}" rx="1.5" fill="{heat(c["rate"])}"><title>'
-                         f'{escape(r["id"])}, {columns[lang]}: {c["k"]} of {c["n"]}</title></rect>')
+                         f'{escape(r["label"])}, {columns[lang]}: {c["k"]} of {c["n"]}'
+                         '</title></rect>')
         cx, cy = x + col / 2 + 2, bottom + 9
-        parts.append(text(cx, cy, r["id"], 10, INK if r["finding"] else MUTED, "end",
+        parts.append(text(cx, cy, r["label"], 10, INK if r["reproduced"] else MUTED, "end",
                           f' transform="rotate(-45 {cx:.1f} {cy:.1f})"'))
     lines, end = note(sentence, bottom + 9 + SIN45 * longest, FULL)
     return document(FULL, end + PAD, title, parts + lines)

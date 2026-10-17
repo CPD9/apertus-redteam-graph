@@ -13,7 +13,7 @@
   <div class="controls">
     <select id="runPick" aria-label="Run to show"><option value="latest">Latest run</option></select>
     <span id="backend" class="badge">backend: –</span>
-    <a href="review.html">Review judge</a>
+    <a id="reviewLink" href="review.html">Review judge</a>
     <button id="runBtn">Run graph</button>
   </div>
 </header>
@@ -40,7 +40,7 @@
 
   <section id="tab-findings" hidden>
     <p id="facts" class="facts"></p>
-    <div class="scale"><span>share of runs in which Apertus failed, per language</span></div>
+    <div class="scale"><span>share of answers that failed, per language</span></div>
     <div class="toolbar">
       <div id="domains" class="chips" role="group" aria-label="Filter by domain"></div>
       <input id="search" type="search" placeholder="Search findings" aria-label="Search findings">
@@ -52,7 +52,7 @@
     <div class="card">
       <div class="gaphead"><h2>Language gap</h2><p id="gapNote"></p></div>
       <div class="legend">
-        <div class="scale"><span>share of runs in which Apertus failed</span></div>
+        <div class="scale"><span>share of answers that failed</span></div>
         <div id="gapLegend"></div>
         <p>en English · de German · gsw Swiss German · fr French · it Italian · rm Romansh</p>
       </div>

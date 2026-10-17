@@ -9,8 +9,8 @@ from pathlib import Path
 
 from . import llm as llm_mod
 from .graph import Config, run
+from .paths import ROOT, RUNS
 
-ROOT = Path(__file__).resolve().parents[2]
 HYPOTHESES = Path(__file__).with_name("hypotheses")
 
 
@@ -49,21 +49,45 @@ def main(argv=None) -> dict:
     print(f"backend={llm.backend} target={llm.model} red={getattr(llm, 'red_model', llm.model)}" + ("   <-- MOCK: results are NOT findings" if llm.backend == "MOCK" else ""))
     cfg = Config(langs=a.langs.split(","), max_attempts=a.attempts, system=a.system,
                  label=a.label, parallel=a.parallel,
-                 verify_seeds=[int(x) for x in a.seeds.split(",")], out_dir=ROOT / "runs")
+                 verify_seeds=[int(x) for x in a.seeds.split(",")], out_dir=RUNS)
     summary = run(llm, seeds, cfg)
-    for r in summary["results"]:
-        print(f"  {r['id']:28s} {r['status']:18s} {r.get('overall', '')}")
+    print_results(summary["results"], cfg.min_rate)
     print(f"run_id={summary['run_id']}  events: runs/{summary['run_id']}/events.jsonl")
 
     if a.promote:
         if llm.backend != "vllm":
             print(f"refusing --promote: {llm.backend} results are not new findings")
         else:
-            for r in summary["results"]:
-                if r["status"] == "finding":
-                    shutil.copy(r["path"], ROOT / "findings" / Path(r["path"]).name)
-                    print("promoted", Path(r["path"]).name)
+            promote(summary["results"])
     return summary
+
+
+def promote(results: list[dict]) -> None:
+    """Copy the findings files of a run into findings/."""
+    for r in results:
+        if r.get("path"):  # only reproduced hypotheses have a findings file
+            src = ROOT / r["path"]  # logged relative to ROOT, or absolute when outside it
+            shutil.copy(src, ROOT / "findings" / src.name)
+            print("promoted", src.name)
+
+
+def shown_status(r: dict) -> str:
+    """The graph's status, except that a hypothesis flagged often enough shows as "reproduced"
+    when enough of its answers also count and as "below_bar" when not, as on the dashboard."""
+    if r["status"] != "finding":
+        return r["status"]
+    return "reproduced" if r.get("reproduced") else "below_bar"
+
+
+def print_results(results: list[dict], bar: float) -> None:
+    """Status per hypothesis with the share of answers the judge flagged and the share that
+    counts (flagged and rated above 0), which decides what is reproduced."""
+    print(f"  {'hypothesis':36s} {'status':17s} {'flagged':>7s} {'counted':>7s}")
+    for r in results:
+        rates = [f"{r[key]:.0%}" if key in r else "" for key in ("overall", "counted")]
+        print(f"  {r['id']:36s} {shown_status(r):17s} {rates[0]:>7s} {rates[1]:>7s}".rstrip())
+    reproduced = sum(bool(r.get("reproduced")) for r in results)
+    print(f"{reproduced} of {len(results)} hypotheses reproduced: counted rate >= {bar:.0%}")
 
 
 if __name__ == "__main__":

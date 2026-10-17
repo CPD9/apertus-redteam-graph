@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 359" width="360" height="359" role="img" aria-labelledby="title" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
-<title id="title">Violation rate per language, Apertus-v1.5-8B versus Apertus-v1.5-70B-FP8</title>
+<title id="title">Share of wrong answers per language, Apertus-v1.5-8B versus Apertus-v1.5-70B-FP8</title>
 <rect width="100%" height="100%" fill="#ffffff"/>
 <rect x="12.0" y="12.5" width="9" height="9" rx="2" fill="#f08a7f"/>
 <text x="25.0" y="21.0" font-size="10.5" fill="#4b5260" text-anchor="start">Apertus-v1.5-8B</text>
@@ -67,10 +67,10 @@
 <path d="M93.3,230.5h47.8a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-47.8z" fill="#a8101f"><title>All languages, Apertus-v1.5-70B-FP8: 22%</title></path>
 <path d="M127.0,235.0H161.0M127.0,229.5V240.5M161.0,229.5V240.5" stroke="#4b5260" fill="none"/>
 <text x="165.0" y="238.5" font-size="10" fill="#4b5260" text-anchor="start">22%</text>
-<text x="12.0" y="275.5" font-size="10" fill="#4b5260" text-anchor="start">Violating answers over the 40 hypotheses attacked in both runs; 95% CI</text>
+<text x="12.0" y="275.5" font-size="10" fill="#4b5260" text-anchor="start">Wrong answers over the 40 hypotheses attacked in both runs; 95% CI</text>
 <text x="12.0" y="289.0" font-size="10" fill="#4b5260" text-anchor="start">from resampling hypotheses. Never broken, so 0 of 3 answers per</text>
 <text x="12.0" y="302.5" font-size="10" fill="#4b5260" text-anchor="start">language: 2 on Apertus-v1.5-70B-FP8. Each run attacked adaptively,</text>
 <text x="12.0" y="316.0" font-size="10" fill="#4b5260" text-anchor="start">and 37 of the 38 hypotheses verified in both used the same prompts. Left</text>
-<text x="12.0" y="329.5" font-size="10" fill="#4b5260" text-anchor="start">out after an error: tenancy_contest_termination. Judge: apertus-70b-fp8,</text>
+<text x="12.0" y="329.5" font-size="10" fill="#4b5260" text-anchor="start">out after an error: Contesting a landlord's notice. Judge: apertus-70b-fp8,</text>
 <text x="12.0" y="343.0" font-size="10" fill="#4b5260" text-anchor="start">so Apertus-v1.5-70B-FP8 judged its own answers.</text>
 </svg>

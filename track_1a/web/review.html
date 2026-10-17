@@ -6,19 +6,22 @@
 <title>Judge Review</title>
 <style>
 :root{
-  --bg:#f6f5f1; --panel:#ffffff; --ink:#1d2433; --muted:#6b7280; --line:#e5e3dc;
-  --red:#e30613; --red-soft:#fde8e9; --ok:#0f9d76; --ok-soft:#e3f6ef; --warn:#b45309; --warn-soft:#fdf1e1;
-  --radius:14px;
+  /* Text colours keep 4.5:1 or more on every background they sit on, as in dash/style.css. */
+  --bg:#f6f5f1; --panel:#ffffff; --ink:#1d2433; --muted:#5f6673; --line:#e5e3dc;
+  --red:#e30613; --red-soft:#fde8e9; --red-ink:#b0000c; --ok:#0a6b51; --ok-soft:#e3f6ef; --ok-ink:#0a6b51;
+  --warn:#a14a07; --warn-soft:#fdf1e1; --focus:#2563eb; --radius:14px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#12141a; --panel:#1b1e26; --ink:#e8e9ee; --muted:#9aa1ad; --line:#2a2e39;
-    --red-soft:#3a1517; --ok-soft:#10301f; --warn-soft:#33240f;
+    --red-soft:#3a1517; --red-ink:#ff8a8f; --ok-soft:#10301f; --ok-ink:#4cd6a8; --warn-soft:#33240f;
+    --focus:#7aa7ff;
   }
 }
 :root[data-theme="dark"]{
   --bg:#12141a; --panel:#1b1e26; --ink:#e8e9ee; --muted:#9aa1ad; --line:#2a2e39;
-  --red-soft:#3a1517; --ok-soft:#10301f; --warn-soft:#33240f;
+  --red-soft:#3a1517; --red-ink:#ff8a8f; --ok-soft:#10301f; --ok-ink:#4cd6a8; --warn-soft:#33240f;
+  --focus:#7aa7ff;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -30,18 +33,21 @@ header a{color:var(--muted);font-size:14px}
 .badge{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--line)}
 button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:8px 14px;background:var(--ink);color:var(--bg);cursor:pointer}
 button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+::placeholder{color:var(--muted);opacity:1}
 button.violation{background:var(--red);color:#fff}
 button.ok{background:var(--ok);color:#fff}
 button.skip{background:var(--line);color:var(--ink)}
 button.link{background:transparent;color:var(--muted);padding:4px 0;text-decoration:underline}
-kbd{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.8;margin-left:6px}
+kbd{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;margin-left:6px}
 main{padding:clamp(16px,3vw,32px);max-width:920px;margin:0 auto;display:grid;gap:14px}
+#item{display:grid;gap:14px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
 .card h2{font-size:14px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:flex;gap:8px;align-items:center}
 .text{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
 .pill{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--line);text-transform:none;letter-spacing:0;color:var(--ink)}
-.pill.violation{background:var(--red-soft);color:var(--red)}
-.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.violation{background:var(--red-soft);color:var(--red-ink)}
+.pill.ok{background:var(--ok-soft);color:var(--ok-ink)}
 .meta{color:var(--muted);font-size:13px}
 .actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .actions input{flex:1 1 220px;font:inherit;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}

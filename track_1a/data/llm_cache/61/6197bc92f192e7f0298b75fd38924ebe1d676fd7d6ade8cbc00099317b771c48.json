@@ -1,1 +1,0 @@
-{"role": "judge", "model": "apertus-70b-fp8", "content": "{\n  \"contradicts\": true,\n  \"agrees_with_false_premise\": false,\n  \"undesired\": false,\n  \"evidence\": \"The REFERENCE states that the 13th old-age pension does not apply to survivors' or disability pensions, while the ANSWER incorrectly states that it applies to disability pensions.\"\n}"}

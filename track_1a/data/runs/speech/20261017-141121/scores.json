@@ -1,0 +1,5772 @@
+{
+ "run_id": "20261017-141121",
+ "model": "onprem-ai/Apertus-v1.5-70B-FP8",
+ "judge": "apertus-70b-fp8",
+ "instruction": "Translate this Swiss German audio into Standard German. Output only the translation.",
+ "temperature": 0,
+ "whisper_model": "gcoli/whisper-large-v3-swiss-german-mit",
+ "apertus": [
+  {
+   "dialect": "ag",
+   "sentence_id": 158,
+   "chrf": 54.61,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 178,
+   "chrf": 58.75,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 223,
+   "chrf": 16.61,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 313,
+   "chrf": 33.7,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 380,
+   "chrf": 51.33,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 401,
+   "chrf": 23.0,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 405,
+   "chrf": 40.97,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 428,
+   "chrf": 19.29,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 430,
+   "chrf": 49.45,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 447,
+   "chrf": 33.92,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 545,
+   "chrf": 47.79,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 558,
+   "chrf": 30.09,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 624,
+   "chrf": 19.41,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 720,
+   "chrf": 12.5,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 730,
+   "chrf": 30.34,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 763,
+   "chrf": 18.13,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 802,
+   "chrf": 17.55,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 840,
+   "chrf": 31.88,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 862,
+   "chrf": 20.08,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 864,
+   "chrf": 21.86,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 915,
+   "chrf": 14.78,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 950,
+   "chrf": 14.4,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1155,
+   "chrf": 36.95,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1218,
+   "chrf": 36.57,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1229,
+   "chrf": 20.24,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1258,
+   "chrf": 23.19,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1368,
+   "chrf": 26.06,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1383,
+   "chrf": 28.21,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1404,
+   "chrf": 22.03,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1478,
+   "chrf": 13.71,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1479,
+   "chrf": 78.41,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1510,
+   "chrf": 36.41,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1516,
+   "chrf": 24.01,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1545,
+   "chrf": 44.0,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1553,
+   "chrf": 30.09,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1569,
+   "chrf": 72.4,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1588,
+   "chrf": 58.08,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1616,
+   "chrf": 26.9,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1645,
+   "chrf": 43.49,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1688,
+   "chrf": 49.37,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1851,
+   "chrf": 88.17,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1993,
+   "chrf": 32.62,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1996,
+   "chrf": 18.99,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2037,
+   "chrf": 28.81,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2068,
+   "chrf": 39.05,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2105,
+   "chrf": 80.15,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2161,
+   "chrf": 26.78,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2226,
+   "chrf": 38.68,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2241,
+   "chrf": 11.83,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2252,
+   "chrf": 41.44,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2253,
+   "chrf": 50.64,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2351,
+   "chrf": 23.59,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2360,
+   "chrf": 28.78,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2383,
+   "chrf": 15.01,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2476,
+   "chrf": 19.59,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2609,
+   "chrf": 15.37,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2630,
+   "chrf": 49.81,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2678,
+   "chrf": 55.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2685,
+   "chrf": 14.25,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2748,
+   "chrf": 38.69,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 158,
+   "chrf": 29.46,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 178,
+   "chrf": 66.34,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 223,
+   "chrf": 31.47,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 313,
+   "chrf": 57.87,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 380,
+   "chrf": 32.62,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 401,
+   "chrf": 32.54,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 405,
+   "chrf": 37.52,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 428,
+   "chrf": 65.49,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 430,
+   "chrf": 29.87,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 447,
+   "chrf": 45.53,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 545,
+   "chrf": 68.3,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 558,
+   "chrf": 54.31,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 624,
+   "chrf": 48.56,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 720,
+   "chrf": 21.39,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 730,
+   "chrf": 27.21,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 763,
+   "chrf": 50.62,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 802,
+   "chrf": 41.33,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 840,
+   "chrf": 46.53,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 862,
+   "chrf": 18.47,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 864,
+   "chrf": 18.58,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 915,
+   "chrf": 38.01,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 950,
+   "chrf": 20.39,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1155,
+   "chrf": 27.43,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1218,
+   "chrf": 57.44,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1229,
+   "chrf": 84.32,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1258,
+   "chrf": 64.77,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1368,
+   "chrf": 58.91,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1383,
+   "chrf": 21.41,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1404,
+   "chrf": 32.94,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1478,
+   "chrf": 12.64,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1479,
+   "chrf": 89.3,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1510,
+   "chrf": 39.94,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1516,
+   "chrf": 50.19,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1545,
+   "chrf": 65.7,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1553,
+   "chrf": 67.35,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1569,
+   "chrf": 75.64,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1588,
+   "chrf": 76.7,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1616,
+   "chrf": 44.57,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1645,
+   "chrf": 36.6,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1688,
+   "chrf": 51.55,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1851,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1993,
+   "chrf": 71.46,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1996,
+   "chrf": 26.8,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2037,
+   "chrf": 34.76,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2068,
+   "chrf": 52.57,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2105,
+   "chrf": 77.35,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2161,
+   "chrf": 46.32,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2226,
+   "chrf": 38.6,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2241,
+   "chrf": 10.06,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2252,
+   "chrf": 45.56,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2253,
+   "chrf": 43.13,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2351,
+   "chrf": 46.06,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2360,
+   "chrf": 33.31,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2383,
+   "chrf": 13.85,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2476,
+   "chrf": 24.69,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2609,
+   "chrf": 21.16,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2630,
+   "chrf": 42.95,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2678,
+   "chrf": 77.32,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2685,
+   "chrf": 30.53,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2748,
+   "chrf": 40.07,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 158,
+   "chrf": 68.16,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 178,
+   "chrf": 41.5,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 223,
+   "chrf": 58.69,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 313,
+   "chrf": 47.76,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 380,
+   "chrf": 40.94,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 401,
+   "chrf": 56.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 405,
+   "chrf": 48.72,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 428,
+   "chrf": 80.12,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 430,
+   "chrf": 40.44,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 447,
+   "chrf": 69.22,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 545,
+   "chrf": 46.02,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 558,
+   "chrf": 50.02,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 624,
+   "chrf": 42.54,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 720,
+   "chrf": 26.22,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 730,
+   "chrf": 18.36,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 763,
+   "chrf": 70.17,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 802,
+   "chrf": 68.5,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 840,
+   "chrf": 41.08,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 862,
+   "chrf": 11.02,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 864,
+   "chrf": 40.05,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 915,
+   "chrf": 21.41,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 950,
+   "chrf": 11.72,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1155,
+   "chrf": 22.98,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1218,
+   "chrf": 58.86,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1229,
+   "chrf": 79.51,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1258,
+   "chrf": 54.32,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1368,
+   "chrf": 66.76,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1383,
+   "chrf": 16.13,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1404,
+   "chrf": 35.59,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1478,
+   "chrf": 7.92,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1479,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1510,
+   "chrf": 34.07,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1516,
+   "chrf": 95.62,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1545,
+   "chrf": 52.95,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1553,
+   "chrf": 42.31,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1569,
+   "chrf": 64.58,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1588,
+   "chrf": 59.34,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1616,
+   "chrf": 68.77,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1645,
+   "chrf": 47.1,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1688,
+   "chrf": 37.33,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1851,
+   "chrf": 87.17,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1993,
+   "chrf": 57.98,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1996,
+   "chrf": 73.51,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2037,
+   "chrf": 59.53,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2068,
+   "chrf": 68.6,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2105,
+   "chrf": 67.53,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2161,
+   "chrf": 44.55,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2226,
+   "chrf": 26.86,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2241,
+   "chrf": 20.1,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2252,
+   "chrf": 77.26,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2253,
+   "chrf": 31.64,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2351,
+   "chrf": 50.56,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2360,
+   "chrf": 33.31,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2383,
+   "chrf": 14.34,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2476,
+   "chrf": 27.57,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2609,
+   "chrf": 27.06,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2630,
+   "chrf": 54.95,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2678,
+   "chrf": 62.62,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2685,
+   "chrf": 23.44,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2748,
+   "chrf": 31.7,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 158,
+   "chrf": 81.64,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 178,
+   "chrf": 38.16,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 223,
+   "chrf": 36.76,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 313,
+   "chrf": 72.1,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 380,
+   "chrf": 28.68,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 401,
+   "chrf": 28.25,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 405,
+   "chrf": 50.6,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 428,
+   "chrf": 61.31,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 430,
+   "chrf": 64.07,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 447,
+   "chrf": 35.05,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 545,
+   "chrf": 85.0,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 558,
+   "chrf": 47.06,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 624,
+   "chrf": 66.46,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 720,
+   "chrf": 53.74,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 730,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 763,
+   "chrf": 53.36,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 802,
+   "chrf": 56.54,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 840,
+   "chrf": 62.76,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 862,
+   "chrf": 11.85,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 864,
+   "chrf": 50.59,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 915,
+   "chrf": 29.39,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 950,
+   "chrf": 30.21,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1155,
+   "chrf": 63.4,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1218,
+   "chrf": 30.79,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1229,
+   "chrf": 62.5,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1258,
+   "chrf": 45.87,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1368,
+   "chrf": 50.89,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1383,
+   "chrf": 13.79,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1404,
+   "chrf": 19.33,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1478,
+   "chrf": 18.89,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1479,
+   "chrf": 49.36,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1510,
+   "chrf": 33.46,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1516,
+   "chrf": 40.47,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1545,
+   "chrf": 70.48,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1553,
+   "chrf": 59.14,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1569,
+   "chrf": 59.86,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1588,
+   "chrf": 52.57,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1616,
+   "chrf": 40.7,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1645,
+   "chrf": 29.64,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1688,
+   "chrf": 54.2,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1851,
+   "chrf": 15.34,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1993,
+   "chrf": 68.9,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1996,
+   "chrf": 93.99,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2037,
+   "chrf": 65.67,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2068,
+   "chrf": 70.79,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2105,
+   "chrf": 62.58,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2161,
+   "chrf": 43.91,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2226,
+   "chrf": 74.52,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2241,
+   "chrf": 15.24,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2252,
+   "chrf": 59.71,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2253,
+   "chrf": 35.98,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2351,
+   "chrf": 46.44,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2360,
+   "chrf": 18.35,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2383,
+   "chrf": 28.88,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2476,
+   "chrf": 32.69,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2609,
+   "chrf": 20.41,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2630,
+   "chrf": 42.18,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2678,
+   "chrf": 61.77,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2685,
+   "chrf": 12.52,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2748,
+   "chrf": 31.7,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 158,
+   "chrf": 59.52,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 178,
+   "chrf": 56.86,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 223,
+   "chrf": 40.57,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 313,
+   "chrf": 28.87,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 380,
+   "chrf": 39.85,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 401,
+   "chrf": 22.5,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 405,
+   "chrf": 24.26,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 428,
+   "chrf": 23.57,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 430,
+   "chrf": 42.49,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 447,
+   "chrf": 32.01,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 545,
+   "chrf": 64.16,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 558,
+   "chrf": 49.56,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 624,
+   "chrf": 20.26,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 720,
+   "chrf": 16.73,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 730,
+   "chrf": 47.19,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 763,
+   "chrf": 36.71,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 802,
+   "chrf": 29.1,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 840,
+   "chrf": 44.86,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 862,
+   "chrf": 31.32,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 864,
+   "chrf": 74.96,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 915,
+   "chrf": 19.96,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 950,
+   "chrf": 10.95,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1155,
+   "chrf": 29.14,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1218,
+   "chrf": 20.86,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1229,
+   "chrf": 14.77,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1258,
+   "chrf": 30.98,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1368,
+   "chrf": 29.3,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1383,
+   "chrf": 30.28,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1404,
+   "chrf": 23.58,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1478,
+   "chrf": 4.9,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1479,
+   "chrf": 59.85,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1510,
+   "chrf": 27.28,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1516,
+   "chrf": 16.31,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1545,
+   "chrf": 34.86,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1553,
+   "chrf": 29.19,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1569,
+   "chrf": 56.17,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1588,
+   "chrf": 40.09,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1616,
+   "chrf": 24.16,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1645,
+   "chrf": 30.3,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1688,
+   "chrf": 20.42,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1851,
+   "chrf": 64.13,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1993,
+   "chrf": 44.3,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1996,
+   "chrf": 44.39,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2037,
+   "chrf": 36.93,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2068,
+   "chrf": 42.69,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2105,
+   "chrf": 52.77,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2161,
+   "chrf": 38.37,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2226,
+   "chrf": 25.93,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2241,
+   "chrf": 21.6,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2252,
+   "chrf": 34.32,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2253,
+   "chrf": 17.36,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2351,
+   "chrf": 23.05,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2360,
+   "chrf": 22.65,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2383,
+   "chrf": 10.67,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2476,
+   "chrf": 20.9,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2609,
+   "chrf": 24.6,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2630,
+   "chrf": 20.22,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2678,
+   "chrf": 8.27,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2685,
+   "chrf": 15.42,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2748,
+   "chrf": 19.09,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 158,
+   "chrf": 68.29,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 178,
+   "chrf": 53.47,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 223,
+   "chrf": 25.11,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 313,
+   "chrf": 84.93,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 380,
+   "chrf": 56.17,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 401,
+   "chrf": 31.3,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 405,
+   "chrf": 46.09,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 428,
+   "chrf": 76.22,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 430,
+   "chrf": 26.76,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 447,
+   "chrf": 64.91,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 545,
+   "chrf": 86.65,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 558,
+   "chrf": 46.83,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 624,
+   "chrf": 37.91,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 720,
+   "chrf": 29.41,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 730,
+   "chrf": 79.1,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 763,
+   "chrf": 42.67,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 802,
+   "chrf": 53.99,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 840,
+   "chrf": 47.27,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 862,
+   "chrf": 32.03,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 864,
+   "chrf": 19.54,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 915,
+   "chrf": 33.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 950,
+   "chrf": 48.98,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1155,
+   "chrf": 27.6,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1218,
+   "chrf": 31.35,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1229,
+   "chrf": 58.59,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1258,
+   "chrf": 43.9,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1368,
+   "chrf": 80.87,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1383,
+   "chrf": 31.83,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1404,
+   "chrf": 28.96,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1478,
+   "chrf": 23.22,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1479,
+   "chrf": 83.67,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1510,
+   "chrf": 38.57,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1516,
+   "chrf": 95.62,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1545,
+   "chrf": 51.46,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1553,
+   "chrf": 25.4,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1569,
+   "chrf": 61.74,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1588,
+   "chrf": 69.32,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1616,
+   "chrf": 46.15,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1645,
+   "chrf": 43.93,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1688,
+   "chrf": 58.37,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1851,
+   "chrf": 22.45,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1993,
+   "chrf": 50.26,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1996,
+   "chrf": 54.18,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2037,
+   "chrf": 42.06,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2068,
+   "chrf": 67.33,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2105,
+   "chrf": 83.46,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2161,
+   "chrf": 24.61,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2226,
+   "chrf": 52.92,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2241,
+   "chrf": 12.81,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2252,
+   "chrf": 44.21,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2253,
+   "chrf": 31.54,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2351,
+   "chrf": 45.37,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2360,
+   "chrf": 28.16,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2383,
+   "chrf": 16.16,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2476,
+   "chrf": 20.1,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2609,
+   "chrf": 26.69,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2630,
+   "chrf": 69.42,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2678,
+   "chrf": 44.11,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2685,
+   "chrf": 46.98,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2748,
+   "chrf": 62.3,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 158,
+   "chrf": 44.99,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 178,
+   "chrf": 38.87,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 223,
+   "chrf": 17.44,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 313,
+   "chrf": 32.41,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 380,
+   "chrf": 39.43,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 401,
+   "chrf": 33.57,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 405,
+   "chrf": 27.05,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 428,
+   "chrf": 50.16,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 430,
+   "chrf": 48.95,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 447,
+   "chrf": 37.57,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 545,
+   "chrf": 29.72,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 558,
+   "chrf": 58.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 624,
+   "chrf": 35.35,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 720,
+   "chrf": 18.4,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 730,
+   "chrf": 22.69,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 763,
+   "chrf": 19.68,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 802,
+   "chrf": 19.81,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 840,
+   "chrf": 45.78,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 862,
+   "chrf": 7.72,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 864,
+   "chrf": 26.86,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 915,
+   "chrf": 61.95,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 950,
+   "chrf": 16.08,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1155,
+   "chrf": 25.07,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1218,
+   "chrf": 41.69,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1229,
+   "chrf": 18.98,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1258,
+   "chrf": 57.49,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1368,
+   "chrf": 47.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1383,
+   "chrf": 13.65,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1404,
+   "chrf": 11.63,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1478,
+   "chrf": 10.25,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1479,
+   "chrf": 32.32,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1510,
+   "chrf": 22.48,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1516,
+   "chrf": 22.67,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1545,
+   "chrf": 30.2,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1553,
+   "chrf": 29.78,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1569,
+   "chrf": 45.54,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1588,
+   "chrf": 75.79,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1616,
+   "chrf": 29.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1645,
+   "chrf": 23.61,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1688,
+   "chrf": 30.79,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1851,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1993,
+   "chrf": 40.83,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1996,
+   "chrf": 29.02,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2037,
+   "chrf": 49.21,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2068,
+   "chrf": 34.67,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2105,
+   "chrf": 57.68,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2161,
+   "chrf": 41.34,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2226,
+   "chrf": 45.66,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2241,
+   "chrf": 15.05,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2252,
+   "chrf": 43.15,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2253,
+   "chrf": 25.34,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2351,
+   "chrf": 38.3,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2360,
+   "chrf": 33.19,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2383,
+   "chrf": 15.02,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2476,
+   "chrf": 19.79,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2609,
+   "chrf": 18.03,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2630,
+   "chrf": 21.35,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2678,
+   "chrf": 47.18,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2685,
+   "chrf": 62.26,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2748,
+   "chrf": 64.39,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 158,
+   "chrf": 77.51,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 178,
+   "chrf": 61.17,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 223,
+   "chrf": 43.19,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 313,
+   "chrf": 63.62,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 380,
+   "chrf": 30.96,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 401,
+   "chrf": 18.5,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 405,
+   "chrf": 37.15,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 428,
+   "chrf": 66.94,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 430,
+   "chrf": 22.89,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 447,
+   "chrf": 62.43,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 545,
+   "chrf": 60.11,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 558,
+   "chrf": 38.6,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 624,
+   "chrf": 30.48,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 720,
+   "chrf": 27.39,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 730,
+   "chrf": 60.41,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 763,
+   "chrf": 57.6,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 802,
+   "chrf": 53.0,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 840,
+   "chrf": 27.66,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 862,
+   "chrf": 48.73,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 864,
+   "chrf": 74.96,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 915,
+   "chrf": 48.04,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 950,
+   "chrf": 12.98,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1155,
+   "chrf": 28.71,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1218,
+   "chrf": 37.97,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1229,
+   "chrf": 25.21,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1258,
+   "chrf": 60.18,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1368,
+   "chrf": 37.88,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1383,
+   "chrf": 23.01,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1404,
+   "chrf": 19.83,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1478,
+   "chrf": 6.73,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1479,
+   "chrf": 31.58,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1510,
+   "chrf": 31.35,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1516,
+   "chrf": 68.96,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1545,
+   "chrf": 70.13,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1553,
+   "chrf": 32.9,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1569,
+   "chrf": 58.05,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1588,
+   "chrf": 49.46,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1616,
+   "chrf": 29.98,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1645,
+   "chrf": 51.91,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1688,
+   "chrf": 35.15,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1851,
+   "chrf": 77.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1993,
+   "chrf": 56.87,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1996,
+   "chrf": 37.16,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2037,
+   "chrf": 55.49,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2068,
+   "chrf": 50.13,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2105,
+   "chrf": 77.36,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2161,
+   "chrf": 26.32,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2226,
+   "chrf": 59.21,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2241,
+   "chrf": 29.67,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2252,
+   "chrf": 45.35,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2253,
+   "chrf": 18.94,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2351,
+   "chrf": 45.8,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2360,
+   "chrf": 35.06,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2383,
+   "chrf": 20.18,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2476,
+   "chrf": 19.1,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2609,
+   "chrf": 24.96,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2630,
+   "chrf": 55.3,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2678,
+   "chrf": 18.78,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2685,
+   "chrf": 68.17,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2748,
+   "chrf": 47.67,
+   "meaning": "partial"
+  }
+ ],
+ "whisper": [
+  {
+   "dialect": "ag",
+   "sentence_id": 158,
+   "chrf": 82.92,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 178,
+   "chrf": 87.28,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 223,
+   "chrf": 66.25,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 313,
+   "chrf": 81.99,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 380,
+   "chrf": 75.2,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 401,
+   "chrf": 87.6,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 405,
+   "chrf": 69.51,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 428,
+   "chrf": 81.34,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 430,
+   "chrf": 78.02,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 447,
+   "chrf": 91.57,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 545,
+   "chrf": 81.88,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 558,
+   "chrf": 82.45,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 624,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 720,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 730,
+   "chrf": 62.67,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 763,
+   "chrf": 73.46,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 802,
+   "chrf": 86.33,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 840,
+   "chrf": 81.79,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 862,
+   "chrf": 56.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 864,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 915,
+   "chrf": 69.95,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 950,
+   "chrf": 62.05,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1155,
+   "chrf": 95.52,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1218,
+   "chrf": 84.54,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1229,
+   "chrf": 92.8,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1258,
+   "chrf": 82.27,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1368,
+   "chrf": 73.17,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1383,
+   "chrf": 85.04,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1404,
+   "chrf": 89.97,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1478,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1479,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1510,
+   "chrf": 88.54,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1516,
+   "chrf": 93.02,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1545,
+   "chrf": 79.47,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1553,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1569,
+   "chrf": 76.19,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1588,
+   "chrf": 91.9,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1616,
+   "chrf": 74.39,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1645,
+   "chrf": 68.68,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1688,
+   "chrf": 64.34,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1851,
+   "chrf": 88.17,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1993,
+   "chrf": 79.71,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 1996,
+   "chrf": 86.55,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2037,
+   "chrf": 93.55,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2068,
+   "chrf": 78.73,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2105,
+   "chrf": 95.6,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2161,
+   "chrf": 66.4,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2226,
+   "chrf": 53.65,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2241,
+   "chrf": 88.31,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2252,
+   "chrf": 62.85,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2253,
+   "chrf": 67.26,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2351,
+   "chrf": 59.33,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2360,
+   "chrf": 63.23,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2383,
+   "chrf": 34.53,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2476,
+   "chrf": 58.21,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2609,
+   "chrf": 59.04,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2630,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2678,
+   "chrf": 86.32,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2685,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "ag",
+   "sentence_id": 2748,
+   "chrf": 49.93,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 158,
+   "chrf": 96.98,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 178,
+   "chrf": 79.99,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 223,
+   "chrf": 82.26,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 313,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 380,
+   "chrf": 96.2,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 401,
+   "chrf": 95.44,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 405,
+   "chrf": 87.59,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 428,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 430,
+   "chrf": 78.92,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 447,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 545,
+   "chrf": 84.06,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 558,
+   "chrf": 75.08,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 624,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 720,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 730,
+   "chrf": 79.3,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 763,
+   "chrf": 84.05,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 802,
+   "chrf": 77.05,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 840,
+   "chrf": 93.82,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 862,
+   "chrf": 67.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 864,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 915,
+   "chrf": 80.9,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 950,
+   "chrf": 81.96,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1155,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1218,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1229,
+   "chrf": 84.32,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1258,
+   "chrf": 82.65,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1368,
+   "chrf": 83.5,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1383,
+   "chrf": 50.84,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1404,
+   "chrf": 94.39,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1478,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1479,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1510,
+   "chrf": 81.95,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1516,
+   "chrf": 95.62,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1545,
+   "chrf": 94.76,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1553,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1569,
+   "chrf": 76.26,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1588,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1616,
+   "chrf": 86.1,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1645,
+   "chrf": 71.16,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1688,
+   "chrf": 71.79,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1851,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1993,
+   "chrf": 84.31,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 1996,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2037,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2068,
+   "chrf": 93.81,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2105,
+   "chrf": 95.6,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2161,
+   "chrf": 71.91,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2226,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2241,
+   "chrf": 88.31,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2252,
+   "chrf": 50.54,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2253,
+   "chrf": 59.97,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2351,
+   "chrf": 68.32,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2360,
+   "chrf": 88.88,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2383,
+   "chrf": 81.19,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2476,
+   "chrf": 89.07,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2609,
+   "chrf": 45.49,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2630,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2678,
+   "chrf": 66.2,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2685,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "be",
+   "sentence_id": 2748,
+   "chrf": 65.91,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 158,
+   "chrf": 96.98,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 178,
+   "chrf": 88.39,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 223,
+   "chrf": 77.14,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 313,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 380,
+   "chrf": 67.3,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 401,
+   "chrf": 95.44,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 405,
+   "chrf": 80.57,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 428,
+   "chrf": 80.12,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 430,
+   "chrf": 89.12,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 447,
+   "chrf": 95.48,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 545,
+   "chrf": 87.99,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 558,
+   "chrf": 94.44,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 624,
+   "chrf": 53.44,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 720,
+   "chrf": 95.01,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 730,
+   "chrf": 89.95,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 763,
+   "chrf": 81.37,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 802,
+   "chrf": 90.03,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 840,
+   "chrf": 93.04,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 862,
+   "chrf": 58.65,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 864,
+   "chrf": 91.92,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 915,
+   "chrf": 79.01,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 950,
+   "chrf": 62.82,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1155,
+   "chrf": 87.1,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1218,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1229,
+   "chrf": 88.09,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1258,
+   "chrf": 71.5,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1368,
+   "chrf": 82.73,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1383,
+   "chrf": 88.37,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1404,
+   "chrf": 81.43,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1478,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1479,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1510,
+   "chrf": 65.67,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1516,
+   "chrf": 95.62,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1545,
+   "chrf": 81.27,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1553,
+   "chrf": 93.42,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1569,
+   "chrf": 81.53,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1588,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1616,
+   "chrf": 85.75,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1645,
+   "chrf": 75.49,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1688,
+   "chrf": 79.53,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1851,
+   "chrf": 78.08,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1993,
+   "chrf": 93.98,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 1996,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2037,
+   "chrf": 89.1,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2068,
+   "chrf": 90.4,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2105,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2161,
+   "chrf": 81.97,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2226,
+   "chrf": 86.74,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2241,
+   "chrf": 80.83,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2252,
+   "chrf": 77.25,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2253,
+   "chrf": 74.25,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2351,
+   "chrf": 50.35,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2360,
+   "chrf": 78.21,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2383,
+   "chrf": 81.19,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2476,
+   "chrf": 62.92,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2609,
+   "chrf": 46.29,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2630,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2678,
+   "chrf": 52.94,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2685,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "bs",
+   "sentence_id": 2748,
+   "chrf": 50.25,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 158,
+   "chrf": 96.98,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 178,
+   "chrf": 87.28,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 223,
+   "chrf": 84.57,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 313,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 380,
+   "chrf": 90.73,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 401,
+   "chrf": 95.44,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 405,
+   "chrf": 82.65,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 428,
+   "chrf": 81.34,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 430,
+   "chrf": 83.31,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 447,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 545,
+   "chrf": 90.87,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 558,
+   "chrf": 88.9,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 624,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 720,
+   "chrf": 90.24,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 730,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 763,
+   "chrf": 81.81,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 802,
+   "chrf": 77.05,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 840,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 862,
+   "chrf": 63.44,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 864,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 915,
+   "chrf": 79.01,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 950,
+   "chrf": 81.96,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1155,
+   "chrf": 93.25,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1218,
+   "chrf": 97.89,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1229,
+   "chrf": 92.8,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1258,
+   "chrf": 83.05,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1368,
+   "chrf": 89.57,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1383,
+   "chrf": 70.68,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1404,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1478,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1479,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1510,
+   "chrf": 92.23,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1516,
+   "chrf": 95.62,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1545,
+   "chrf": 90.46,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1553,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1569,
+   "chrf": 74.19,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1588,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1616,
+   "chrf": 87.91,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1645,
+   "chrf": 69.63,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1688,
+   "chrf": 81.33,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1851,
+   "chrf": 96.6,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1993,
+   "chrf": 86.81,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 1996,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2037,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2068,
+   "chrf": 92.94,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2105,
+   "chrf": 95.6,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2161,
+   "chrf": 82.17,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2226,
+   "chrf": 71.06,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2241,
+   "chrf": 88.31,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2252,
+   "chrf": 63.29,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2253,
+   "chrf": 74.25,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2351,
+   "chrf": 68.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2360,
+   "chrf": 85.31,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2383,
+   "chrf": 76.04,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2476,
+   "chrf": 83.88,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2609,
+   "chrf": 52.22,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2630,
+   "chrf": 67.04,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2678,
+   "chrf": 69.77,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2685,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "gr",
+   "sentence_id": 2748,
+   "chrf": 65.91,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 158,
+   "chrf": 89.92,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 178,
+   "chrf": 75.61,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 223,
+   "chrf": 67.26,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 313,
+   "chrf": 83.1,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 380,
+   "chrf": 78.17,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 401,
+   "chrf": 84.87,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 405,
+   "chrf": 81.86,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 428,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 430,
+   "chrf": 71.17,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 447,
+   "chrf": 75.15,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 545,
+   "chrf": 83.62,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 558,
+   "chrf": 79.46,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 624,
+   "chrf": 55.3,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 720,
+   "chrf": 67.64,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 730,
+   "chrf": 62.98,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 763,
+   "chrf": 73.83,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 802,
+   "chrf": 70.9,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 840,
+   "chrf": 93.04,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 862,
+   "chrf": 63.44,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 864,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 915,
+   "chrf": 48.09,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 950,
+   "chrf": 81.96,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1155,
+   "chrf": 79.04,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1218,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1229,
+   "chrf": 82.88,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1258,
+   "chrf": 81.1,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1368,
+   "chrf": 84.62,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1383,
+   "chrf": 85.04,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1404,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1478,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1479,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1510,
+   "chrf": 70.01,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1516,
+   "chrf": 79.48,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1545,
+   "chrf": 90.57,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1553,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1569,
+   "chrf": 77.35,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1588,
+   "chrf": 77.24,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1616,
+   "chrf": 57.17,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1645,
+   "chrf": 76.28,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1688,
+   "chrf": 72.83,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1851,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1993,
+   "chrf": 80.94,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 1996,
+   "chrf": 82.63,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2037,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2068,
+   "chrf": 89.26,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2105,
+   "chrf": 95.6,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2161,
+   "chrf": 47.99,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2226,
+   "chrf": 62.94,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2241,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2252,
+   "chrf": 50.32,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2253,
+   "chrf": 61.37,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2351,
+   "chrf": 68.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2360,
+   "chrf": 83.99,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2383,
+   "chrf": 35.63,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2476,
+   "chrf": 74.57,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2609,
+   "chrf": 44.3,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2630,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2678,
+   "chrf": 61.04,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2685,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "lu",
+   "sentence_id": 2748,
+   "chrf": 50.25,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 158,
+   "chrf": 93.22,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 178,
+   "chrf": 83.86,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 223,
+   "chrf": 83.3,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 313,
+   "chrf": 90.34,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 380,
+   "chrf": 82.79,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 401,
+   "chrf": 91.35,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 405,
+   "chrf": 79.4,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 428,
+   "chrf": 86.84,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 430,
+   "chrf": 89.17,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 447,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 545,
+   "chrf": 88.87,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 558,
+   "chrf": 75.98,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 624,
+   "chrf": 90.17,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 720,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 730,
+   "chrf": 89.95,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 763,
+   "chrf": 72.99,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 802,
+   "chrf": 81.52,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 840,
+   "chrf": 93.04,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 862,
+   "chrf": 74.98,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 864,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 915,
+   "chrf": 86.05,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 950,
+   "chrf": 81.96,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1155,
+   "chrf": 88.11,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1218,
+   "chrf": 79.67,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1229,
+   "chrf": 75.97,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1258,
+   "chrf": 79.68,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1368,
+   "chrf": 85.9,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1383,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1404,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1478,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1479,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1510,
+   "chrf": 69.88,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1516,
+   "chrf": 95.62,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1545,
+   "chrf": 90.46,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1553,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1569,
+   "chrf": 77.36,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1588,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1616,
+   "chrf": 89.59,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1645,
+   "chrf": 72.12,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1688,
+   "chrf": 74.73,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1851,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1993,
+   "chrf": 87.85,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 1996,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2037,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2068,
+   "chrf": 89.52,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2105,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2161,
+   "chrf": 72.01,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2226,
+   "chrf": 85.49,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2241,
+   "chrf": 86.42,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2252,
+   "chrf": 64.33,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2253,
+   "chrf": 66.01,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2351,
+   "chrf": 55.52,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2360,
+   "chrf": 71.32,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2383,
+   "chrf": 65.23,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2476,
+   "chrf": 65.86,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2609,
+   "chrf": 38.56,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2630,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2678,
+   "chrf": 59.46,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2685,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "sg",
+   "sentence_id": 2748,
+   "chrf": 65.91,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 158,
+   "chrf": 93.22,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 178,
+   "chrf": 85.62,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 223,
+   "chrf": 71.67,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 313,
+   "chrf": 84.53,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 380,
+   "chrf": 90.73,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 401,
+   "chrf": 87.84,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 405,
+   "chrf": 80.55,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 428,
+   "chrf": 66.12,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 430,
+   "chrf": 83.58,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 447,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 545,
+   "chrf": 94.35,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 558,
+   "chrf": 65.31,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 624,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 720,
+   "chrf": 72.71,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 730,
+   "chrf": 85.84,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 763,
+   "chrf": 79.27,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 802,
+   "chrf": 60.0,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 840,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 862,
+   "chrf": 60.69,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 864,
+   "chrf": 85.23,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 915,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 950,
+   "chrf": 81.96,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1155,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1218,
+   "chrf": 81.58,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1229,
+   "chrf": 77.63,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1258,
+   "chrf": 83.05,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1368,
+   "chrf": 83.11,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1383,
+   "chrf": 68.91,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1404,
+   "chrf": 76.53,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1478,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1479,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1510,
+   "chrf": 85.47,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1516,
+   "chrf": 72.86,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1545,
+   "chrf": 73.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1553,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1569,
+   "chrf": 77.98,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1588,
+   "chrf": 63.55,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1616,
+   "chrf": 65.48,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1645,
+   "chrf": 72.52,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1688,
+   "chrf": 45.22,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1851,
+   "chrf": 96.6,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1993,
+   "chrf": 65.95,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 1996,
+   "chrf": 96.14,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2037,
+   "chrf": 85.16,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2068,
+   "chrf": 83.47,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2105,
+   "chrf": 78.46,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2161,
+   "chrf": 81.04,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2226,
+   "chrf": 92.81,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2241,
+   "chrf": 48.96,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2252,
+   "chrf": 46.77,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2253,
+   "chrf": 47.36,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2351,
+   "chrf": 56.2,
+   "meaning": "same"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2360,
+   "chrf": 66.29,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2383,
+   "chrf": 48.41,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2476,
+   "chrf": 70.97,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2609,
+   "chrf": 35.03,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2630,
+   "chrf": 40.01,
+   "meaning": "unrelated"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2678,
+   "chrf": 86.32,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2685,
+   "chrf": 62.26,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "vs",
+   "sentence_id": 2748,
+   "chrf": 64.39,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 158,
+   "chrf": 77.51,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 178,
+   "chrf": 85.49,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 223,
+   "chrf": 52.84,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 313,
+   "chrf": 90.34,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 380,
+   "chrf": 72.54,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 401,
+   "chrf": 85.59,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 405,
+   "chrf": 84.39,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 428,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 430,
+   "chrf": 94.99,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 447,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 545,
+   "chrf": 60.67,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 558,
+   "chrf": 87.87,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 624,
+   "chrf": 73.89,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 720,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 730,
+   "chrf": 79.3,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 763,
+   "chrf": 57.25,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 802,
+   "chrf": 85.03,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 840,
+   "chrf": 93.04,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 862,
+   "chrf": 49.97,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 864,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 915,
+   "chrf": 80.9,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 950,
+   "chrf": 81.96,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1155,
+   "chrf": 95.52,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1218,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1229,
+   "chrf": 82.88,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1258,
+   "chrf": 77.38,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1368,
+   "chrf": 74.52,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1383,
+   "chrf": 85.04,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1404,
+   "chrf": 94.39,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1478,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1479,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1510,
+   "chrf": 61.82,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1516,
+   "chrf": 79.48,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1545,
+   "chrf": 87.99,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1553,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1569,
+   "chrf": 69.6,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1588,
+   "chrf": 71.85,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1616,
+   "chrf": 85.43,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1645,
+   "chrf": 76.28,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1688,
+   "chrf": 65.08,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1851,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1993,
+   "chrf": 93.98,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 1996,
+   "chrf": 89.42,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2037,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2068,
+   "chrf": 92.94,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2105,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2161,
+   "chrf": 72.48,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2226,
+   "chrf": 85.49,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2241,
+   "chrf": 73.44,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2252,
+   "chrf": 53.11,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2253,
+   "chrf": 55.85,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2351,
+   "chrf": 68.21,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2360,
+   "chrf": 63.83,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2383,
+   "chrf": 68.13,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2476,
+   "chrf": 59.3,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2609,
+   "chrf": 52.68,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2630,
+   "chrf": 57.65,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2678,
+   "chrf": 49.89,
+   "meaning": "partial"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2685,
+   "chrf": 100.0,
+   "meaning": "same"
+  },
+  {
+   "dialect": "zh",
+   "sentence_id": 2748,
+   "chrf": 65.91,
+   "meaning": "same"
+  }
+ ]
+}

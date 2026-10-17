@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 528" width="900" height="528" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 562" width="900" height="562" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif">
   <style>
     .bg { fill: #ffffff; }
     .box { fill: #f6f5f1; stroke: #d9d6cc; stroke-width: 1.5; }
@@ -82,11 +82,11 @@
     </marker>
   </defs>
 
-  <rect class="bg" width="900" height="528" rx="14"/>
+  <rect class="bg" width="900" height="562" rx="14"/>
 
   <!-- ============ strip 1: make run ============ -->
-  <text class="title" x="20" y="32">MAKE RUN MUST SHOW THE FIVE FINDINGS</text>
-  <text class="label" x="874" y="32" text-anchor="end">SAT START · SUN DONE</text>
+  <text class="title" x="20" y="32">MAKE RUN SHOWS THE FIVE FINDINGS</text>
+  <text class="label" x="874" y="32" text-anchor="end">DONE IN PR #2 · MON: 2ND LAPTOP</text>
 
   <!-- bracket over the steps make run does (docker build … print table), acceptance pill inline -->
   <path class="thin" d="M146 80 V66 H628 M856 66 H870 V80"/>
@@ -165,14 +165,14 @@
     <path class="box" d="M110 198 V262 A81 8 0 0 0 272 262 V198 Z"/>
     <ellipse class="box lid" cx="191" cy="198" rx="81" ry="8"/>
     <text class="ink mono b" x="191" y="223" text-anchor="middle">data/llm_cache</text>
-    <text class="ink b" x="191" y="240" text-anchor="middle">~61 MB</text>
+    <text class="ink b" x="191" y="240" text-anchor="middle">~2 MB, one pack</text>
     <text class="sub" x="191" y="255" text-anchor="middle">recorded model calls</text>
   </g>
   <g>
     <path class="box" d="M282 198 V262 A81 8 0 0 0 444 262 V198 Z"/>
     <ellipse class="box lid" cx="363" cy="198" rx="81" ry="8"/>
     <text class="ink mono b" x="363" y="223" text-anchor="middle">data/runs/&lt;id&gt;</text>
-    <text class="ink b" x="363" y="240" text-anchor="middle">~7.6 MB</text>
+    <text class="ink b" x="363" y="240" text-anchor="middle">~9 MB</text>
     <text class="sub" x="363" y="255" text-anchor="middle">events · control · rejudge</text>
   </g>
   <g>
@@ -183,20 +183,15 @@
     <text class="sub" x="535" y="255" text-anchor="middle">SwissDial is CC BY-NC</text>
   </g>
 
-  <!-- what make run prints: today vs target -->
+  <!-- what make run prints -->
   <text class="label" x="628" y="182">MAKE RUN PRINTS</text>
-  <path class="edge" marker-end="url(#ah)" d="M818 163 V188"/>
+  <path class="edge" marker-end="url(#ah)" d="M818 163 V196"/>
   <g>
-    <rect class="card redS" x="628" y="190" width="246" height="42" rx="10"/>
-    <path class="icon redS" d="M641 199 l7 7 M648 199 l-7 7"/>
-    <text class="label red" x="655" y="207">TODAY</text>
-    <text class="ink" x="641" y="224">31 raw flags · 36 files ≠ <tspan class="mono">findings/</tspan></text>
-  </g>
-  <g>
-    <rect class="card greenS" x="628" y="242" width="246" height="42" rx="10"/>
-    <path class="icon greenS" d="M640 254.5 l3 3 l6 -7"/>
-    <text class="label green" x="655" y="259">TARGET · REPORT NUMBERS</text>
-    <text class="ink" x="641" y="276">5 findings · 16 hypotheses counted</text>
+    <rect class="card greenS" x="628" y="198" width="246" height="66" rx="10"/>
+    <path class="icon greenS" d="M640 210.5 l3 3 l6 -7"/>
+    <text class="label green" x="655" y="215">THE REPORT'S NUMBERS</text>
+    <text class="ink" x="641" y="236">5 findings, same as <tspan class="mono">findings/</tspan></text>
+    <text class="ink" x="641" y="253">16 of 31 flagged hypotheses counted</text>
   </g>
 
   <line class="rule" x1="20" y1="302" x2="874" y2="302"/>
@@ -206,30 +201,32 @@
   <text class="label" x="874" y="330" text-anchor="end">SUN</text>
 
   <!-- marching dashes = pod is running -->
-  <rect class="frame" x="20" y="344" width="506" height="132" rx="14"/>
+  <rect class="frame" x="20" y="344" width="506" height="146" rx="14"/>
   <text class="label" x="34" y="361">GPU POD</text>
 
   <g class="edge" marker-end="url(#ah)">
-    <path d="M164 416 H182"/><path d="M400 416 H414"/><path d="M518 416 H546"/>
+    <path d="M164 423 H182"/><path d="M400 423 H414"/><path d="M518 423 H546"/>
   </g>
 
   <g>
-    <rect class="box" x="34" y="368" width="128" height="96" rx="12"/>
-    <text class="name mono" x="48" y="390">bootstrap.sh</text>
-    <circle class="ahead" cx="51" cy="404" r="2"/><text class="sub" x="58" y="408">install</text>
-    <circle class="ahead" cx="51" cy="419" r="2"/><text class="sub" x="58" y="423">2 servers</text>
-    <circle class="ahead" cx="51" cy="434" r="2"/><text class="sub" x="58" y="438">health check</text>
+    <rect class="box" x="34" y="368" width="128" height="110" rx="12"/>
+    <text class="name" x="48" y="390">pod setup</text>
+    <circle class="ahead" cx="51" cy="404" r="2"/><text class="sub" x="58" y="408">install vLLM</text>
+    <circle class="ahead" cx="51" cy="419" r="2"/><text class="sub" x="58" y="423">serve 8B and 70B</text>
+    <circle class="ahead" cx="51" cy="434" r="2"/><text class="sub" x="58" y="438">steps in</text>
+    <text class="sub mono" x="58" y="453">runpod/README</text>
   </g>
   <g>
-    <rect class="box" x="184" y="368" width="214" height="96" rx="12"/>
-    <text class="name mono" x="198" y="390">batches.sh</text>
+    <rect class="box" x="184" y="368" width="214" height="110" rx="12"/>
+    <text class="name mono" x="198" y="390">batches.sh rejudge</text>
     <circle class="ahead" cx="201" cy="404" r="2"/><text class="sub" x="208" y="408">second judge, full answers</text>
-    <circle class="ahead" cx="201" cy="419" r="2"/><text class="sub" x="208" y="423">privacy control, named person</text>
-    <circle class="ahead" cx="201" cy="434" r="2"/><text class="sub" x="208" y="438">more invented people</text>
-    <circle class="ahead" cx="201" cy="449" r="2"/><text class="sub" x="208" y="453">official 8B on bank 2</text>
+    <line class="rule" x1="198" y1="420" x2="384" y2="420"/>
+    <text class="ink" x="198" y="438"><tspan class="b">by hand:</tspan> official 8B on bank 2</text>
+    <text class="sub mono" x="198" y="455">redteam.run --only</text>
+    <text class="sub" x="198" y="470">no batch for it yet</text>
   </g>
   <g>
-    <rect class="box" x="416" y="368" width="100" height="96" rx="12"/>
+    <rect class="box" x="416" y="368" width="100" height="110" rx="12"/>
     <text class="name" x="466" y="392" text-anchor="middle">copy cache</text>
     <text class="name" x="466" y="409" text-anchor="middle">back</text>
     <path class="can" d="M452 426 V442 A14 4 0 0 0 480 442 V426 Z"/>
@@ -238,8 +235,8 @@
 
   <!-- stop the pod: red, pulsing -->
   <g>
-    <rect class="box redS" x="548" y="368" width="116" height="96" rx="12" style="stroke-width:2"/>
-    <rect class="beat" x="548" y="368" width="116" height="96" rx="12"/>
+    <rect class="box redS" x="548" y="368" width="116" height="110" rx="12" style="stroke-width:2"/>
+    <rect class="beat" x="548" y="368" width="116" height="110" rx="12"/>
     <circle class="redF" cx="606" cy="391" r="12"/>
     <rect class="white" x="601" y="386" width="10" height="10" rx="1.5"/>
     <text class="red b" x="606" y="421" text-anchor="middle" font-size="14" letter-spacing=".06em">STOP POD</text>
@@ -249,21 +246,31 @@
     <text class="coinText" x="660" y="374.5" text-anchor="middle">€</text>
   </g>
 
-  <!-- Peter's one manual step, needed before batches.sh (gated 8B) -->
-  <path class="thin" marker-end="url(#ah)" d="M291 488 V467" stroke-dasharray="4 4"/>
-  <rect class="card" x="170" y="488" width="242" height="24" rx="12"/>
-  <path class="icon key" d="M186 500 m-4 0 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M190 500 H200 M197 500 V504"/>
-  <text class="ink" x="208" y="504.5"><tspan class="b">Peter:</tspan> <tspan class="mono">hf auth login</tspan> <tspan class="sub">· gated 8B</tspan></text>
+  <!-- Peter's one manual step, needed before the 8B is served (gated) -->
+  <path class="thin" marker-end="url(#ah)" d="M291 502 V481" stroke-dasharray="4 4"/>
+  <rect class="card" x="170" y="502" width="242" height="24" rx="12"/>
+  <path class="icon key" d="M186 514 m-4 0 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M190 514 H200 M197 514 V518"/>
+  <text class="ink" x="208" y="518.5"><tspan class="b">Peter:</tspan> <tspan class="mono">hf auth login</tspan> <tspan class="sub">· gated 8B</tspan></text>
+
+  <!-- not in any batch: these need new code and hypotheses first -->
+  <g>
+    <rect class="note" x="430" y="502" width="444" height="46" rx="12"/>
+    <text class="label" x="444" y="520">NOT READY · NEEDS NEW CODE FIRST</text>
+    <text class="ink" x="444" y="538">privacy control that names the person · more invented people</text>
+  </g>
 
   <!-- small chores: a side note, not a pod step -->
   <g>
-    <rect class="note" x="684" y="344" width="190" height="132" rx="12"/>
+    <rect class="note" x="684" y="344" width="190" height="134" rx="12"/>
     <text class="label" x="698" y="367">ALSO · SMALL</text>
-    <rect class="chk" x="698" y="384" width="12" height="12" rx="3"/>
-    <text class="ink" x="718" y="394.5">Origin check on POST</text>
+    <rect class="greenF" x="698" y="384" width="12" height="12" rx="3"/>
+    <path class="tick" d="M701 390 l2 2 l4 -4.5"/>
+    <text class="sub" x="718" y="394.5">Origin check on POST</text>
     <rect class="chk" x="698" y="412" width="12" height="12" rx="3"/>
     <text class="ink" x="718" y="422.5">tests in Docker image</text>
-    <rect class="chk" x="698" y="440" width="12" height="12" rx="3"/>
-    <text class="ink" x="718" y="450.5">forward <tspan class="mono">RED_LLM_*</tspan></text>
+    <rect class="greenF" x="698" y="440" width="12" height="12" rx="3"/>
+    <path class="tick" d="M701 446 l2 2 l4 -4.5"/>
+    <text class="sub" x="718" y="450.5">forward <tspan class="mono">RED_LLM_*</tspan></text>
+    <text class="sub" x="698" y="470">ticked: done in PR #2</text>
   </g>
 </svg>

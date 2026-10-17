@@ -151,3 +151,19 @@ def detect():
         MODELS_FILE.parent.mkdir(parents=True, exist_ok=True)
         MODELS_FILE.write_text(json.dumps({"target": target.model, "red": red.model}))
     return Router(Cached(target, target.model), Cached(red, red.model))
+
+
+LIVE_SERVERS = [("the target", "LLM_BASE_URL", "LLM_API_KEY", DEFAULT_BASE_URL),
+                ("the attacker and judge", "RED_LLM_BASE_URL", "RED_LLM_API_KEY",
+                 DEFAULT_RED_BASE_URL)]
+
+
+def require_servers() -> None:
+    """Stop unless the target and the red-team server both answer; `make live` checks this before
+    a paid run. Otherwise detect() replays from the cache when the target is down, and lets the
+    target act as its own attacker and judge when only the red-team server is down."""
+    for role, url_env, key_env, default in LIVE_SERVERS:
+        base = os.environ.get(url_env, default)
+        if probe(base, os.environ.get(key_env, "")) is None:
+            raise SystemExit(f"nothing answers at {base} ({role}); a live run neither replays "
+                             "from the cache nor lets the target judge itself")

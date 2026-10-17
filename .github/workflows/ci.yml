@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         working-directory: track_1a
@@ -16,15 +17,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install
+        run: pip install -e .
       - name: Unit tests
         run: python -m unittest discover tests -v
       - name: Replay the recorded run (no GPU)
-        run: REDTEAM_BACKEND=replay PYTHONPATH=src python -m redteam.run
+        run: REDTEAM_BACKEND=replay python -m redteam.run
       - name: Validate findings
-        run: PYTHONPATH=src python -m redteam.check
+        run: python -m redteam.check
+      - name: Rebuild the findings from data/runs and compare
+        run: python -m redteam.reproduce
 
   make-run:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: make run (what the judges execute)
