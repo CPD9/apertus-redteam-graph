@@ -10,8 +10,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .answers import Run, per_lang
+from .answers import Run
 from .graph import Config
+from .shares import per_lang
 from .theme_finding import join, pct, variations
 
 if TYPE_CHECKING:  # group imports this module to assemble its findings

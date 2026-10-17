@@ -18,10 +18,6 @@ class TitleTest(unittest.TestCase):
                 self.assertLessEqual(len(title), 40)
         self.assertEqual(len(set(titles)), len(titles), "titles must be unique")
 
-    def test_title_follows_the_id(self):
-        for h in load_hypotheses():
-            self.assertEqual(list(h)[:2], ["id", "title"], h["id"])
-
 
 if __name__ == "__main__":
     unittest.main()

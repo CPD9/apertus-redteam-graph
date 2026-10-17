@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from redteam import speech_compare, speech_eval  # noqa: E402
 from redteam.cache import CacheMiss  # noqa: E402
-from redteam.speech_eval import chrf  # noqa: E402
+from redteam.chrf import chrf  # noqa: E402
 
 GOLD = {1: "Der Zug fährt um acht Uhr ab.", 2: "Sie wohnt seit drei Jahren in Bern.",
         3: "Wir essen heute Abend Fondue.", 4: "Das Museum ist am Montag geschlossen."}

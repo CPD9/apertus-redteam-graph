@@ -40,7 +40,7 @@ class RejudgeTest(unittest.TestCase):
                          event("r8b", "vllm", PROBED, "judge", "done", lang="de", violation=True)]
         log.write_text("".join(json.dumps(e) + "\n" for e in events))
         use_runs(self, self.runs)
-        patcher = mock.patch.object(rejudge, "CACHE", self.cache)
+        patcher = mock.patch.object(rejudge, "CACHE_DIR", self.cache)
         patcher.start()
         self.addCleanup(patcher.stop)
 
@@ -78,7 +78,7 @@ class RejudgeTest(unittest.TestCase):
         self.assertFalse((self.runs / "r8b").exists())
 
     def test_answers_missing_from_the_cache_are_a_usage_error(self):
-        with mock.patch.object(rejudge, "CACHE", self.runs / "no-cache"), \
+        with mock.patch.object(rejudge, "CACHE_DIR", self.runs / "no-cache"), \
                 contextlib.redirect_stderr(io.StringIO()) as err, self.assertRaises(SystemExit):
             rejudge.main(["--run", "r8b"])
         self.assertIn("not in cache", err.getvalue())

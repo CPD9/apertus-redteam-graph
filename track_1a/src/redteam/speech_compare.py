@@ -12,7 +12,8 @@ from pathlib import Path
 
 from . import llm as llm_mod
 from .cache import CacheMiss
-from .speech_eval import chrf, is_hallucinated, judge_meaning, summarize
+from .chrf import chrf
+from .speech_eval import is_hallucinated, judge_meaning, summarize
 
 
 def score_whisper(apertus_clips, transcripts, red):

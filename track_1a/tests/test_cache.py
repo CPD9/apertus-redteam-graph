@@ -54,6 +54,34 @@ def replayed(root: Path, seeds) -> dict[int, str]:
     return {seed: replay.chat(MSG, role="target", seed=seed) for seed in seeds}
 
 
+class WriteTest(unittest.TestCase):
+    """A live call's own file is written whole or not at all."""
+
+    def setUp(self):
+        self.root = Path(self.enterContext(tempfile.TemporaryDirectory()))
+
+    def files(self) -> list[Path]:
+        return [p for p in self.root.rglob("*") if p.is_file()]
+
+    def test_a_call_leaves_only_its_own_file(self):
+        record(self.root, [1])
+        self.assertEqual([p.suffix for p in self.files()], [".json"])
+        self.assertEqual(replayed(self.root, [1]), {1: "answer 1"})
+
+    def test_a_write_that_fails_halfway_leaves_no_file_behind(self):
+        write_text = Path.write_text
+
+        def disk_full(path, text):
+            write_text(path, text[:len(text) // 2])
+            raise OSError("No space left on device")
+
+        with mock.patch.object(Path, "write_text", disk_full), self.assertRaises(OSError):
+            record(self.root, [1])
+        self.assertEqual(self.files(), [])
+        with self.assertRaises(CacheMiss):  # rather than a cut-off file failing to parse
+            replayed(self.root, [1])
+
+
 def pack(root: Path, prune: bool = True) -> bytes:
     with contextlib.redirect_stdout(io.StringIO()):
         pack_cache.main(["--root", str(root)] + (["--prune"] if prune else []))

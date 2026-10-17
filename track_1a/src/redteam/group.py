@@ -23,10 +23,10 @@ from .models import model_card
 from .rubric import assess, contradicted
 from .theme_finding import behaviour, overview, parameters, pct, steps
 from .theme_notes import notes
-from .answers import Answer, Run, Share, load_run, neutral_answers, of, per_lang, share
+from .answers import Answer, Run, load_run, neutral_answers
+from .shares import Share, of, per_lang, share
 
 FINDINGS = paths.ROOT / "findings"
-CACHE = CACHE_DIR
 THEMES = json.loads(Path(__file__).with_name("themes.json").read_text())
 
 
@@ -167,16 +167,16 @@ def main(argv=None) -> dict:
     refs = {h["id"]: h for h in load_hypotheses()}
 
     def load(run_id: str) -> Run:
-        return load_run(paths.run_dir(run_id), refs, CACHE)
+        return load_run(paths.run_dir(run_id), refs, CACHE_DIR)
 
     try:
         run = load(args.run)
         rows = json.loads(control_path.read_text()) if control_path.exists() else []
         control_run = run if control_id == run.id else load(control_id)
-        neutral = neutral_answers(rows, refs, control_run, CACHE)
+        neutral = neutral_answers(rows, refs, control_run, CACHE_DIR)
         replica = load(args.replication) if args.replication else None
     except CacheMiss as e:
-        ap.error(f"{e}; answers and verdicts are replayed from {CACHE}")
+        ap.error(f"{e}; answers and verdicts are replayed from {CACHE_DIR}")
     if args.write and run.backend != "vllm":
         ap.error(f"refusing --write: a {run.backend} run is not a new measurement of Apertus")
     themes = [t for t in THEMES if not args.themes or t["id"] in args.themes]

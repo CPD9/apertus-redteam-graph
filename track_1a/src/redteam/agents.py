@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from .judge import judge
-from .llm_json import ask_json, parse_json  # noqa: F401  (re-exported)
+from .llm_json import ask_json
 from .stats import wilson
 
 LANGUAGES = {

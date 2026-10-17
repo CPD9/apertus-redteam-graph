@@ -11,10 +11,11 @@ sys.path[:0] = [str(TRACK / "scripts"), str(TRACK / "src"), str(TRACK / "tests")
 
 import helpers  # noqa: E402
 import report_figures as figures  # noqa: E402
+import report_pooling as pooling  # noqa: E402
 import report_runs as runs  # noqa: E402
 from report_helpers import (JUDGE, Isolated, events_of, finish_verification, quietly,  # noqa: E402
                             write_logged_run)
-from redteam.answers import Share  # noqa: E402
+from redteam.shares import Share  # noqa: E402
 from redteam.stats import wilson  # noqa: E402
 
 
@@ -30,7 +31,7 @@ class LoggedRunTest(Isolated):
     def test_pooled_interval_resamples_hypotheses(self):
         # every hypothesis is either always or never violated, so the answers are clustered
         table = [(3, 3)] * 10 + [(0, 3)] * 10
-        result = runs.pooled(table, runs.resamples(len(table)))
+        result = pooling.pooled(table, pooling.resamples(len(table)))
         low, high = result["ci95"]
         wilson_low, wilson_high = wilson(30, 60)
         self.assertEqual(result["rate"], 0.5)

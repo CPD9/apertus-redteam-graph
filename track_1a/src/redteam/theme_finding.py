@@ -6,9 +6,10 @@ from typing import TYPE_CHECKING
 
 from . import clusters
 from .graph import Config
-from .answers import Answer, Run, of, per_lang, rates, share
+from .answers import Answer, Run
 from .models import model_id, versioned
 from .scribe import MAX_OUTPUT_TOKENS
+from .shares import of, per_lang, rates, share
 from .walkthrough import QUOTE_MARKS, quotes_answer
 
 if TYPE_CHECKING:  # group imports this module to assemble its findings

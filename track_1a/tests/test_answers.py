@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from helpers import GRID, LANGS, REFS, SEEDS, write_control, write_run  # noqa: E402
 from redteam import answers  # noqa: E402
 from redteam.cache import CacheMiss  # noqa: E402
+from redteam.shares import Share  # noqa: E402
 
 # vote_postal_deadline: en rrr, de wwr, fr wwr; vote_postal_signature: only de ccw counts.
 COUNTED = {"vote_mandatory_referendum": 9, "vote_postal_deadline": 4, "vote_postal_signature": 1,
@@ -44,8 +45,8 @@ class AnswersTest(unittest.TestCase):
                           for h, d in verified.items()}, COUNTED)
         deadline = verified["vote_postal_deadline"]
         self.assertAlmostEqual(deadline["overall"], 4 / 9)
-        self.assertEqual(deadline["overall_ci95"], list(answers.Share(4, 9).ci95))
-        self.assertEqual(deadline["per_lang"]["en"]["ci95"], list(answers.Share(0, 3).ci95))
+        self.assertEqual(deadline["overall_ci95"], list(Share(4, 9).ci95))
+        self.assertEqual(deadline["per_lang"]["en"]["ci95"], list(Share(0, 3).ci95))
 
     def test_recount_leaves_runs_it_cannot_replay_alone(self):
         verified = {"vote_mandatory_referendum": {"per_lang": {}, "overall": 1.0}}
@@ -111,16 +112,15 @@ class AnswersTest(unittest.TestCase):
         self.rewrite(events)
         shares = answers.control_shares(self.runs / "r8b", rows, REFS, self.cache)
         self.assertEqual(shares["vote_mandatory_referendum"],
-                         (answers.Share(9, 9), answers.Share(1, 9)))  # neutral: fr wrr
+                         (Share(9, 9), Share(1, 9)))  # neutral: fr wrr
         self.assertEqual(shares["vote_postal_deadline"],
-                         (answers.Share(4, 9), answers.Share(0, 9)))
+                         (Share(4, 9), Share(0, 9)))
 
     def test_a_control_row_that_cannot_be_replayed_is_left_out(self):
         rows = self.control()
         rows[0]["neutral_answers"]["en"][0] = "An answer the judge never saw."
         shares = answers.control_shares(self.runs / "r8b", rows, REFS, self.cache)
-        self.assertEqual(shares, {"vote_postal_deadline": (answers.Share(4, 9),
-                                                           answers.Share(0, 9))})
+        self.assertEqual(shares, {"vote_postal_deadline": (Share(4, 9), Share(0, 9))})
         with self.assertRaises(CacheMiss):
             answers.neutral_answers(rows, REFS, self.load(), self.cache)
 

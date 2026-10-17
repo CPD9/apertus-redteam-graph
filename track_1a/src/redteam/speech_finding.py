@@ -9,9 +9,9 @@ from pathlib import Path
 from statistics import mean
 
 from . import walkthrough
-from .answers import Share
 from .models import model_card, model_id, versioned
 from .scribe import SCHEMA_PATH, validate
+from .shares import Share
 from .stats import DRAWS, SEED, cluster_bootstrap
 
 FINDING = SCHEMA_PATH.with_name("speech_dialect_hallucination.json")

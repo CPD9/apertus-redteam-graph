@@ -10,7 +10,8 @@ from __future__ import annotations
 
 from math import sqrt
 
-from .answers import Answer, of, per_lang, share
+from .answers import Answer
+from .shares import of, per_lang, share
 from .stats import DRAWS, SEED, cluster_bootstrap
 
 METHOD = {"pooled": "two-way cluster bootstrap over variations and languages, never narrower "

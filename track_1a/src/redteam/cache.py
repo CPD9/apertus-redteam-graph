@@ -13,6 +13,7 @@ from __future__ import annotations
 import hashlib
 import json
 import lzma
+import os
 import threading
 from pathlib import Path
 
@@ -56,6 +57,21 @@ def packed(root: Path) -> dict[str, dict]:
         return _packs[path][1]
 
 
+def write_entry(path: Path, entry: dict) -> None:
+    """Write a call's own file whole or not at all, so a run stopped mid-write leaves no cut-off
+    file to fail every later replay. The temporary name is unique to the process and thread,
+    since a run writes calls from several threads at once."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    # Not mkstemp: its files are owner-only, and `make live` writes the cache as root in Docker.
+    tmp = path.with_name(f"{path.name}.{os.getpid()}-{threading.get_ident()}.tmp")
+    try:
+        tmp.write_text(json.dumps(entry, ensure_ascii=False))
+        os.replace(tmp, path)
+    except BaseException:
+        tmp.unlink(missing_ok=True)
+        raise
+
+
 def lookup(root: Path, key: str) -> dict | None:
     try:
         return json.loads(entry_path(root, key).read_text())
@@ -79,8 +95,6 @@ class Cached:
             raise CacheMiss(f"{role} call not in cache ({k[:12]})")
         content = self.client.chat(messages, role=role, temperature=temperature, seed=seed,
                                    max_tokens=max_tokens)
-        path = entry_path(self.root, k)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps({"role": role, "model": self.model, "content": content},
-                                   ensure_ascii=False))
+        write_entry(entry_path(self.root, k),
+                    {"role": role, "model": self.model, "content": content})
         return content

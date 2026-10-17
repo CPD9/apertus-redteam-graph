@@ -9,14 +9,14 @@ from __future__ import annotations
 import report_runs
 from report_runs import HYPOTHESES, locate, note, title
 
-from redteam import answers
+from redteam import answers, shares
 from redteam.graph import Config
 
 VERIFIED = {"finding", "not_reproducible"}  # the verifier finished, whatever the judge's flags
 
 
 def row(run, hypothesis):
-    counted = answers.share(answers.of(run.answers, {hypothesis}))
+    counted = shares.share(shares.of(run.answers, {hypothesis}))
     status = run.outcome.get(hypothesis, "unfinished")
     return {"id": hypothesis, "title": title(hypothesis), "status": status,
             "k": counted.k, "n": counted.n, "rate": round(counted.rate, 4),

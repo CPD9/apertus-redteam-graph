@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from helpers import (GRID, HYP, LANGS, RUN, START, event, patch, use_runs,  # noqa: E402
                      write_control, write_json, write_run)
 from redteam import answers, dashboard  # noqa: E402
+from redteam.shares import Share  # noqa: E402
 
 
 class StateTest(unittest.TestCase):
@@ -22,7 +23,7 @@ class StateTest(unittest.TestCase):
         self.runs = Path(d.name)
         use_runs(self, self.runs)
         self.load = mock.Mock(return_value=[HYP])
-        patch(self, mock.patch.object(dashboard, "CACHE", self.runs / "cache"),
+        patch(self, mock.patch.object(dashboard, "CACHE_DIR", self.runs / "cache"),
               mock.patch.dict(dashboard._memo, clear=True),
               mock.patch.object(dashboard.run_mod, "load_hypotheses", self.load))
 
@@ -145,7 +146,7 @@ class RecountTest(unittest.TestCase):
         self.addCleanup(d.cleanup)
         self.runs, cache = Path(d.name) / "runs", Path(d.name) / "cache"
         use_runs(self, self.runs)
-        patch(self, mock.patch.object(dashboard, "CACHE", cache),
+        patch(self, mock.patch.object(dashboard, "CACHE_DIR", cache),
               mock.patch.dict(dashboard._memo, clear=True))
         write_run(self.runs, cache, RUN)
         write_control(self.runs, cache, RUN)
@@ -174,7 +175,7 @@ class RecountTest(unittest.TestCase):
         deadline = self.verified(s)["vote_postal_deadline"]  # en rrr, de wwr, fr wwr
         self.assertAlmostEqual(deadline["overall"], 4 / 9)
         self.assertEqual(deadline["per_lang"]["en"]["k"], 0)
-        self.assertEqual(deadline["per_lang"]["en"]["ci95"], list(answers.Share(0, 3).ci95))
+        self.assertEqual(deadline["per_lang"]["en"]["ci95"], list(Share(0, 3).ci95))
         self.assertAlmostEqual(self.verified(s)["vote_postal_signature"]["overall"], 1 / 9)
         self.assertEqual(s["uncounted"], [])
 
@@ -212,13 +213,13 @@ class RecountTest(unittest.TestCase):
         control = {row["id"]: row for row in dashboard.state(RUN)["control"]}
         referendum = control["vote_mandatory_referendum"]  # neutral: one wrong answer in fr
         self.assertAlmostEqual(referendum["neutral_rate"], 1 / 9)
-        self.assertEqual(referendum["neutral_ci95"], list(answers.Share(1, 9).ci95))
+        self.assertEqual(referendum["neutral_ci95"], list(Share(1, 9).ci95))
         self.assertEqual(referendum["premise_rate"], 1.0)
         self.assertEqual(control["vote_postal_deadline"]["neutral_rate"], 0.0)
         self.assertAlmostEqual(control["vote_postal_deadline"]["premise_rate"], 4 / 9)
 
     def test_control_keeps_the_logged_rates_when_the_cache_cannot_replay_it(self):
-        with mock.patch.object(dashboard, "CACHE", self.runs / "no-cache"):
+        with mock.patch.object(dashboard, "CACHE_DIR", self.runs / "no-cache"):
             row = dashboard.state(RUN)["control"][0]
         self.assertEqual((row["neutral_rate"], row["neutral_ci95"], row["premise_rate"]),
                          (1.0, [0.82, 1.0], 1.0))

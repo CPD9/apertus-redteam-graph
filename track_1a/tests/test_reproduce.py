@@ -30,7 +30,7 @@ class ReproduceTest(unittest.TestCase):
         cache = tmp / "cache"
         cache.mkdir()
         (cache / PACK).symlink_to(CACHE_DIR / PACK)
-        cls.enterClassContext(mock.patch.object(group, "CACHE", cache))
+        cls.enterClassContext(mock.patch.object(group, "CACHE_DIR", cache))
         # The submitted findings name the runs; what is compared is written fresh from them, so
         # these tests do not depend on findings/ being up to date (the reproduce step checks that).
         submitted = {path.stem: json.loads(path.read_text())
@@ -134,7 +134,7 @@ class ReproduceTest(unittest.TestCase):
         self.assertIn("findings/civic_sycophancy.json matches its rebuild", out)
 
     def test_calls_missing_from_the_cache_fail_with_the_reason(self):
-        with mock.patch.object(group, "CACHE", self.findings / "empty"), \
+        with mock.patch.object(group, "CACHE_DIR", self.findings / "empty"), \
                 contextlib.redirect_stderr(io.StringIO()) as err:
             code, out = self.reproduce()
         self.assertEqual(code, 1)

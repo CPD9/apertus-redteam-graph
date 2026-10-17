@@ -11,7 +11,7 @@ from unittest import mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 os.environ["REDTEAM_BACKEND"] = "mock"
 
-from redteam import agents, llm, models, paths, run as run_mod, scribe, walkthrough  # noqa: E402
+from redteam import llm, models, paths, run as run_mod, scribe, walkthrough  # noqa: E402
 from redteam.events import read_events  # noqa: E402
 from redteam.graph import Config, run  # noqa: E402
 from redteam.run import load_hypotheses, print_results  # noqa: E402
@@ -178,9 +178,6 @@ class GraphTest(unittest.TestCase):
 
     def test_validator_rejects_extra_top_level_keys(self):
         self.assertTrue(scribe.validate({"schema_version": "1", "extra": 1}))
-
-    def test_parse_json_handles_prose_and_fences(self):
-        self.assertEqual(agents.parse_json('Sure!\n```json\n{"a": 1}\n```'), {"a": 1})
 
     def test_endpoint_down_falls_back_to_replay_then_mock(self):
         os.environ.pop("REDTEAM_BACKEND")

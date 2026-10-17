@@ -6,7 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from helpers import REFS  # noqa: E402
 from redteam import clusters, group, theme_finding, theme_notes  # noqa: E402
-from redteam.answers import Answer, Run, of, share  # noqa: E402
+from redteam.answers import Answer, Run  # noqa: E402
+from redteam.shares import of, share  # noqa: E402
 from redteam.stats import cluster_bootstrap  # noqa: E402
 
 LANGS = ["en", "de", "fr", "it"]

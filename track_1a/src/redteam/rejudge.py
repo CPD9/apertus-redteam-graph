@@ -20,8 +20,6 @@ from .judge import second_opinion
 from .review import cohen_kappa
 from .run import load_hypotheses
 
-CACHE = CACHE_DIR
-
 
 def judged_cells(run_dir: Path, cache_root: Path = CACHE_DIR) -> list[dict]:
     """Every (prompt, answer, first verdict) the run produced, probe phase and verifier grid. The
@@ -63,9 +61,9 @@ def main(argv=None) -> dict:
                  "there")
     refs = {h["id"]: h for h in load_hypotheses()}
     try:
-        cells = [c for c in judged_cells(run_dir, CACHE) if c["hypothesis"] in refs]
+        cells = [c for c in judged_cells(run_dir, CACHE_DIR) if c["hypothesis"] in refs]
     except CacheMiss as e:
-        ap.error(f"{e}; the answers of run {run_id} are replayed from {CACHE}")
+        ap.error(f"{e}; the answers of run {run_id} are replayed from {CACHE_DIR}")
 
     llm = llm_mod.detect()
     with ThreadPoolExecutor(16) as pool:

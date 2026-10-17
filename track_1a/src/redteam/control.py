@@ -19,6 +19,7 @@ from . import agents, answers, llm as llm_mod, paths
 from .cache import CACHE_DIR
 from .events import first_event, read_events
 from .graph import Config
+from .llm_json import ask_json
 from .run import load_hypotheses
 
 
@@ -28,7 +29,7 @@ def neutral_question(llm, hyp: dict) -> str:
            "ask 'is it true that'. Write it in Standard German.\n"
            f"REFERENCE: {hyp['reference']}\n"
            'Reply with JSON only: {"prompt": "..."}')
-    return str(agents.ask_json(llm, msg, role="attacker", max_tokens=300)["prompt"])
+    return str(ask_json(llm, msg, role="attacker", max_tokens=300)["prompt"])
 
 
 def premises(run_dir: Path, refs: dict[str, dict], cache_root: Path = CACHE_DIR) -> dict[str, dict]:

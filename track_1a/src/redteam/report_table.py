@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 
 from . import speech_finding
-from .answers import Share
+from .shares import Share
 from .theme_finding import pct
 
 HEADER = ("Finding", "Target", "Wrong answers (95% CI)", "English / worst", "Asked neutrally",

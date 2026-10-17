@@ -15,7 +15,6 @@ from .cache import CACHE_DIR
 from .events import first_event, read_events
 from .graph import Config
 
-CACHE = CACHE_DIR
 HYPOTHESIS_FIELDS = ("title", "domain", "hypothesis", "reference", "harm", "sources")
 
 
@@ -86,7 +85,7 @@ def _recount(run_dir: Path, events: list[dict]) -> tuple[dict[str, dict], set[st
 
     def count():
         older = {h: data for h, data in verified.items() if "counted" not in data}
-        uncounted = answers.recount(run_dir, older, bank(), CACHE)
+        uncounted = answers.recount(run_dir, older, bank(), CACHE_DIR)
         return {h: {**data, **data.get("counted", {})} for h, data in verified.items()}, uncounted
 
     counted, uncounted = _memoised("recount", (str(run_dir), len(verified)), count)
@@ -104,7 +103,7 @@ def _recount_control(run_dir: Path) -> list[dict]:
         return []
     key = (str(path), path.stat().st_mtime_ns, len(rows))
     shares = _memoised("control", key,
-                       lambda: answers.control_shares(run_dir, rows, bank(), CACHE))
+                       lambda: answers.control_shares(run_dir, rows, bank(), CACHE_DIR))
     for row in rows:
         if row["id"] in shares:
             premise, neutral = shares[row["id"]]

@@ -11,7 +11,8 @@ from unittest import mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from helpers import GRID, LANGS, REFS, answer, use_runs, write_control, write_run  # noqa: E402
-from redteam import answers, group, scribe, theme_finding, theme_notes, walkthrough  # noqa: E402
+from redteam import (answers, group, scribe, shares, theme_finding, theme_notes,  # noqa: E402
+                     walkthrough)
 
 
 # Fixed themes, so editing themes.json never changes what these tests measure.
@@ -32,8 +33,8 @@ class GroupTest(unittest.TestCase):
         for name in ("runs", "findings", "cache"):
             (self.root / name).mkdir()
         use_runs(self, self.root / "runs")
-        for name in ("FINDINGS", "CACHE"):
-            patcher = mock.patch.object(group, name, self.root / name.lower())
+        for name, folder in (("FINDINGS", "findings"), ("CACHE_DIR", "cache")):
+            patcher = mock.patch.object(group, name, self.root / folder)
             patcher.start()
             self.addCleanup(patcher.stop)
         patcher = mock.patch.object(group, "THEMES", TEST_THEMES)
@@ -62,18 +63,18 @@ class GroupTest(unittest.TestCase):
         self.assertEqual(m.dropped, ["vote_postal_signature"])
 
     def test_a_share_gives_the_wilson_interval_of_its_answers(self):
-        pooled = answers.share(self.civic().answers)
+        pooled = shares.share(self.civic().answers)
         self.assertEqual((pooled.k, pooled.n), (13, 18))
         self.assertAlmostEqual(pooled.ci95[0], 0.4913, places=4)
         self.assertAlmostEqual(pooled.ci95[1], 0.8750, places=4)
-        by_lang = answers.per_lang(self.civic().answers, LANGS)
+        by_lang = shares.per_lang(self.civic().answers, LANGS)
         self.assertEqual({lang: s.k for lang, s in by_lang.items()}, {"en": 3, "de": 5, "fr": 5})
 
     def test_wilson_matches_the_textbook_value(self):
-        low, high = answers.Share(5, 10).ci95
+        low, high = shares.Share(5, 10).ci95
         self.assertAlmostEqual(low, 0.2366, places=4)
         self.assertAlmostEqual(high, 0.7634, places=4)
-        self.assertEqual(answers.Share(0, 0).ci95, (0.0, 1.0))
+        self.assertEqual(shares.Share(0, 0).ci95, (0.0, 1.0))
 
     def test_control_judges_the_neutral_answers_the_same_way(self):
         premise_share, neutral_share = self.civic().control
@@ -191,7 +192,7 @@ class GroupTest(unittest.TestCase):
             with contextlib.redirect_stderr(io.StringIO()) as err, self.assertRaises(SystemExit):
                 group.main(argv)
             self.assertIn("no run nope", err.getvalue())
-        with mock.patch.object(group, "CACHE", self.root / "findings"), \
+        with mock.patch.object(group, "CACHE_DIR", self.root / "findings"), \
                 contextlib.redirect_stderr(io.StringIO()) as err, self.assertRaises(SystemExit):
             group.main(["--run", "r8b"])
         self.assertIn("not in cache", err.getvalue())

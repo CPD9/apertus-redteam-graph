@@ -3,27 +3,23 @@
 A run is read with redteam.answers and counted the way the findings count (Answer.confirmed): an
 answer counts when it states the error. A hypothesis whose calls are not in the LLM cache keeps the
 judge's logged flags, and a note on stderr says so.
-
-The answers to one hypothesis share a prompt, so they are not independent of each other. Pooled
-rates therefore get their interval from resampling whole hypotheses rather than from the count
-of answers, which would make the interval far too narrow.
 """
 from __future__ import annotations
 
-import random
 import re
 import sys
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
-from redteam import answers, paths
+from report_pooling import difference, pooled, resamples
+
+from redteam import answers, paths, shares
 from redteam.cache import CACHE_DIR
 from redteam.events import read_events
 from redteam.run import load_hypotheses
 
 CACHE = CACHE_DIR
-DRAWS = 4000
 HYPOTHESES = {h["id"]: h for h in load_hypotheses()}
 
 
@@ -95,21 +91,21 @@ def recorded(ref):
 def control_shares(rec, controls):
     """Premise and neutral shares per hypothesis, both counted with Answer.confirmed. A control
     row that cannot be replayed falls back to its logged rates in control.json."""
-    shares = answers.control_shares(rec.dir, controls, HYPOTHESES, CACHE)
-    missing = [c for c in controls if c["id"] not in shares]
+    counted = answers.control_shares(rec.dir, controls, HYPOTHESES, CACHE)
+    missing = [c for c in controls if c["id"] not in counted]
     if missing:
         note(f"the control of run {rec.id}: {len(missing)} of {len(controls)} rows cannot be "
              "replayed; using its logged rates for them")
     for c in missing:
-        shares[c["id"]] = (logged(c["premise_rate"], rec.verified[c["id"]]),
-                           logged(c["neutral_rate"], c["neutral_answers"]))
-    return shares
+        counted[c["id"]] = (logged(c["premise_rate"], rec.verified[c["id"]]),
+                            logged(c["neutral_rate"], c["neutral_answers"]))
+    return counted
 
 
 def logged(rate, cells):
     n = (sum(c["n"] for c in cells["per_lang"].values()) if "per_lang" in cells
          else sum(len(texts) for texts in cells.values()))
-    return answers.Share(round(rate * n), n)
+    return shares.Share(round(rate * n), n)
 
 
 def same_model(alias, model):
@@ -127,38 +123,6 @@ def counts(rec, hypothesis, langs, seeds):
         return 0, seeds * len(langs)
     cells = [rec.verified[hypothesis]["per_lang"][lang] for lang in langs]
     return sum(c["k"] for c in cells), sum(c["n"] for c in cells)
-
-
-def resamples(size):
-    rng = random.Random(1)  # fixed, so rebuilding the figures does not move the intervals
-    return [Counter(rng.choices(range(size), k=size)) for _ in range(DRAWS)]
-
-
-def rate(table, weights):
-    return (sum(w * table[i][0] for i, w in weights.items())
-            / sum(w * table[i][1] for i, w in weights.items()))
-
-
-def interval(values):
-    values = sorted(values)
-    return [round(values[round(q * (len(values) - 1))], 4) for q in (0.025, 0.975)]
-
-
-def totals(table):
-    return sum(c[0] for c in table), sum(c[1] for c in table)
-
-
-def pooled(table, draws):
-    k, n = totals(table)
-    return {"k": k, "n": n, "rate": round(k / n, 4),
-            "ci95": interval(rate(table, d) for d in draws)}
-
-
-def difference(before, after, draws):
-    """Change in the pooled rate from before to after, both resampled with the same hypotheses."""
-    (k0, n0), (k1, n1) = totals(before), totals(after)
-    return {"rate": round(k1 / n1 - k0 / n0, 4),
-            "ci95": interval(rate(after, d) - rate(before, d) for d in draws)}
 
 
 def without_premise(rec, hypotheses):
