@@ -103,7 +103,7 @@ main{padding:clamp(16px,3vw,32px);max-width:1280px;margin:0 auto}
 
   <section id="tab-graph">
     <div class="graph" id="graph"></div>
-    <div class="loop">Judge finds nothing → <em>loop back to Attacker</em> with feedback (max 3 attempts) · Judge finds a violation → Verifier reruns every language × seed</div>
+    <div class="loop">Judge finds nothing → <em>loop back to Attacker</em> with feedback (up to 4 attempts, one per attack strategy) · Judge finds a violation → Verifier reruns every language × seed</div>
     <div class="cols">
       <div class="card"><h2>Hypotheses</h2><div id="hyps" class="empty">Start a run to see progress.</div></div>
       <div class="card"><h2>Live event feed</h2><div id="feed" class="feed"></div></div>
@@ -145,11 +145,15 @@ $("#graph").innerHTML = AGENTS.map(([id,name,desc]) =>
 $("#pick").innerHTML = AGENTS.map(([id,name],i) =>
   `<label><input type="radio" name="agent" value="${id}" ${i===0?"checked":""}><img src="avatars/${id}.png?${bust}" alt="">${name}</label>`).join("");
 
-document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
-  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("on", x === b));
-  document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "tab-" + b.dataset.tab);
-  if (b.dataset.tab === "studio" && !$("#studio").src) $("#studio").src = $("#studio").dataset.src;
-});
+function showTab(name) {
+  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("on", x.dataset.tab === name));
+  document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "tab-" + name);
+  if (name === "studio" && !$("#studio").src) $("#studio").src = $("#studio").dataset.src;
+  history.replaceState(null, "", "?tab=" + name);
+}
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
+const startTab = new URLSearchParams(location.search).get("tab");
+showTab(["graph", "findings", "studio"].includes(startTab) ? startTab : "graph");
 
 function rateColor(r){ // green → amber → red
   const h = 150 - 150 * Math.min(1, r);

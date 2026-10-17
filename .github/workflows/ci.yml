@@ -1,0 +1,31 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: track_1a
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: python -m unittest discover tests -v
+      - name: Replay the recorded run (no GPU)
+        run: REDTEAM_BACKEND=replay PYTHONPATH=src python -m redteam.run
+      - name: Validate findings
+        run: PYTHONPATH=src python -m redteam.check
+
+  make-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: make run (what the judges execute)
+        run: cd track_1a && make run
