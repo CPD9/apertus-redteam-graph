@@ -7,7 +7,7 @@
 | Prefix | Use |
 |---|---|
 | `ml/` | harness, judge, hypotheses, findings |
-| `infra/` | Docker, RunPod/Exoscale scripts, CI |
+| `infra/` | Docker, RunPod scripts, CI |
 | `web/` | dashboard and review page |
 | `docs/` | README, report, diagrams |
 | `fix/` | a bug fix on any of the above |

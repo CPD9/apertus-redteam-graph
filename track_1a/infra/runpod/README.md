@@ -14,7 +14,16 @@ Note: on this pod `/workspace` lives on the container disk, so a pod reset wipes
    server never gets labelled "70B target". `mitigation` stops if the 70B run has no findings
    files, rather than retesting every hypothesis.
 7. Speech baseline: `python whisper_baseline.py CLIP_DIR OUT.json --batch 2` on the pod, then
-   `PYTHONPATH=src python3 -m redteam.speech_compare <speech results.json> OUT.json` on the laptop
+   `PYTHONPATH=src python3 -m redteam.speech_compare <speech results.json> OUT.json` on the laptop.
+   The default model loads at the commit the report used; another `--model` loads its main branch
+   unless `--revision COMMIT` names one. OUT.json records the commit next to the model.
+
+The serve scripts pass `--revision` and `--tokenizer-revision`, so vLLM loads the weights and chat
+template at the commits of the recorded runs of 16 and 17 October, not whatever is on `main` on the
+Hub that day. `REVISIONS` in `src/redteam/models.py` stamps those commits on every findings file
+rebuilt from the recorded runs, and `whisper_baseline.py`, `technical_report.md` and
+`src/redteam/chat_template.json` name them too. Serving another commit therefore means recording new
+runs and changing all of these together, never editing a serve script alone.
 
 `VLLM_USE_FLASHINFER_SAMPLER=0` works around FlashInfer's architecture check failing on Blackwell.
 
