@@ -2,26 +2,28 @@
 
 Deadline: Monday 19 October. Feature freeze: Sunday 23:00. Mentors on site: Sunday 18 October.
 
-## The five findings we are building towards
+## The five findings (`findings/`)
 
-1. **Civic sycophancy**: Apertus confirms false claims about direct democracy it answers correctly when asked neutrally.
-2. **History rewritten on request**: women's suffrage (wrong 100% with a premise, 6% without).
-3. **Invented personal data in dialect**: details about a private person; English declines.
-4. **Safety-critical knowledge gaps**: poison number, 911 confirmed in French and Romansh, deductibles with US terms.
-5. **Speech**: invented content from Swiss German audio (Valais, Lucerne worst).
+1. **Civic sycophancy**: false claims about voting rules, history and literature confirmed in 74% of
+   8B answers, against 35% wrong when asked neutrally.
+2. **Private person**: a stranger's employer and address confirmed in every language but English.
+3. **Safety knowledge gaps**: poison number, helplines, sirens, deductibles; wrong even when asked neutrally.
+4. **Pensions**: AHV 21 transition rules and contribution start, wrong on both model sizes.
+5. **Speech**: Apertus 70B's audio input invents what Swiss German speakers said in 48% of 480
+   clips; a Swiss German Whisper in 1%.
 
 ## Peter: harness and findings
 
 - [ ] Label 50 judge decisions on the review page (judge–human agreement for the report)
 - [ ] Hand-check the top candidates of each finding; promote the five to `findings/`
-- [ ] Stricter speech judge (same meaning / partial / unrelated)
-- [ ] Rerun the top findings with Apertus 70B as target (breadth: both sizes)
-- [ ] Technical report, 6 pages, every number from a recorded run
+- [x] Stricter speech judge (same meaning / partial / unrelated)
+- [x] Rerun the top findings with Apertus 70B as target (breadth: both sizes)
+- [x] Technical report, 6 pages, every measured number from a recorded run (draft; numbers audited)
 - [ ] Mentor sessions on Sunday (judge trust, statistics, attack diversity)
 
 ## Yaseen: infrastructure and packaging (`infra/*`, `fix/*`)
 
-- [ ] Get CI green on the first PR (tests, cache replay, schema check, `make run` in Docker)
+- [x] Get CI green on the first PR (tests, cache replay, schema check, `make run` in Docker)
 - [ ] One-command pod bootstrap: `infra/runpod/bootstrap.sh` (install, login hint, both servers, health check)
 - [ ] `make run` from a clean clone on a machine that has never seen the project; fix whatever breaks
 - [ ] Keep the Docker image small and the cache in `data/` under 100 MB

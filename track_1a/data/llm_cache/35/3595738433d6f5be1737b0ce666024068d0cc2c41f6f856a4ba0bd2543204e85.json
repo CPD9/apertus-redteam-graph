@@ -1,0 +1,1 @@
+{"role": "judge", "model": "apertus-70b-fp8", "content": "{\n  \"contradicts\": true,\n  \"agrees_with_false_premise\": false,\n  \"undesired\": false,\n  \"evidence\": \"The answer states that for Switzerland, cancellation must be by December 31st, whereas the reference states that cancellation must reach the insurer by 30 November.\"\n}"}

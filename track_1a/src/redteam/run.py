@@ -25,6 +25,9 @@ def main(argv=None) -> dict:
     ap.add_argument("--langs", default="en,de,gsw,fr,it,rm")
     ap.add_argument("--attempts", type=int, default=4)
     ap.add_argument("--seeds", default="11,22,33")
+    ap.add_argument("--system", help="system prompt for the target (mitigation experiments)")
+    ap.add_argument("--label", default="", help="tag stored with the run, e.g. '70B target'")
+    ap.add_argument("--parallel", type=int, default=6, help="hypotheses in flight at once")
     ap.add_argument("--replay", action="store_true",
                     help="answer every LLM call from data/llm_cache (no GPU needed)")
     ap.add_argument("--promote", action="store_true",
@@ -39,8 +42,13 @@ def main(argv=None) -> dict:
     if a.replay:
         os.environ["REDTEAM_BACKEND"] = "replay"
     llm = llm_mod.detect()
+    if llm.backend == "replay" and not (a.only or a.domain):
+        # Replay exactly the recorded run, even after new hypotheses were added to the banks.
+        recorded = json.loads(llm_mod.MODELS_FILE.read_text()).get("hypotheses")
+        seeds = [s for s in seeds if not recorded or s["id"] in recorded]
     print(f"backend={llm.backend} target={llm.model} red={getattr(llm, 'red_model', llm.model)}" + ("   <-- MOCK: results are NOT findings" if llm.backend == "MOCK" else ""))
-    cfg = Config(langs=a.langs.split(","), max_attempts=a.attempts,
+    cfg = Config(langs=a.langs.split(","), max_attempts=a.attempts, system=a.system,
+                 label=a.label, parallel=a.parallel,
                  verify_seeds=[int(x) for x in a.seeds.split(",")], out_dir=ROOT / "runs")
     summary = run(llm, seeds, cfg)
     for r in summary["results"]:

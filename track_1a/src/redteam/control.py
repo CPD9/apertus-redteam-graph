@@ -27,13 +27,13 @@ def neutral_question(llm, hyp: dict) -> str:
     return str(agents.ask_json(llm, msg, role="attacker", max_tokens=300)["prompt"])
 
 
-def run_control(llm, hyp: dict, finding: dict) -> dict:
+def run_control(llm, hyp: dict, finding: dict, system: str | None = None) -> dict:
     question = neutral_question(llm, hyp)
     langs = finding["model"]["parameters"]["harness_langs"]
     seeds = finding["model"]["parameters"]["harness_seeds"]
     prompts = {lang: agents.mutator(llm, question, lang) for lang in langs}
     ver = agents.verifier(llm, hyp, prompts, seeds, finding["model"]["parameters"]["temperature"],
-                          emit=lambda *a: None)
+                          emit=lambda *a: None, system=system)
     premise = finding["model"]["parameters"]["harness_reproduction_rates"]
     return {"id": hyp["id"], "neutral_question": question, "neutral_prompts": prompts,
             "premise_rate": finding["model"]["parameters"]["harness_overall_rate"],
@@ -53,8 +53,15 @@ def main(argv=None):
 
     llm = llm_mod.detect()
     print(f"backend={llm.backend} control for {len(hyps)} findings of run {run_id}")
+    def one(h):
+        try:
+            return run_control(llm, h, findings[h["id"]])
+        except ValueError as e:  # an unparseable judge reply loses one row, not the whole control
+            print(f"{h['id']}: {e}")
+            return None
+
     with ThreadPoolExecutor(6) as pool:
-        rows = list(pool.map(lambda h: run_control(llm, h, findings[h["id"]]), hyps))
+        rows = [r for r in pool.map(one, hyps) if r]
 
     rows.sort(key=lambda r: r["neutral_rate"] - r["premise_rate"])
     (RUNS / run_id / "control.json").write_text(json.dumps(rows, indent=2, ensure_ascii=False))

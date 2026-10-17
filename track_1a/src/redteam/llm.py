@@ -125,9 +125,10 @@ MODELS_FILE = CACHE_DIR / "models.json"
 
 
 def _replay():
+    # models.json names the canonical run; LLM_NAME / RED_LLM_NAME replay any other run.
     models = json.loads(MODELS_FILE.read_text())
-    return Router(Cached(None, models["target"], replay=True),
-                  Cached(None, models["red"], replay=True))
+    return Router(Cached(None, os.environ.get("LLM_NAME") or models["target"], replay=True),
+                  Cached(None, os.environ.get("RED_LLM_NAME") or models["red"], replay=True))
 
 
 def detect():
@@ -146,6 +147,7 @@ def detect():
         return _replay() if MODELS_FILE.exists() else MockLLM()
     red = _connect(os.environ.get("RED_LLM_BASE_URL", DEFAULT_RED_BASE_URL),
                    "RED_LLM_NAME", "RED_LLM_API_KEY") or target
-    MODELS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    MODELS_FILE.write_text(json.dumps({"target": target.model, "red": red.model}))
+    if not MODELS_FILE.exists():  # the first live run becomes the one `make run` replays
+        MODELS_FILE.parent.mkdir(parents=True, exist_ok=True)
+        MODELS_FILE.write_text(json.dumps({"target": target.model, "red": red.model}))
     return Router(Cached(target, target.model), Cached(red, red.model))

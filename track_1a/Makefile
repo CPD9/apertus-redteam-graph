@@ -5,7 +5,7 @@ IMAGE ?= apertus-redteam
 LLM_BASE_URL ?= http://host.docker.internal:8000/v1
 
 # Judges: `make run` builds the image, runs the full agent graph, validates every findings file.
-# With no reachable LLM endpoint it falls back to a clearly labelled MOCK backend.
+# With no reachable LLM endpoint it replays the recorded run from data/llm_cache (no GPU).
 run: docker-build
 	docker run --rm --add-host=host.docker.internal:host-gateway \
 	  -e LLM_BASE_URL=$(LLM_BASE_URL) -e LLM_NAME -e LLM_API_KEY \

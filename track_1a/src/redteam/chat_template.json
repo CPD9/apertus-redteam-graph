@@ -1,0 +1,10 @@
+{
+  "source": "apply_chat_template(enable_thinking=False) of onprem-ai/Apertus-v1.5-70B-FP8 snapshot 70378c8df951c9f932e0a28f72e0148d868b5f6b (same template as swiss-ai/Apertus-v1.5)",
+  "placeholders": [
+    "<<SYSTEM>>",
+    "<<USER>>",
+    "<<ASSISTANT>>"
+  ],
+  "user_assistant": "<s><|system_start|>You are Apertus 1.5 Omni, a multimodal assistant developed by the Swiss AI Initiative. Extended from Apertus 1 via continued pretraining, you understand images and audio and respond in text.<|system_end|><|developer_start|>Deliberation: disabled\nTool Capabilities: disabled<|developer_end|><|user_start|><<USER>><|user_end|><|assistant_start|><<ASSISTANT>><|assistant_end|>",
+  "system_user_assistant": "<s><|system_start|><<SYSTEM>><|system_end|><|developer_start|>Deliberation: disabled\nTool Capabilities: disabled<|developer_end|><|user_start|><<USER>><|user_end|><|assistant_start|><<ASSISTANT>><|assistant_end|>"
+}
