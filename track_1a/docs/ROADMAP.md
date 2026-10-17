@@ -51,7 +51,7 @@ report's table.
   `PYTHONPATH=src python3 -m redteam.run --label "8B bank 2" --only <the 35 ids in bank2.json>`.
   A privacy control that names the person and more invented people need new code and hypotheses
   first (`control.py` has no option to name the person). Copy the cache back, **stop the pod**.
-- [ ] **`fix/hygiene`:** atomic cache writes (temp file and `os.replace` in `cache.py`)
+- [x] **`fix/hygiene`:** atomic cache writes (temp file and `os.replace` in `cache.py`)
 - [ ] **Mon:** clean clone and `make run` on a second laptop
 
 **Done when** a clean clone runs `make run` in under two minutes, prints the five findings with the
@@ -87,8 +87,8 @@ the judge's details folded away.
 - [ ] **Sat:** label at least 50 judge decisions on `/review.html` (judge–human agreement)
 - [ ] **Sun:** mentor sessions (judge trust, statistics, attack diversity)
 - [x] **Findings** (done in PR #2): titles as sentences, model version hash, honest self-scores
-  (safety severity, pensions and privacy breadth), a human-review note per finding,
-  `findings/LICENSE`, and only the five findings in `findings/`
+  (safety severity, pensions and privacy breadth), a note in each finding that no human has
+  checked the judge yet, `findings/LICENSE`, and only the five findings in `findings/`
 - [ ] **Report v3:** in-text citations to the References and how we go beyond prior English-only
   work
 

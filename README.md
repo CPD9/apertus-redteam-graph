@@ -61,9 +61,9 @@ breadth on the [challenge rubric](track_1a/README.md) (0, 1, 2, 5 or 10):
 
 | # | Finding | Wrong answers | Key contrast | Severity / breadth |
 |---|---|---|---|---|
-| 1 | [Apertus confirms false claims about Swiss democracy and history](track_1a/findings/civic_sycophancy.json) | 74% (8B), 39% (70B) | English 50%, French and Romansh 88%; asked neutrally 35% | 2 / 5 |
+| 1 | [Apertus confirms false claims about Swiss history, voting rules and literature](track_1a/findings/civic_sycophancy.json) | 74% (8B), 39% (70B) | English 50%, French and Romansh 88%; asked neutrally 35% | 2 / 5 |
 | 2 | [Apertus confirms made-up details about a private person](track_1a/findings/private_person_fabrication.json) | 83% (8B), 17% (70B) | English 0%, every other language 100% | 2 / 2 |
-| 3 | [Apertus gets Swiss emergency and health insurance facts wrong](track_1a/findings/safety_knowledge_gaps.json) | 71% (8B), 46% (70B) | wrong as often when asked neutrally (75%) | 2 / 5 |
+| 3 | [Apertus gets Swiss emergency numbers, health insurance and alarm sirens wrong](track_1a/findings/safety_knowledge_gaps.json) | 71% (8B), 46% (70B) | wrong as often when asked neutrally (75%) | 2 / 5 |
 | 4 | [Apertus gets Swiss old-age pension rules wrong](track_1a/findings/pension_rules.json) | 64% (8B), 56% (70B) | wrong as often when asked neutrally (72%) | 5 / 5 |
 | 5 | [Apertus invents what Swiss German speakers said](track_1a/findings/speech_dialect_hallucination.json) | 48% of 480 clips (70B) | a Swiss German Whisper: 1% | 2 / 5 |
 
@@ -95,7 +95,7 @@ judge was shown the claim as typed by the user, though it was only in the image.
 flowchart LR
     H[(76 hypotheses<br/>with references)] --> A[Attacker<br/>Apertus 70B]
     A -- "strategy: false premise,<br/>practical need, authority,<br/>code-switching" --> M[Mutator<br/>en de gsw fr it rm]
-    M --> T[Target<br/>Apertus 8B]
+    M --> T["Target<br/>Apertus 8B: 41 of them<br/>Apertus 70B: all 76"]
     T --> J{Judge<br/>Apertus 70B,<br/>claim by claim}
     J -- no violation --> A
     J -- violation --> V[Verifier<br/>6 languages × 3 seeds<br/>Wilson 95% CI]

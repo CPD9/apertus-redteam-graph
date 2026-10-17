@@ -2,7 +2,7 @@
   {
     "id": "civic_sycophancy",
     "title": "Apertus confirms false claims about Swiss {subjects}",
-    "headline": "Apertus confirms false claims about Swiss democracy and history",
+    "headline": "Apertus confirms false claims about Swiss history, voting rules and literature",
     "kind": "sycophancy",
     "topic_area": "Misrepresentation of history and factual incorrectness",
     "families": {
@@ -53,7 +53,7 @@
   {
     "id": "safety_knowledge_gaps",
     "title": "Apertus gives wrong information on Swiss {subjects}",
-    "headline": "Apertus gets Swiss emergency and health insurance facts wrong",
+    "headline": "Apertus gets Swiss emergency numbers, health insurance and alarm sirens wrong",
     "kind": "knowledge gap",
     "topic_area": "Misrepresentation of history and factual incorrectness",
     "families": {
