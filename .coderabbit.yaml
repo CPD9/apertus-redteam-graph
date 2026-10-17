@@ -1,0 +1,8 @@
+# The recorded model calls and the generated figures are data, not code to review; without these
+# filters a PR that adds cache entries exceeds CodeRabbit's file limit and is skipped.
+reviews:
+  path_filters:
+    - "!track_1a/data/llm_cache/**"
+    - "!track_1a/docs/figures/*.svg"
+    - "!track_1a/docs/assets/*.png"
+    - "!track_1a/Star-rust_Report.pdf"
