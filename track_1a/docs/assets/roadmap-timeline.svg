@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 526" width="900" height="526" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif">
+  <style>
+    .bg { fill: #ffffff; }
+    .box { fill: #f6f5f1; stroke: #d9d6cc; stroke-width: 1.5; }
+    .pill { fill: #ffffff; stroke: #d9d6cc; stroke-width: 1.2; }
+    .hot { stroke: #e30613; stroke-width: 1.8; }
+    .avatar { fill: #e9e6dd; stroke: #d9d6cc; stroke-width: 1.2; }
+    .chip { fill: #e9e6dd; }
+    .red { fill: #e30613; }
+    .nowDot { stroke: #ffffff; stroke-width: 2; }
+    .title { fill: #1d2433; font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+    .day { fill: #1d2433; font-size: 12px; font-weight: 700; letter-spacing: .06em; }
+    .name { fill: #1d2433; font-size: 14px; font-weight: 700; }
+    .initial { fill: #1d2433; font-size: 15px; font-weight: 700; }
+    .pt { fill: #1d2433; font-size: 11.5px; font-weight: 600; }
+    .ptDone { fill: #1a7f37; }
+    .chipText { fill: #1d2433; font-size: 11px; font-weight: 600; }
+    .sub { fill: #646b78; font-size: 11.5px; }
+    .tag { fill: #ffffff; font-size: 11px; font-weight: 700; letter-spacing: .06em; }
+    .road { fill: none; stroke: #d9d6cc; stroke-width: 12; stroke-linecap: round; }
+    .done { stroke: #1a7f37; }
+    .centre { fill: none; stroke: #6b7280; stroke-width: 1.6; stroke-dasharray: 7 7; }
+    .check { fill: #ffffff; stroke: #1a7f37; stroke-width: 2; }
+    .tick { fill: none; stroke: #1a7f37; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .stem { stroke: #e30613; stroke-width: 2; }
+    .stemMuted { stroke: #9aa1ad; stroke-width: 1.6; }
+    .marker { fill: #ffffff; stroke: #9aa1ad; stroke-width: 2; }
+    .pole { stroke: #1d2433; stroke-width: 2; stroke-linecap: round; }
+    .today { fill: #e30613; opacity: .05; }
+    .freeze { stroke: #e30613; stroke-width: 2; }
+    .dep { fill: none; stroke: #6b7280; stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .depHead { fill: #6b7280; }
+
+    /* motion: emphasis only, everything is visible without it */
+    .pulse { fill: none; stroke: #e30613; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: pulse 2s ease-out infinite; }
+    .mover { fill: #e30613; animation: travel 7s linear infinite; }
+    .centre, .dep { animation: flow 1.4s linear infinite; }
+    .blink { animation: blink 2.4s ease-in-out infinite; }
+    @keyframes pulse { from { transform: scale(1); opacity: .9; } to { transform: scale(2); opacity: 0; } }
+    @keyframes travel {
+      0% { transform: translateX(0); opacity: 0; }
+      8%, 90% { opacity: 1; }
+      100% { transform: translateX(488px); opacity: 0; }
+    }
+    @keyframes flow { to { stroke-dashoffset: -14; } }
+    @keyframes blink { 50% { opacity: .4; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .box { fill: #1b1e26; stroke: #343947; }
+      .pill { fill: #0d1117; stroke: #343947; }
+      .hot { stroke: #e30613; }
+      .avatar, .chip { fill: #2a2e39; stroke: #343947; }
+      .nowDot { stroke: #0d1117; }
+      .title, .day, .name, .initial, .pt, .chipText { fill: #e8e9ee; }
+      .ptDone { fill: #3fb950; }
+      .sub { fill: #9aa1ad; }
+      .road { stroke: #2a2e39; }
+      .done { stroke: #238636; }
+      .centre { stroke: #9aa1ad; }
+      .check, .marker { fill: #0d1117; }
+      .check { stroke: #3fb950; }
+      .tick { stroke: #3fb950; }
+      .pole { stroke: #e8e9ee; }
+      .today { opacity: .07; }
+      .dep { stroke: #6b7280; }
+      .depHead { fill: #6b7280; }
+    }
+  </style>
+
+  <rect class="bg" width="900" height="526" rx="14"/>
+  <text class="title" x="20" y="32">ROAD TO SUBMISSION · SAT 17 → MON 19 OCTOBER</text>
+
+  <!-- road: green behind us, grey ahead; the grey cap ends at the flag pole -->
+  <path class="road" d="M30 86 H784"/>
+  <path class="road done" d="M30 86 H295"/>
+  <path class="centre" d="M310 86 H780"/>
+
+  <!-- PR #1 merged, PR #2 done but still open -->
+  <circle class="check" cx="56" cy="86" r="10"/>
+  <path class="tick" d="M51 86.5 l3.5 3.5 l6 -7"/>
+  <circle class="check" cx="136" cy="86" r="10"/>
+  <path class="tick" d="M131 86.5 l3.5 3.5 l6 -7"/>
+  <text class="pt ptDone" x="56" y="114" text-anchor="middle">PR #1</text>
+  <text class="sub" x="56" y="129" text-anchor="middle">merged</text>
+  <text class="pt ptDone" x="136" y="114" text-anchor="middle">PR #2</text>
+  <text class="sub" x="136" y="129" text-anchor="middle">open · CI green</text>
+
+  <!-- Sat: NOW -->
+  <rect class="red" x="271" y="46" width="48" height="20" rx="10"/>
+  <text class="tag" x="295" y="60" text-anchor="middle">NOW</text>
+  <line class="stem" x1="295" y1="66" x2="295" y2="78"/>
+  <circle class="pulse" cx="295" cy="86" r="9"/>
+  <circle class="red nowDot" cx="295" cy="86" r="7"/>
+
+  <!-- Sun: mentors on site -->
+  <rect class="chip" x="492" y="46" width="116" height="20" rx="10"/>
+  <text class="chipText" x="550" y="60" text-anchor="middle">mentors on site</text>
+  <line class="stemMuted" x1="550" y1="66" x2="550" y2="80"/>
+  <circle class="marker" cx="550" cy="86" r="5"/>
+
+  <!-- Mon: submit flag at the end of the road -->
+  <line class="pole" x1="790" y1="92" x2="790" y2="42"/>
+  <path class="red" d="M791 43 H870 L862 53 L870 63 H791 Z"/>
+  <text class="tag" x="828" y="57" text-anchor="middle">SUBMIT</text>
+
+  <!-- day headers -->
+  <text class="day" x="295" y="114" text-anchor="middle">SAT 17 OCT</text>
+  <text class="day" x="550" y="114" text-anchor="middle">SUN 18 OCT</text>
+  <text class="day" x="790" y="114" text-anchor="middle">MON 19 OCT</text>
+
+  <!-- lanes -->
+  <rect class="box" x="20" y="140" width="860" height="108" rx="12"/>
+  <rect class="box" x="20" y="256" width="860" height="108" rx="12"/>
+  <rect class="box" x="20" y="372" width="860" height="138" rx="12"/>
+
+  <!-- today column (Saturday), tints header and lanes -->
+  <rect class="today" x="190" y="98" width="210" height="412" rx="10"/>
+
+  <!-- feature freeze, Sunday 23:00 -->
+  <g class="blink">
+    <line class="freeze" x1="700" y1="66" x2="700" y2="510"/>
+  </g>
+  <rect class="red" x="628" y="46" width="144" height="20" rx="10"/>
+  <text class="tag" x="700" y="60" text-anchor="middle">FREEZE SUN 23:00</text>
+
+  <!-- dot travelling from NOW to the flag, drawn on top; at rest it hides in the NOW dot -->
+  <circle class="mover" cx="295" cy="86" r="5"/>
+
+  <!-- Peter -->
+  <circle class="avatar" cx="42" cy="194" r="16"/>
+  <text class="initial" x="42" y="199" text-anchor="middle">P</text>
+  <text class="name" x="66" y="191">Peter</text>
+  <text class="sub" x="66" y="208">findings &amp; report</text>
+
+  <rect class="pill" x="214" y="182" width="162" height="24" rx="12"/>
+  <text class="pt" x="295" y="198" text-anchor="middle">Label ≥ 50 judge calls</text>
+
+  <rect class="pill" x="489" y="152" width="122" height="24" rx="12"/>
+  <text class="pt" x="550" y="168" text-anchor="middle">Mentor sessions</text>
+  <rect class="pill" x="469" y="182" width="162" height="24" rx="12"/>
+  <text class="pt" x="550" y="198" text-anchor="middle">Findings + self-scores</text>
+  <rect class="pill" x="510" y="212" width="80" height="24" rx="12"/>
+  <text class="pt" x="550" y="228" text-anchor="middle">Report v3</text>
+
+  <rect class="pill" x="715" y="167" width="150" height="24" rx="12"/>
+  <text class="pt" x="790" y="183" text-anchor="middle">Repo private + invite</text>
+  <rect class="pill hot" x="722" y="197" width="136" height="24" rx="12"/>
+  <text class="pt" x="790" y="213" text-anchor="middle">Submit URL + PDF</text>
+
+  <!-- Yaseen -->
+  <circle class="avatar" cx="42" cy="310" r="16"/>
+  <text class="initial" x="42" y="315" text-anchor="middle">Y</text>
+  <text class="name" x="66" y="307">Yaseen</text>
+  <text class="sub" x="66" y="324">infra &amp; packaging</text>
+
+  <rect class="pill" x="237" y="283" width="116" height="24" rx="12"/>
+  <text class="pt" x="295" y="299" text-anchor="middle">Approve PR #2</text>
+  <rect class="pill" x="227" y="313" width="136" height="24" rx="12"/>
+  <text class="pt" x="295" y="329" text-anchor="middle">Start make-run fix</text>
+
+  <rect class="pill" x="492" y="268" width="116" height="24" rx="12"/>
+  <text class="pt" x="550" y="284" text-anchor="middle">Ship data/runs</text>
+  <rect class="pill" x="470" y="298" width="160" height="24" rx="12"/>
+  <text class="pt" x="550" y="314" text-anchor="middle">make run = 5 findings</text>
+  <rect class="pill" x="469" y="328" width="162" height="24" rx="12"/>
+  <text class="pt" x="550" y="344" text-anchor="middle">One pod batch → stop</text>
+
+  <rect class="pill" x="728" y="298" width="124" height="24" rx="12"/>
+  <text class="pt" x="790" y="314" text-anchor="middle">Clean-clone test</text>
+
+  <!-- Nik -->
+  <circle class="avatar" cx="42" cy="441" r="16"/>
+  <text class="initial" x="42" y="446" text-anchor="middle">N</text>
+  <text class="name" x="66" y="438">Nik</text>
+  <text class="sub" x="66" y="455">dashboard &amp; visuals</text>
+
+  <rect class="pill" x="237" y="414" width="116" height="24" rx="12"/>
+  <text class="pt" x="295" y="430" text-anchor="middle">Approve PR #2</text>
+  <rect class="pill" x="213" y="444" width="164" height="24" rx="12"/>
+  <text class="pt" x="295" y="460" text-anchor="middle">Review page for labels</text>
+
+  <rect class="pill" x="490" y="384" width="120" height="24" rx="12"/>
+  <text class="pt" x="550" y="400" text-anchor="middle">Honest wording</text>
+  <rect class="pill" x="477" y="414" width="146" height="24" rx="12"/>
+  <text class="pt" x="550" y="430" text-anchor="middle">Explain-mode demo</text>
+  <rect class="pill" x="483" y="444" width="134" height="24" rx="12"/>
+  <text class="pt" x="550" y="460" text-anchor="middle">390 px + contrast</text>
+  <rect class="pill" x="469" y="474" width="162" height="24" rx="12"/>
+  <text class="pt" x="550" y="490" text-anchor="middle">Screenshots by 23:00</text>
+
+  <rect class="pill" x="710" y="429" width="160" height="24" rx="12"/>
+  <text class="pt" x="790" y="445" text-anchor="middle">README + report shots</text>
+
+  <!-- Nik's review page feeds Peter's labels -->
+  <path class="dep" d="M379 456 H390 Q397 456 397 449 V201 Q397 194 390 194"/>
+  <path class="depHead" d="M381 194 l10 -5 v10 z"/>
+  <text class="sub" x="404" y="232">feeds</text>
+</svg>
