@@ -1,26 +1,26 @@
-"""Recorded runs as the report figures need them, and wrong-answer rates pooled across hypotheses.
+"""Recorded runs as the report figures need them.
 
 A run is read with redteam.answers and counted the way the findings count (Answer.confirmed): an
-answer counts when it states the error. A hypothesis whose calls are not in the LLM cache keeps the
-judge's logged flags, and a note on stderr says so.
+answer counts when it states the error. When a hypothesis's calls are not in the LLM cache,
+recorded() falls back to the judge's logged flags and hypothesis_counts() leaves its answers
+uncounted; either way a note on stderr says so.
 """
 from __future__ import annotations
 
 import re
 import sys
-from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
-
-from report_pooling import difference, pooled, resamples
 
 from redteam import answers, paths, shares
 from redteam.cache import CACHE_DIR
 from redteam.events import read_events
+from redteam.graph import Config
 from redteam.run import load_hypotheses
 
 CACHE = CACHE_DIR
 HYPOTHESES = {h["id"]: h for h in load_hypotheses()}
+VERIFIER_FINISHED = {"finding", "not_reproducible"}  # whatever the judge's flags said
 
 
 class Skip(Exception):
@@ -116,55 +116,22 @@ def same_model(alias, model):
     return parts(alias) <= parts(model)
 
 
-def counts(rec, hypothesis, langs, seeds):
-    """Wrong and total answers of one hypothesis in langs. A hypothesis the attacker never broke
-    was never verified; it counts as answering every seed correctly."""
-    if hypothesis not in rec.verified:
-        return 0, seeds * len(langs)
-    cells = [rec.verified[hypothesis]["per_lang"][lang] for lang in langs]
-    return sum(c["k"] for c in cells), sum(c["n"] for c in cells)
+def hypothesis_counts(ref):
+    """Every hypothesis of a run counted on its own, for a run that no finding groups (bank 2 on
+    the 70B): how many of its answers count, as the findings count them, and how its attack
+    ended. A hypothesis that stopped with an error keeps the answers verified before it stopped,
+    but is not reproduced: the report's bar asks for all of its answers."""
+    run = answers.load_run(locate(ref), HYPOTHESES, CACHE, partial=True)
+    if run.unreplayed:
+        note(f"run {run.id}: {len(run.unreplayed)} hypotheses cannot be replayed from the cache, "
+             "so none of their answers are counted")
+    return {"run": run.id, "model": run.model, "bar": Config.min_rate, "unreplayed": run.unreplayed,
+            "rows": [hypothesis_row(run, h) for h in run.hypotheses]}
 
 
-def without_premise(rec, hypotheses):
-    """The hypotheses whose last attack was not a false premise, each with that attack."""
-    ended = {h: rec.last_attack[h] for h in hypotheses if h in rec.last_attack}
-    return {h: strategy for h, strategy in ended.items() if strategy != "false_premise"}
-
-
-def comparison(before, after, names):
-    """Wrong-answer rates of two runs per language and over all languages, for every hypothesis
-    both runs finished, and what the comparison rests on. None if neither verified any of them."""
-    runs = (before, after)
-    unbroken = [rec.ended("no_issue") for rec in runs]
-    done = [h for h in before.run.hypotheses
-            if all(h in rec.verified or h in never for rec, never in zip(runs, unbroken))]
-    if not any(h in rec.verified for h in done for rec in runs):
-        return None
-    seeds = len(before.run.seeds or after.run.seeds)
-    langs = [lang for lang in before.run.langs if lang in after.run.langs]
-    draws = resamples(len(done))
-    per_lang, change = {}, {}
-    for key, group in [*((lang, [lang]) for lang in langs), ("all", langs)]:
-        tables = [[counts(rec, h, group, seeds) for h in done] for rec in runs]
-        per_lang[key] = {name: pooled(table, draws) for name, table in zip(names, tables)}
-        change[key] = difference(*tables, draws)
-    both = [h for h in done if h in before.verified and h in after.verified]
-    failed = before.ended("error") | after.ended("error")
-    return {"runs": {rec.id: rec.run.model for rec in runs}, "series": names,
-            "judges": {name: rec.run.judge for name, rec in zip(names, runs)},
-            "hypotheses": done, "answers_per_language": seeds,
-            "never_broken": {name: [h for h in done if h in never]
-                             for name, never in zip(names, unbroken)},
-            "flagged": {name: sum(h in rec.ended("finding") for h in done)
-                        for name, rec in zip(names, runs)},
-            "last_attack": {name: dict(Counter(rec.last_attack[h] for h in done
-                                               if h in rec.last_attack))
-                            for name, rec in zip(names, runs)},
-            "other_last_attack": {name: without_premise(rec, done)
-                                  for name, rec in zip(names, runs)},
-            "uncounted": {name: sorted(rec.uncounted) for name, rec in zip(names, runs)},
-            "failed": [h for h in before.run.hypotheses
-                       if h in after.run.hypotheses and h not in done and h in failed],
-            "verified_in_both": len(both),
-            "same_prompts": sum(before.run.prompts[h] == after.run.prompts[h] for h in both),
-            "per_lang": per_lang, "difference": change}
+def hypothesis_row(run, hypothesis):
+    share = shares.share(shares.of(run.answers, {hypothesis}))
+    status = run.outcome.get(hypothesis, "unfinished")
+    return {"id": hypothesis, "title": title(hypothesis), "status": status,
+            "k": share.k, "n": share.n, "rate": round(share.rate, 4),
+            "reproduced": status in VERIFIER_FINISHED and share.rate >= Config.min_rate}

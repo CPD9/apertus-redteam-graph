@@ -21,10 +21,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # without pip install -e
 
-from report_bank import hypothesis_counts  # noqa: E402
 from report_charts import BLUE, RED, bar_chart, count_label, heatmap, signed_points  # noqa: E402
 from report_compare import languages_by_size, mitigation  # noqa: E402
-from report_runs import Skip, control_shares, recorded, title  # noqa: E402
+from report_runs import Skip, control_shares, hypothesis_counts, recorded, title  # noqa: E402
 from report_speech import speech_dialects  # noqa: E402
 
 from redteam.agents import LANG_NAMES  # noqa: E402

@@ -144,8 +144,12 @@ class Isolated(unittest.TestCase):
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)
         self.root = Path(tmp.name)
-        for target, name, value in ((runs, "CACHE", self.root / "no-cache"),
-                                    (figures, "THEMES", THEMES)):
-            patcher = mock.patch.object(target, name, value)
-            patcher.start()
-            self.addCleanup(patcher.stop)
+        helpers.patch(self, mock.patch.object(runs, "CACHE", self.root / "no-cache"),
+                      mock.patch.object(figures, "THEMES", THEMES))
+
+    def replay(self, run_id, **kwargs):
+        """A run in runs/ whose answers are in the LLM cache (helpers.write_run)."""
+        self.runs, self.cache = self.root / "runs", self.root / "cache"
+        helpers.write_run(self.runs, self.cache, run_id, **kwargs)
+        helpers.use_runs(self, self.runs)
+        helpers.patch(self, mock.patch.object(runs, "CACHE", self.cache))

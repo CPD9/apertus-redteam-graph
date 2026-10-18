@@ -1,12 +1,15 @@
-"""The report build: Markdown to HTML, the references kept off the page count, and the PDF limit."""
+"""Building the report from a plain checkout: the scripts need no PYTHONPATH, Markdown becomes
+HTML, and the PDF keeps to the page limit with the references left off the count."""
 import io
+import subprocess
 import sys
 import tempfile
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+TRACK = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(TRACK / "scripts"))
 
 import build_report as report  # noqa: E402
 from report_markdown import convert  # noqa: E402
@@ -92,6 +95,25 @@ class BuildTest(unittest.TestCase):
     def test_page_count_ignores_the_page_tree(self):
         pdf = b"<</Type /Pages /Count 2>> <</Type /Page>> <</Type/Page /Rotate 0>>"
         self.assertEqual(report.count_pages(pdf), 2)
+
+
+def python(*args):
+    """Python with PYTHONPATH and the user's site-packages ignored, run outside the checkout."""
+    return subprocess.run([sys.executable, "-E", "-s", *args], cwd=TRACK.parent.parent,
+                          capture_output=True, text=True, timeout=60)
+
+
+class EntryPointTest(unittest.TestCase):
+    def test_report_figures_runs_without_pythonpath(self):
+        done = python(str(TRACK / "scripts" / "report_figures.py"), "--help")
+        self.assertEqual(done.returncode, 0, done.stderr)
+        self.assertIn("--bank2", done.stdout)
+
+    def test_importing_a_library_script_leaves_sys_path_alone(self):
+        code = ("import sys; sys.path[:0] = [sys.argv[1], sys.argv[2]]; before = list(sys.path); "
+                "import report_speech; assert sys.path == before, sys.path")
+        done = python("-c", code, str(TRACK / "scripts"), str(TRACK / "src"))
+        self.assertEqual(done.returncode, 0, done.stderr)
 
 
 def chrome_found():

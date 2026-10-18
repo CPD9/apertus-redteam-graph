@@ -1,5 +1,5 @@
-"""The report figures, drawn from runs whose answers are not in the LLM cache, so they count the
-judge's logged flags."""
+"""The report figures and run comparisons, drawn from runs whose answers are not in the LLM cache,
+so they count the judge's logged flags."""
 import io
 import json
 import sys
@@ -12,10 +12,13 @@ from unittest import mock
 TRACK = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(TRACK / "scripts"), str(TRACK / "src"), str(TRACK / "tests")]
 
+import report_compare as compare  # noqa: E402
 import report_figures as figures  # noqa: E402
+import report_pooling as pooling  # noqa: E402
 import report_runs as runs  # noqa: E402
 from report_helpers import (SEEDS, THEMES, Isolated, control_row, quietly, texts,  # noqa: E402
                             write_logged_run, write_speech)
+from redteam.stats import wilson  # noqa: E402
 
 
 class LoggedFlagsTest(Isolated):
@@ -132,6 +135,35 @@ class LoggedFlagsTest(Isolated):
         note = " ".join(texts(svg))
         self.assertIn("1 of the 2 hypotheses verified in both used the same prompts", note)
         self.assertIn("Left out after an error: d", note)
+
+    def test_each_hypothesis_is_compared_with_the_attack_it_ended_with(self):
+        small = write_logged_run(self.root, "r8", "m/8B", {"a": [1, 1, 1], "b": [2, 2, 2]})
+        large = write_logged_run(self.root, "r70", "m/70B", {"a": [0, 0, 0]}, unbroken=["b"])
+        tried = {small: [("a", "false_premise"), ("b", "false_premise"), ("b", "practical_need")],
+                 large: [("a", "false_premise"), ("b", "authority_role"), ("b", "code_switch")]}
+        for run, attempts in tried.items():
+            with (run / "events.jsonl").open("a") as f:
+                for hyp, strategy in attempts:
+                    f.write(json.dumps({"t": 1, "run_id": run.name, "hypothesis": hyp,
+                                        "node": "attacker", "status": "done",
+                                        "data": {"strategy": strategy, "prompt": "p"}}) + "\n")
+        before, after = (quietly(runs.recorded, run)[0] for run in tried)
+        numbers = compare.comparison(before, after, ["8B", "70B"])
+        self.assertEqual(numbers["last_attack"],
+                         {"8B": {"false_premise": 1, "practical_need": 1},
+                          "70B": {"false_premise": 1, "code_switch": 1}})
+        self.assertEqual(numbers["other_last_attack"],
+                         {"8B": {"b": "practical_need"}, "70B": {"b": "code_switch"}})
+
+    def test_pooled_interval_resamples_hypotheses(self):
+        # every hypothesis is either always or never violated, so the answers are clustered
+        table = [(3, 3)] * 10 + [(0, 3)] * 10
+        result = pooling.pooled(table, pooling.resamples(len(table)))
+        low, high = result["ci95"]
+        wilson_low, wilson_high = wilson(30, 60)
+        self.assertEqual(result["rate"], 0.5)
+        self.assertLess(low, wilson_low)
+        self.assertGreater(high, wilson_high)
 
     def test_missing_inputs_are_skipped_and_stale_figures_removed(self):
         canonical = write_logged_run(self.root, "r8", "m/8B", {"a": [1, 2, 3]})
