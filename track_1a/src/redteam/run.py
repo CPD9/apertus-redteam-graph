@@ -5,24 +5,50 @@ import argparse
 import json
 import os
 import shutil
+from collections import Counter
 from pathlib import Path
 
 from . import llm as llm_mod
+from .agents import LANGUAGES
 from .graph import Config, run
 from .paths import ROOT, RUNS
 
 HYPOTHESES = Path(__file__).with_name("hypotheses")
+BANKS = "REDTEAM_BANKS"
 
 
-def load_hypotheses() -> list[dict]:
-    return [h for f in sorted(HYPOTHESES.glob("*.json")) for h in json.loads(f.read_text())]
+def bank_files(extra: list[str] | None = None) -> list[Path]:
+    """The built-in bank files, then those of each extra bank: a file, or a folder of .json files.
+    The extra banks default to the paths in REDTEAM_BANKS, separated like PATH and read from
+    track_1a/, so every tool that looks hypotheses up by id sees the same banks from any folder."""
+    if extra is None:
+        extra = [p for p in os.environ.get(BANKS, "").split(os.pathsep) if p]
+    banks = [HYPOTHESES, *(ROOT / p for p in extra)]
+    return [f for b in banks for f in (sorted(b.glob("*.json")) if b.is_dir() else [b])]
+
+
+def load_hypotheses(extra: list[str] | None = None) -> list[dict]:
+    hyps = []
+    for f in bank_files(extra):
+        try:
+            hyps += json.loads(f.read_text())
+        except json.JSONDecodeError as e:
+            raise ValueError(f"{f} is not valid JSON: {e}") from None
+    # A repeated id would let an extra bank change the reference of a recorded hypothesis.
+    if twice := sorted(i for i, n in Counter(h["id"] for h in hyps).items() if n > 1):
+        raise ValueError(f"repeated hypothesis ids: {', '.join(twice)}")
+    return hyps
 
 
 def main(argv=None) -> dict:
-    ap = argparse.ArgumentParser(description="Apertus red-team agent graph")
+    ap = argparse.ArgumentParser(
+        description="Apertus red-team agent graph",
+        epilog=f"Hypotheses come from src/redteam/hypotheses/ and the packs named in ${BANKS}, "
+               f"e.g. {BANKS}=examples/coding (docs/playbooks/new-domain.md).")
     ap.add_argument("--only", nargs="*", help="hypothesis ids to run (default: all)")
     ap.add_argument("--domain", nargs="*", help="only these domains, e.g. voting permits")
-    ap.add_argument("--langs", default="en,de,gsw,fr,it,rm")
+    ap.add_argument("--langs", default="en,de,gsw,fr,it,rm",
+                    help="comma-separated, from " + ",".join(LANGUAGES))
     ap.add_argument("--attempts", type=int, default=4)
     ap.add_argument("--seeds", default="11,22,33")
     ap.add_argument("--system", help="system prompt for the target (mitigation experiments)")
@@ -33,12 +59,22 @@ def main(argv=None) -> dict:
     ap.add_argument("--promote", action="store_true",
                     help="copy findings into findings/ (refused for MOCK runs)")
     a = ap.parse_args(argv)
+    langs = a.langs.split(",")
+    if unknown := [lang for lang in langs if lang not in LANGUAGES]:
+        ap.error(f"unknown language {', '.join(unknown)}; choose from {','.join(LANGUAGES)}")
 
-    seeds = load_hypotheses()
-    if a.only:
-        seeds = [s for s in seeds if s["id"] in a.only]
-    if a.domain:
-        seeds = [s for s in seeds if s.get("domain") in a.domain]
+    try:
+        hyps = load_hypotheses()
+    except (OSError, ValueError) as e:
+        ap.error(str(e))
+    # A mistyped name, or one from a pack not loaded, would otherwise just select less, down to
+    # an empty run that still replaces runs/latest.
+    if unknown := [*sorted(set(a.only or ()) - {h["id"] for h in hyps}),
+                   *sorted(set(a.domain or ()) - {h.get("domain") for h in hyps})]:
+        ap.error(f"no hypothesis id or domain {', '.join(unknown)} in the banks; "
+                 f"name its pack in {BANKS}, e.g. {BANKS}=examples/coding")
+    seeds = [h for h in hyps if (not a.only or h["id"] in a.only)
+             and (not a.domain or h.get("domain") in a.domain)]
     if a.replay:
         os.environ["REDTEAM_BACKEND"] = "replay"
     llm = llm_mod.detect()
@@ -47,7 +83,7 @@ def main(argv=None) -> dict:
         recorded = json.loads(llm_mod.MODELS_FILE.read_text()).get("hypotheses")
         seeds = [s for s in seeds if not recorded or s["id"] in recorded]
     print(f"backend={llm.backend} target={llm.model} red={getattr(llm, 'red_model', llm.model)}" + ("   <-- MOCK: results are NOT findings" if llm.backend == "MOCK" else ""))
-    cfg = Config(langs=a.langs.split(","), max_attempts=a.attempts, system=a.system,
+    cfg = Config(langs=langs, max_attempts=a.attempts, system=a.system,
                  label=a.label, parallel=a.parallel,
                  verify_seeds=[int(x) for x in a.seeds.split(",")], out_dir=RUNS)
     summary = run(llm, seeds, cfg)
