@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 from statistics import mean
 
-from .checks import Check, pct, rounded, rounding, stated
+from .checks import Check, pct, rounded, rounding, shares, stated
 from .rates import Share, two_way
 
 DIALECTS = {"ag": "Aargau", "be": "Bern", "bs": "Basel", "gr": "Graubünden", "lu": "Lucerne",
@@ -72,13 +72,6 @@ class Speech:
         return len({c["sentence_id"] for c in self.clips["apertus"]})
 
 
-def brief(at: str, stated_share: dict, s: Share) -> list[Check]:
-    return [Check(f"{at}.rate", stated_share.get("rate"), round(s.rate, 3)),
-            Check(f"{at}.ci95", stated_share.get("ci95"), rounded(s.wilson)),
-            Check(f"{at}.k", stated_share.get("k"), s.k),
-            Check(f"{at}.n", stated_share.get("n"), s.n)]
-
-
 def parameter_checks(at: str, p: dict, speech: Speech) -> list[Check]:
     scores, unrelated = speech.scores, p.get("unrelated", {})
     checks = [Check(f"{at}.harness_run_id", p.get("harness_run_id"), scores["run_id"]),
@@ -88,8 +81,8 @@ def parameter_checks(at: str, p: dict, speech: Speech) -> list[Check]:
               Check(f"{at}.unrelated keys", list(unrelated), [*speech.order, "all"])]
     for d in [*speech.order, None]:
         for name in speech.clips:
-            checks += brief(f"{at}.unrelated.{d or 'all'}.{name}",
-                            unrelated.get(d or "all", {}).get(name, {}), speech.share(name, d))
+            checks += shares(f"{at}.unrelated.{d or 'all'}.{name}",
+                             unrelated.get(d or "all", {}).get(name, {}), speech.share(name, d))
     for name, clips in speech.clips.items():
         checks += [Check(f"{at}.unrelated_cluster_ci95.{name}",
                          p.get("unrelated_cluster_ci95", {}).get(name),
@@ -97,9 +90,9 @@ def parameter_checks(at: str, p: dict, speech: Speech) -> list[Check]:
                    Check(f"{at}.mean_chrf.{name}", p.get("mean_chrf", {}).get(name),
                          mean_chrf(clips))]
     for verdict in RATED:
-        checks += brief(f"{at}.whisper_meaning.{verdict}",
-                        p.get("whisper_meaning", {}).get(verdict, {}),
-                        speech.share("whisper", verdict=verdict))
+        checks += shares(f"{at}.whisper_meaning.{verdict}",
+                         p.get("whisper_meaning", {}).get(verdict, {}),
+                         speech.share("whisper", verdict=verdict))
     return checks
 
 
@@ -170,7 +163,7 @@ def figure_checks(at: str, figure: dict, speech: Speech) -> list[Check]:
         row = rows.get(d, {})
         checks.append(Check(f"{at}.rows[{d}].name", row.get("name"), DIALECTS[d]))
         for name in speech.clips:
-            checks += brief(f"{at}.rows[{d}].{name}", row.get(name, {}), speech.share(name, d))
+            checks += shares(f"{at}.rows[{d}].{name}", row.get(name, {}), speech.share(name, d))
     for name in speech.clips:
         stated_all, s = figure.get("all", {}).get(name, {}), speech.share(name)
         checks += [Check(f"{at}.all.{name}.rate", stated_all.get("rate"), round(s.rate, 3)),

@@ -10,8 +10,7 @@ from pathlib import Path
 from redteam.events import read_events
 
 from .checks import Check
-from .replies import Replies
-from .verdicts import second_flag
+from .replies import Replies, second_flag
 
 
 @dataclass(frozen=True)

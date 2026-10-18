@@ -8,8 +8,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 from math import sqrt
 
-from .bounds import Bound
-from .exact import layout, spread
+from .bounds import Bound, layout, spread
 
 Z = 1.96
 # Ten times the harness's draws, so the cross-check's own sampling error stays small next to
@@ -48,9 +47,9 @@ def wilson(k: int, n: int) -> tuple[float, float]:
         return 0.0, 1.0
     p = k / n
     centre = p + Z * Z / (2 * n)
-    spread = Z * sqrt(p * (1 - p) / n + Z * Z / (4 * n * n))
+    margin = Z * sqrt(p * (1 - p) / n + Z * Z / (4 * n * n))
     scale = 1 + Z * Z / n
-    return max(0.0, (centre - spread) / scale), min(1.0, (centre + spread) / scale)
+    return max(0.0, (centre - margin) / scale), min(1.0, (centre + margin) / scale)
 
 
 def newcombe(first: Share, second: Share) -> tuple[float, float]:
@@ -79,8 +78,7 @@ def multiplicities(rng: random.Random, items: list) -> dict:
     return picked
 
 
-def two_way(values: dict[tuple, float], draws: int = DRAWS,
-            seed: int = SEED) -> tuple[Bound, Bound]:
+def two_way(values: dict[tuple, float], draws: int = DRAWS) -> tuple[Bound, Bound]:
     """95% interval of the mean of cells keyed by two kinds of cluster (hypothesis and language,
     or dialect and sentence): each resample draws both kinds, and a cell weighs as often as its
     row and its column were drawn."""
@@ -88,13 +86,13 @@ def two_way(values: dict[tuple, float], draws: int = DRAWS,
     enumerated = spread(items)
     if enumerated:
         return Bound.exact(enumerated, 0.025), Bound.exact(enumerated, 0.975)
-    return tuple(map(Bound.drawn, drawn(items, draws, seed)))
+    return tuple(map(Bound.drawn, drawn(items, draws)))
 
 
 @lru_cache(maxsize=None)
-def drawn(items: tuple, draws: int, seed: int) -> tuple[float, float]:
+def drawn(items: tuple, draws: int) -> tuple[float, float]:
     rows, cols, cells = layout(items)
-    rng = random.Random(seed)
+    rng = random.Random(SEED)
     means = []
     for _ in range(draws):
         row_n, col_n = [0] * len(rows), [0] * len(cols)
@@ -138,9 +136,9 @@ def paired_difference(premise, neutral, langs: list[str]) -> tuple[Bound, Bound]
     return low.no_higher_than(floor_low), high.no_lower_than(floor_high)
 
 
-def hypothesis_draws(size: int, draws: int = DRAWS, seed: int = SEED) -> list[dict[int, int]]:
+def hypothesis_draws(size: int, draws: int = DRAWS) -> list[dict[int, int]]:
     """Resamples of hypotheses by index, shared by every rate that is compared."""
-    rng = random.Random(seed)
+    rng = random.Random(SEED)
     return [multiplicities(rng, list(range(size))) for _ in range(draws)]
 
 

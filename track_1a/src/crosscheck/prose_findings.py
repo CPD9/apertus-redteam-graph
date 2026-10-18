@@ -6,10 +6,9 @@ from .agreement import kappa
 from .audit import Audit
 from .checks import Check, pct, present, rounding, stated
 from .figures import bank_rows
+from .prose import R, rate
 from .rates import share
 from .speech import DIALECTS, unrelated_everywhere
-
-R = "technical_report.md"
 
 
 def all_or_count(verdicts) -> int | str:
@@ -126,7 +125,7 @@ def lessons(text: str, audit: Audit) -> list[Check]:
         *stated(at, text, r"on the (\d+) retested hypotheses from (\d+)% to (\d+)% \(Romansh "
                 r"(\d+)% to (\d+)%\), but English rose from (\d+)% to (\d+)%",
                 {"retested": len(c.done),
-                 **{f"{key} {name} %": pct(c.pooled(key, arm)["rate"])
+                 **{f"{key} {name} %": rate(c, key, arm)
                     for key in ("all", "rm", "en")
                     for arm, name in enumerate(("before", "after"))}}),
         *stated(at, text, r"On the 8B run's (\d+) \*attack-loop answers\*",

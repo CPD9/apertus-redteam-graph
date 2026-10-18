@@ -14,11 +14,33 @@
   "seed": 18,
   "redrawn tolerance": 0.03
  },
- "checked": 1731,
- "numeric": 1377,
- "design constants": 9,
+ "checked": 1746,
+ "numeric": 1378,
+ "design constants": 13,
  "2000-draw estimates off the exact quantile": 15,
  "differ": 0,
+ "sections": {
+  "recorded runs": {
+   "checked": 9,
+   "differ": 0
+  },
+  "findings/*.json": {
+   "checked": 590,
+   "differ": 0
+  },
+  "docs/figures/numbers.json": {
+   "checked": 981,
+   "differ": 0
+  },
+  "technical_report.md": {
+   "checked": 158,
+   "differ": 0
+  },
+  "second judge (rejudge.json)": {
+   "checked": 8,
+   "differ": 0
+  }
+ },
  "replay": {
   "verified answers": {
    "canonical": 738,
@@ -1251,6 +1273,20 @@
    "ok": true
   },
   {
+   "source": "findings/civic_sycophancy.json issue_summary.overview says 'By language, one prompt each:'",
+   "expected": false,
+   "recomputed": false,
+   "tolerance": 0,
+   "ok": true
+  },
+  {
+   "source": "findings/civic_sycophancy.json issue_summary.overview counted answers read as the paired language",
+   "expected": {},
+   "recomputed": {},
+   "tolerance": 0,
+   "ok": true
+  },
+  {
    "source": "findings/civic_sycophancy.json issue_summary.overview neutral %",
    "expected": 35,
    "recomputed": 35,
@@ -1321,7 +1357,14 @@
    "ok": true
   },
   {
-   "source": "findings/civic_sycophancy.json issue_summary.overview says 'clearly more likely'",
+   "source": "findings/civic_sycophancy.json issue_summary.overview says that the gap is biased upward",
+   "expected": true,
+   "recomputed": true,
+   "tolerance": 0,
+   "ok": true
+  },
+  {
+   "source": "findings/civic_sycophancy.json issue_summary.overview says 'makes the error more likely'",
    "expected": true,
    "recomputed": true,
    "tolerance": 0,
@@ -1459,6 +1502,20 @@
    ],
    "tolerance": 0,
    "ok": true
+  },
+  {
+   "source": "findings/civic_sycophancy.json issue_summary.self_assessed_breadth_justification languages over bar where the judge is unclear",
+   "expected": [
+    "gsw",
+    "rm"
+   ],
+   "recomputed": [
+    "gsw",
+    "rm"
+   ],
+   "tolerance": 0,
+   "ok": true,
+   "constant": true
   },
   {
    "source": "findings/civic_sycophancy.json issue_summary.self_assessed_breadth_justification replica reproduced",
@@ -2181,6 +2238,20 @@
    "ok": true
   },
   {
+   "source": "findings/private_person_fabrication.json issue_summary.overview says 'By language, one prompt each:'",
+   "expected": true,
+   "recomputed": true,
+   "tolerance": 0,
+   "ok": true
+  },
+  {
+   "source": "findings/private_person_fabrication.json issue_summary.overview counted answers read as the paired language",
+   "expected": {},
+   "recomputed": {},
+   "tolerance": 0,
+   "ok": true
+  },
+  {
    "source": "findings/private_person_fabrication.json issue_summary.overview neutral %",
    "expected": 0,
    "recomputed": 0,
@@ -2306,8 +2377,8 @@
   },
   {
    "source": "findings/private_person_fabrication.json issue_summary.self_assessed_breadth",
-   "expected": "2",
-   "recomputed": "2",
+   "expected": "1",
+   "recomputed": "1",
    "tolerance": 0,
    "ok": true
   },
@@ -2357,6 +2428,20 @@
    ],
    "tolerance": 0,
    "ok": true
+  },
+  {
+   "source": "findings/private_person_fabrication.json issue_summary.self_assessed_breadth_justification languages over bar where the judge is unclear",
+   "expected": [
+    "gsw",
+    "rm"
+   ],
+   "recomputed": [
+    "gsw",
+    "rm"
+   ],
+   "tolerance": 0,
+   "ok": true,
+   "constant": true
   },
   {
    "source": "findings/private_person_fabrication.json issue_summary.self_assessed_breadth_justification replica reproduced",
@@ -3299,6 +3384,20 @@
    "ok": true
   },
   {
+   "source": "findings/safety_knowledge_gaps.json issue_summary.overview says 'By language, one prompt each:'",
+   "expected": false,
+   "recomputed": false,
+   "tolerance": 0,
+   "ok": true
+  },
+  {
+   "source": "findings/safety_knowledge_gaps.json issue_summary.overview counted answers read as the paired language",
+   "expected": {},
+   "recomputed": {},
+   "tolerance": 0,
+   "ok": true
+  },
+  {
    "source": "findings/safety_knowledge_gaps.json issue_summary.overview neutral %",
    "expected": 75,
    "recomputed": 75,
@@ -3477,6 +3576,20 @@
    ],
    "tolerance": 0,
    "ok": true
+  },
+  {
+   "source": "findings/safety_knowledge_gaps.json issue_summary.self_assessed_breadth_justification languages over bar where the judge is unclear",
+   "expected": [
+    "gsw",
+    "rm"
+   ],
+   "recomputed": [
+    "gsw",
+    "rm"
+   ],
+   "tolerance": 0,
+   "ok": true,
+   "constant": true
   },
   {
    "source": "findings/safety_knowledge_gaps.json issue_summary.self_assessed_breadth_justification replica reproduced",
@@ -4271,6 +4384,32 @@
    "ok": true
   },
   {
+   "source": "findings/pension_rules.json issue_summary.overview says 'By language, one prompt each:'",
+   "expected": false,
+   "recomputed": false,
+   "tolerance": 0,
+   "ok": true
+  },
+  {
+   "source": "findings/pension_rules.json issue_summary.overview counted answers read as the paired language",
+   "expected": {
+    "gsw": [
+     4,
+     5,
+     "Standard German"
+    ]
+   },
+   "recomputed": {
+    "gsw": [
+     4,
+     5,
+     "Standard German"
+    ]
+   },
+   "tolerance": 0,
+   "ok": true
+  },
+  {
    "source": "findings/pension_rules.json issue_summary.overview neutral %",
    "expected": 72,
    "recomputed": 72,
@@ -4449,6 +4588,20 @@
    ],
    "tolerance": 0,
    "ok": true
+  },
+  {
+   "source": "findings/pension_rules.json issue_summary.self_assessed_breadth_justification languages over bar where the judge is unclear",
+   "expected": [
+    "gsw",
+    "rm"
+   ],
+   "recomputed": [
+    "gsw",
+    "rm"
+   ],
+   "tolerance": 0,
+   "ok": true,
+   "constant": true
   },
   {
    "source": "findings/pension_rules.json issue_summary.self_assessed_breadth_justification replica reproduced",
@@ -5463,6 +5616,13 @@
    "ok": true
   },
   {
+   "source": "findings/speech_dialect_hallucination.json issue_summary.overview lowest mean chrF",
+   "expected": "Lucerne",
+   "recomputed": "Lucerne",
+   "tolerance": 0,
+   "ok": true
+  },
+  {
    "source": "findings/speech_dialect_hallucination.json issue_summary.overview speakers",
    "expected": 8,
    "recomputed": 8,
@@ -5550,6 +5710,13 @@
    "source": "findings/speech_dialect_hallucination.json issue_summary.observed_behavior n",
    "expected": 480,
    "recomputed": 480,
+   "tolerance": 0,
+   "ok": true
+  },
+  {
+   "source": "findings/speech_dialect_hallucination.json issue_summary.self_assessed_breadth_justification speakers",
+   "expected": 8,
+   "recomputed": 8,
    "tolerance": 0,
    "ok": true
   },
@@ -17633,6 +17800,10 @@
   {
    "what": "findings/*.json harness_red_model, judge_model and the *_version fields",
    "why": "the full name behind the served alias and the weight commits come from infra/ and the Hugging Face API, not from the recorded data"
+  },
+  {
+   "what": "findings/*.json 'counted in Standard German' after a language's rate",
+   "why": "which answers the word list reads as Standard German or Italian is taken as docs/audit/stimuli.json lists it (scripts/report_stimuli.py, redteam.lang_profile); which of them count, and whether they are most of the counted ones, is re-derived"
   },
   {
    "what": "findings/*.json quotes in observed_behavior and the walkthroughs",

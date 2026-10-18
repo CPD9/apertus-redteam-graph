@@ -8,8 +8,7 @@ from pathlib import Path
 
 from redteam.events import read_events
 
-from .replies import Missing, Replies
-from .verdicts import counts, flag_and_severity
+from .replies import Missing, Replies, counts, flag_and_severity
 
 # A hypothesis is left out whole when one of its calls is missing, its hypothesis is no longer
 # in the banks, or a judge reply does not parse.
@@ -92,16 +91,11 @@ def unlike_log(run: Run) -> int:
 def replay(run: Run, cells: list[tuple], refs: dict[str, dict], replies: Replies) -> None:
     for hypothesis in dict.fromkeys(cell[0] for cell in cells):
         try:
-            run.verdicts += [verified(run, replies, refs[hyp]["reference"], hyp, lang, seed, prompt)
+            run.verdicts += [judged(run, replies, refs[hyp]["reference"], hyp, lang, seed, prompt,
+                                    replies.answer(run.model, prompt, seed, run.system))
                              for hyp, lang, seed, prompt in cells if hyp == hypothesis]
         except UNREPLAYABLE:
             run.unreplayed.append(hypothesis)
-
-
-def verified(run: Run, replies: Replies, reference: str, hyp: str, lang: str, seed: int,
-             prompt: str) -> Verdict:
-    answer = replies.answer(run.model, prompt, seed, run.system)
-    return judged(run, replies, reference, hyp, lang, seed, prompt, answer)
 
 
 def judged(run: Run, replies: Replies, reference: str, hyp: str, lang: str, seed: int,

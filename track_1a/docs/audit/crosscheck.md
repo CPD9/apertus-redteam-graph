@@ -2,10 +2,14 @@
 
 `PYTHONPATH=src python3 -m crosscheck` (or `make crosscheck`) re-derives the values in
 `findings/*.json`, `docs/figures/numbers.json`, the report's summary table and its running text
-from the recorded data alone, and prints each as source, expected, recomputed, OK/DIFF. It exits 1
-on any difference. `crosscheck.json` next to this note holds every check, the replay counts and
-the list of what is not covered (`python3 -m crosscheck --json docs/audit/crosscheck.json`). Every
-number below is in that file.
+from the recorded data alone. It prints a summary first (the checks per section and how many
+differ, then the replay counts), then each value as source | expected | recomputed | OK or DIFF,
+section by section, and what it does not re-derive. The differences and the totals come last, so
+the end of the output shows what differs. `--diffs` prints only the summary, the differences and
+the totals. It exits 1 on any difference. `crosscheck.json` next to this note holds every check,
+the counts per section (`sections`), the replay counts and the list of what is not covered
+(`PYTHONPATH=src python3 -m crosscheck --json docs/audit/crosscheck.json`). Every number below is
+in that file.
 
 Runs: 8B `20261016-172309-1f71`, 70B `20261017-140533-a21a`, 70B with the mitigation prompt
 `20261017-144423-5519`, bank 2 on the 70B `20261017-143329-b04d`, speech
@@ -28,12 +32,15 @@ control, the run comparisons, Wilson, Newcombe and both bootstraps are written a
 
 ## Result
 
-1,731 checks, 0 differ. 1,377 of them compare numbers. The rest compare titles, run ids, prompts,
-orderings and whether a sentence is there. 9 compare against design constants rather than
-re-derived values: the temperature 0.7 and the 700-token limit in each of the four themed
-findings (the cache keys confirm both, since no target call is found with other values) and the
-34% bar. Every count, rate, Wilson interval, list and point estimate agrees exactly, including the
-summary table, the abstract, judge agreement (κ 0.19 and 0.14) and bank 2.
+1,746 checks, 0 differ: 9 on the recorded runs, 590 on the findings, 981 on numbers.json, 158 on the
+report and 8 on the second judge's files. 1,378 of them compare numbers. The rest compare titles,
+run ids, prompts, orderings and whether a sentence is there. 13 compare against design constants
+rather than re-derived values: the temperature 0.7 and the 700-token limit in each of the four
+themed findings (the cache keys confirm both, since no target call is found with other values), the
+34% bar, and in each themed finding the languages where the judge's accuracy is called unclear
+(Swiss German and Romansh, taken from `calibration.md`). Every count, rate, Wilson interval, list
+and point estimate agrees exactly, including the summary table, the abstract, judge agreement
+(κ 0.19 and 0.14) and bank 2.
 
 **Bootstrap bounds.** On grids of up to 20,000 resamples (themes with 1, 2 or 4 variations over 6
 languages), the cross-check enumerates every resample and gets the bootstrap's exact
@@ -62,17 +69,17 @@ premise CI and table rows 3 and 4):
 | safety_knowledge_gaps pooled, lower / upper | 0.375 / 0.958 | 0.389 / 0.972 | 0.0181 / 0.0216; 0.9624 / 0.9725 | 0.347–0.417; 0.958–0.986 |
 | safety_knowledge_gaps on the 70B, lower | 0.181 | 0.167 | 0.0255 / 0.0298 | 0.139–0.194 |
 
-One standard error of a 2.5% point from 2,000 draws is 0.0035. Two stated lower bounds lie
-1.5 and 1.7 standard errors short of 2.5%: pension pooled (0.0199 at or below 0.278, so 0.0051
-short) and safety neutral (0.0190 at or below 0.417, so 0.0060 short). They are uncommon
-2,000-draw outcomes, but within the rule. The other bounds lie within one standard error of 2.5%
-or 97.5%, so they are common 2,000-draw outcomes. For pension pooled, 2,000 draws can give
-anything from one 1/18 step below the exact bound to one step above it (0.278 to 0.389 around
-0.333). Steps of 1/18 between possible means near a bound occur only on the two-variation pension grid;
-the safety theme has four variations, so its bounds move by other amounts. A stated bound away from the exact quantile is
-a possible outcome of the documented method, not a counting error. More draws in
-`redteam/stats.py` would bring the stated bounds to the exact ones. That is outside this package
-and optional, since the check passes either way.
+One standard error of a 2.5% point from 2,000 draws is 0.0035. Two stated lower bounds lie 1.5 and
+1.7 standard errors short of 2.5%: pension pooled (0.0199 at or below 0.278, so 0.0051 short) and
+safety neutral (0.0190 at or below 0.417, so 0.0060 short). They are uncommon 2,000-draw outcomes,
+but within the rule. The other bounds lie within one standard error of 2.5% or 97.5%, so they are
+common 2,000-draw outcomes. For pension pooled, 2,000 draws can give anything from one 1/18 step
+below the exact bound to one step above it (0.278 to 0.389 around 0.333). Steps of 1/18 between
+possible means near a bound occur only on the two-variation pension grid; the safety theme has four
+variations, so its bounds move by other amounts. A stated bound away from the exact quantile is a
+possible outcome of the documented method, not a counting error. More draws in `redteam/stats.py`
+would bring the stated bounds to the exact ones. That is outside this package and optional, since
+the check passes either way.
 
 ## How far this goes
 

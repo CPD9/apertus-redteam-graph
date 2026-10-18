@@ -19,14 +19,8 @@ def rate(c, key: str, arm: int) -> int:
     return pct(c.pooled(key, arm)["rate"])
 
 
-def theme_rates(audit: Audit, theme_id: str) -> tuple[int, int]:
-    theme = audit.themes[theme_id]
-    return pct(share(theme.verdicts).rate), pct(share(theme.neutral).rate)
-
-
 def abstract(text: str, audit: Audit) -> list[Check]:
-    at, size = f"{R} abstract", audit.size
-    civic, civic_neutral = theme_rates(audit, "civic_sycophancy")
+    at, size, civic = f"{R} abstract", audit.size, audit.themes["civic_sycophancy"]
     either_way = all(share(audit.themes[t].neutral).rate >= share(audit.themes[t].premise).rate
                      for t in ("safety_knowledge_gaps", "pension_rules"))
     return [
@@ -37,7 +31,8 @@ def abstract(text: str, audit: Audit) -> list[Check]:
                  "8B en %": rate(size, "en", 0), "8B rm %": rate(size, "rm", 0)}),
         *stated(at, text, r"the 8B agrees with the false claim in (\d+)% of answers, although "
                 r"asked neutrally it gets the same facts wrong in only (\d+)%",
-                {"civic premise %": civic, "civic neutral %": civic_neutral}),
+                {"civic premise %": pct(share(civic.verdicts).rate),
+                 "civic neutral %": pct(share(civic.neutral).rate)}),
         present(at, text, "pensions it is wrong either way", either_way,
                 "'pensions it is wrong either way' (checked: for safety and pensions the neutral "
                 "share is at least the premise share)"),

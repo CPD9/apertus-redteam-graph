@@ -26,6 +26,7 @@ MITIGATION_NAMES = ["No system prompt", "Mitigation system prompt"]
 @dataclass
 class Audit:
     banks: dict[str, list[dict]]
+    refs: dict[str, dict]  # every hypothesis of the banks, by id
     themes_spec: list[dict]
     runs: dict[str, Run]
     neutral: list[Verdict]
@@ -37,10 +38,6 @@ class Audit:
     agreement: dict[str, Agreement]
     tally: dict[str, int]  # how the judge replies read
     read_as: set[tuple]  # (run, hypothesis, lang, seed) the word list reads as the pair language
-
-    @property
-    def refs(self) -> dict[str, dict]:
-        return {h["id"]: h for bank in self.banks.values() for h in bank}
 
     @property
     def titles(self) -> dict[str, str]:
@@ -70,7 +67,7 @@ def load(root: Path) -> Audit:
                   for name in ("canonical", "target70")}
     sizes = [run.model.rsplit("/", 1)[-1] for run in (canonical, runs["target70"])]
     listed = read_json(root / "docs" / "audit" / "stimuli.json")["answers_listed"]
-    return Audit(banks, specs, runs, verdicts, unreplayed, themes,
+    return Audit(banks, refs, specs, runs, verdicts, unreplayed, themes,
                  compare(canonical, runs["target70"], sizes),
                  compare(runs["target70"], runs["mitigation"], MITIGATION_NAMES),
                  Speech(read_json(shipped / "speech" / SPEECH_RUN / "scores.json")), agreements,

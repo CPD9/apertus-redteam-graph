@@ -11,9 +11,9 @@ from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from crosscheck import agreement, bounds, checks, compare, exact, figures, prose  # noqa: E402
-from crosscheck import rates, replies, runs, speech, table, theme_text, themes  # noqa: E402
-from crosscheck import verdicts  # noqa: E402
+from crosscheck import __main__ as cli  # noqa: E402
+from crosscheck import agreement, bounds, checks, compare, figures, prose, rates  # noqa: E402
+from crosscheck import replies, runs, sections, speech, table, theme_text, themes  # noqa: E402
 from crosscheck.bounds import Bound  # noqa: E402
 from crosscheck.replies import Replies  # noqa: E402
 from redteam import agents, judge  # noqa: E402
@@ -190,18 +190,18 @@ class SyntheticRunTest(unittest.TestCase):
 
 class VerdictTest(unittest.TestCase):
     def test_strict_reads_from_the_first_to_the_last_brace(self):
-        self.assertEqual(verdicts.strict_object('Here: {"a": {"b": 1}} ok'), {"a": {"b": 1}})
+        self.assertEqual(replies.strict_object('Here: {"a": {"b": 1}} ok'), {"a": {"b": 1}})
         for broken in ("no object", '{"a": 1} and {"b": 2}', '{"a": "x\ny"}'):
             with self.assertRaises(ValueError):
-                verdicts.strict_object(broken)
+                replies.strict_object(broken)
 
     def test_lenient_accepts_raw_newlines_and_trailing_text_in_order(self):
-        self.assertEqual(verdicts.lenient_object("nothing", '{"a": "x\ny"} {'), {"a": "x\ny"})
+        self.assertEqual(replies.lenient_object("nothing", '{"a": "x\ny"} {'), {"a": "x\ny"})
         with self.assertRaises(ValueError):
-            verdicts.lenient_object("{broken", "none")
+            replies.lenient_object("{broken", "none")
 
     def test_flag_comes_from_the_claims_or_the_behaviour(self):
-        flag = verdicts.flag_and_severity
+        flag = replies.flag_and_severity
         self.assertEqual(flag({"claims": [{"verdict": "contradicted"}], "severity": 4}), (True, 4))
         self.assertEqual(flag({"claims": [{"verdict": "supported"}], "severity": 4}), (False, 0))
         self.assertEqual(flag({"claims": "x", "behavior_violation": True, "severity": "3"}),
@@ -210,9 +210,9 @@ class VerdictTest(unittest.TestCase):
 
     def test_typed_wants_each_field_with_exactly_its_type(self):
         kinds = {"severity": int, "behavior_violation": bool}
-        self.assertTrue(verdicts.typed({"severity": 2, "behavior_violation": False}, kinds))
-        self.assertFalse(verdicts.typed({"severity": True, "behavior_violation": False}, kinds))
-        self.assertFalse(verdicts.typed({"severity": 2}, kinds))
+        self.assertTrue(replies.typed({"severity": 2, "behavior_violation": False}, kinds))
+        self.assertFalse(replies.typed({"severity": True, "behavior_violation": False}, kinds))
+        self.assertFalse(replies.typed({"severity": 2}, kinds))
 
     def test_a_reply_broken_after_the_repair_turn_is_read_leniently(self):
         first, repaired = "{broken", '{"severity": 2, "note": "a\nb"}'
@@ -226,10 +226,10 @@ class VerdictTest(unittest.TestCase):
                                              "then read leniently": 1})
 
     def test_only_flagged_answers_rated_above_zero_count(self):
-        self.assertEqual([verdicts.counts(f, s) for f, s in [(True, 1), (True, 0), (False, 5)]],
+        self.assertEqual([replies.counts(f, s) for f, s in [(True, 1), (True, 0), (False, 5)]],
                          [True, False, False])
-        self.assertTrue(verdicts.second_flag({"undesired": True}))
-        self.assertFalse(verdicts.second_flag({"contradicts": False}))
+        self.assertTrue(replies.second_flag({"undesired": True}))
+        self.assertFalse(replies.second_flag({"contradicts": False}))
 
 
 def verdict(hyp, lang, counted, flagged=None, seed=11):
@@ -309,20 +309,20 @@ class RatesTest(unittest.TestCase):
 # Cells [[1, 1], [1, 0]] over rows a, b and columns x, y: for row counts r and column counts c
 # the mean is (2 r_a + r_b c_x) / 4, so it is 0, 0.5, 0.75 or 1 with chances 1, 4, 4 and 7 in 16.
 SQUARE = {("a", "x"): 1.0, ("a", "y"): 1.0, ("b", "x"): 1.0, ("b", "y"): 0.0}
-LADDER = exact.Spread((0.1, 0.2, 0.3, 0.4), (0.01, 0.02, 0.03, 1.0))
+LADDER = bounds.Spread((0.1, 0.2, 0.3, 0.4), (0.01, 0.02, 0.03, 1.0))
 
 
 class ExactTest(unittest.TestCase):
     def test_compositions_and_their_chances(self):
-        draws = list(exact.compositions(2, 2))
+        draws = list(bounds.compositions(2, 2))
         self.assertEqual(draws, [(2, 0), (1, 1), (0, 2)])
-        self.assertEqual([exact.chance(c) for c in draws], [0.25, 0.5, 0.25])
-        self.assertEqual(exact.resamples(6), 462)
-        self.assertEqual(len(list(exact.compositions(6, 6))), 462)
-        self.assertAlmostEqual(sum(map(exact.chance, exact.compositions(4, 4))), 1)
+        self.assertEqual([bounds.chance(c) for c in draws], [0.25, 0.5, 0.25])
+        self.assertEqual(bounds.resamples(6), 462)
+        self.assertEqual(len(list(bounds.compositions(6, 6))), 462)
+        self.assertAlmostEqual(sum(map(bounds.chance, bounds.compositions(4, 4))), 1)
 
     def test_spread_of_a_two_by_two_grid(self):
-        spread = exact.spread(tuple(sorted(SQUARE.items())))
+        spread = bounds.spread(tuple(sorted(SQUARE.items())))
         self.assertEqual(spread.means, (0.0, 0.5, 0.75, 1.0))
         self.assertEqual(spread.upto, (1 / 16, 5 / 16, 9 / 16, 1.0))
         self.assertEqual((spread.quantile(0.025), spread.quantile(0.975)), (0.0, 1.0))
@@ -331,14 +331,14 @@ class ExactTest(unittest.TestCase):
     def test_spread_leaves_out_resamples_that_miss_every_cell(self):
         # Diagonal cells: 2 of 16 resamples pick a row and a column that share no cell. Of the
         # other 14, 5 give 0, 4 give 0.5 and 5 give 1.
-        spread = exact.spread(((("a", "x"), 0.0), (("b", "y"), 1.0)))
+        spread = bounds.spread(((("a", "x"), 0.0), (("b", "y"), 1.0)))
         self.assertEqual(spread.means, (0.0, 0.5, 1.0))
         self.assertEqual([round(x, 12) for x in spread.upto], [round(5 / 14, 12),
                                                                round(9 / 14, 12), 1.0])
 
     def test_large_grids_are_not_enumerated(self):
         cells = tuple(((row, col), 0.0) for row in "abcde" for col in "uvwxyz")
-        self.assertIsNone(exact.spread(cells))
+        self.assertIsNone(bounds.spread(cells))
 
     def test_estimates_come_within_the_slack(self):
         # From 2.5% - 1% up to the first cumulative chance above 2.5% + 1%.
@@ -575,6 +575,48 @@ class CheckTest(unittest.TestCase):
         missing = checks.stated("r", text, r"absent (\d+)", {"x": 1})
         self.assertFalse(missing[0].ok)
         self.assertEqual(checks.pct(106 / 144), 74)
+
+    def test_a_share_is_checked_as_rate_interval_and_counts(self):
+        found = checks.shares("at", {"rate": 0.5, "ci95": [0.237, 0.763], "k": 5, "n": 10},
+                              rates.Share(5, 10))
+        self.assertEqual([c.source for c in found], ["at.rate", "at.ci95", "at.k", "at.n"])
+        self.assertTrue(all(c.ok for c in found))
+
+
+class OutputTest(unittest.TestCase):
+    SECTIONS = {"runs": [checks.Check("a", 1, 1)],
+                "report": [checks.Check("b", 2, 2), checks.Check("c", 3, 4)]}
+    REPLAY = {"verified answers": {"x": 2}, "neutral answers": 1,
+              "second-judge verdicts": {"x": 1}, "judge replies": {"judge replies": 3}}
+
+    def test_a_section_that_cannot_be_read_is_one_difference(self):
+        audit = SimpleNamespace(runs={}, themes_spec=[], themes={}, agreement={})
+        with tempfile.TemporaryDirectory() as root:
+            found = sections.all_checks(audit, Path(root))
+        self.assertEqual(list(found), ["recorded runs", "findings/*.json",
+                                       "docs/figures/numbers.json", "technical_report.md",
+                                       "second judge (rejudge.json)"])
+        self.assertEqual([[c.ok for c in part] for part in found.values()],
+                         [[False], [False], [False], [False], []])
+
+    def test_the_summary_comes_first_with_each_section(self):
+        found = [c for part in self.SECTIONS.values() for c in part]
+        lines = cli.summary(cli.tallied(found), cli.per_section(self.SECTIONS), self.REPLAY)
+        self.assertTrue(lines[0].startswith("3 checks against") and lines[0].endswith("1 differ."))
+        self.assertEqual(lines[2:5], ["section  checks  differ", "runs          1       0",
+                                      "report        2       1"])
+
+    def test_the_json_keeps_every_check_and_counts_per_section(self):
+        found = [c for part in self.SECTIONS.values() for c in part]
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "cc.json"
+            cli.written(path, cli.tallied(found), cli.per_section(self.SECTIONS), self.REPLAY,
+                        found)
+            out = json.loads(path.read_text())
+        self.assertEqual((out["checked"], out["differ"]), (3, 1))
+        self.assertEqual(out["sections"], {"runs": {"checked": 1, "differ": 0},
+                                           "report": {"checked": 2, "differ": 1}})
+        self.assertEqual([c["source"] for c in out["checks"]], ["a", "b", "c"])
 
 
 class TableTest(unittest.TestCase):

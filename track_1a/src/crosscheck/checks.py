@@ -150,6 +150,14 @@ def stated(source: str, text: str, pattern: str, recomputed: dict, tolerance: fl
             for (label, mine), found in zip(recomputed.items(), match.groups(), strict=True)]
 
 
+def shares(at: str, said: dict, share) -> list[Check]:
+    """The rate, Wilson interval and counts a file states for one share."""
+    return [Check(f"{at}.rate", said.get("rate"), round(share.rate, 3)),
+            Check(f"{at}.ci95", said.get("ci95"), rounded(share.wilson)),
+            Check(f"{at}.k", said.get("k"), share.k),
+            Check(f"{at}.n", said.get("n"), share.n)]
+
+
 def present(source: str, text: str, phrase: str, recomputed: bool, label: str = "") -> Check:
     """Whether a text says something the recomputed numbers do or do not support."""
     return Check(f"{source} says {label or repr(phrase)}", phrase in flat(text), recomputed)
