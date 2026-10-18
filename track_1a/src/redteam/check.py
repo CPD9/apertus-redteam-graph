@@ -1,25 +1,37 @@
-"""Validate every findings file (submission + latest run) against findings/findings.schema."""
+"""Validate the submitted findings (findings/*.json, at most five) and those of the latest local
+run against findings/findings.schema."""
 import json
 import sys
 from pathlib import Path
 
+from . import paths
 from .scribe import validate
 
-ROOT = Path(__file__).resolve().parents[2]
+FINDINGS = paths.ROOT / "findings"
+MAX_SUBMITTED = 5  # the case accepts up to five findings files
+
+
+def files() -> tuple[list[Path], list[Path]]:
+    """The submitted findings files, and the files the latest local run wrote."""
+    latest = paths.run_dir("latest")
+    run = sorted((latest / "findings").glob("*.json")) if latest else []
+    return sorted(FINDINGS.glob("*.json")), run
+
+
+def report(path: Path) -> bool:
+    errors = validate(json.loads(path.read_text()))
+    name = path.relative_to(paths.ROOT) if path.is_relative_to(paths.ROOT) else path
+    print(("FAIL " if errors else "OK   ") + str(name), *errors, sep="\n     ")
+    return not errors
 
 
 def main() -> int:
-    files = [p for p in (ROOT / "findings").glob("*.json") if p.name != "example_findings.json"]
-    latest = ROOT / "runs" / "latest"
-    if latest.exists():
-        files += sorted((ROOT / "runs" / latest.read_text().strip() / "findings").glob("*.json"))
-    bad = 0
-    for f in files:
-        errs = validate(json.loads(f.read_text()))
-        print(("OK   " if not errs else "FAIL ") + str(f.relative_to(ROOT)), *errs, sep="\n     " if errs else "")
-        bad += bool(errs)
-    print(f"{len(files) - bad}/{len(files)} findings files valid")
-    return 1 if bad else 0
+    submitted, run = files()
+    valid = [report(path) for path in submitted + run]
+    print(f"{sum(valid)}/{len(valid)} findings files valid")
+    if len(submitted) > MAX_SUBMITTED:
+        print(f"FAIL {len(submitted)} findings files in findings/, at most {MAX_SUBMITTED} allowed")
+    return 0 if all(valid) and len(submitted) <= MAX_SUBMITTED else 1
 
 
 if __name__ == "__main__":

@@ -1,0 +1,49 @@
+/* The overview: one sentence, the five findings drawn to scale, and how each audit came out. */
+.overview{max-width:1080px}
+.okicker{margin:4px 0 6px;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red-ink)}
+.ohead{margin:0 0 14px;font-size:clamp(24px,3.4vw,38px);line-height:1.15;letter-spacing:-.02em;font-weight:750;max-width:30ch}
+.ohead u{text-decoration-color:var(--red);text-decoration-thickness:.12em;text-underline-offset:.12em}
+.ohow{margin:0 0 30px;color:var(--muted);font-size:15px;max-width:80ch}
+.ohow p{margin:0 0 4px}
+.ohow b{color:var(--ink)}
+.oaxis{margin:-4px 0 6px;font-size:13px;color:var(--muted)}
+
+.ofind{display:grid;grid-template-columns:34px 1fr;gap:4px 14px;padding:18px 0;border-top:1px solid var(--line)}
+.orank{font-size:24px;font-weight:750;line-height:1.1;color:var(--muted);font-variant-numeric:tabular-nums}
+.obody{min-width:0}
+.ofind h3{margin:0;font-size:17px;line-height:1.3;letter-spacing:-.01em}
+.ometa{margin:2px 0 10px;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+
+/* A row: label, bar with its interval, and the numbers in words. */
+.obars{display:grid;gap:6px}
+.orow{display:grid;grid-template-columns:290px minmax(120px,1fr) 240px;gap:4px 14px;align-items:center;font-size:13.5px}
+.olabel{color:var(--muted)}
+.otrack{position:relative;height:14px;border-radius:3px;background:var(--h0)}
+.ofill{position:absolute;inset:0 auto 0 0;border-radius:3px;background:var(--red)}
+.orow.other .ofill{background:var(--field-line)}
+.ociw{position:absolute;top:50%;height:2px;margin-top:-1px;background:var(--ink)}
+.ociw::before,.ociw::after{content:"";position:absolute;top:-4px;width:2px;height:10px;background:var(--ink)}
+.ociw::before{left:0}
+.ociw::after{right:0}
+.oval{font-variant-numeric:tabular-nums;color:var(--muted)}
+.oval b{color:var(--ink);font-size:15px;margin-right:4px}
+.oread{margin:10px 0 4px;font-size:14px;max-width:90ch}
+.olinks{margin:0;font-size:14px;font-weight:600}
+.olinks a{color:var(--ink)}
+.olinks a:hover{color:var(--red-ink)}
+
+/* How we know */
+.oknow{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.oknow ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.oknow li{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.oknow h3{margin:0;font-size:14px}
+.oknow li p{margin:0;font-size:14px;flex:1}
+.oknow code{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);overflow-wrap:anywhere}
+.onote{margin:12px 0 0;font-size:13.5px;color:var(--muted);max-width:90ch}
+.onote a{color:var(--ink)}
+
+@media (max-width:760px){
+  .orow{grid-template-columns:1fr;gap:2px}
+  .ofind{grid-template-columns:1fr}
+  .orank{font-size:15px}
+}

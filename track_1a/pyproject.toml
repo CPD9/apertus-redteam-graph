@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+# Install editable from track_1a/ (pip install -e .): the harness reads findings/, data/ and runs/
+# next to src/, so it runs from this checkout rather than from site-packages.
+[project]
+name = "apertus-redteam"
+version = "0.2.0"
+description = "Multilingual red-team agent graph for Apertus, with replayable findings"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+dependencies = []
+
+[project.scripts]
+apertus-redteam = "redteam.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+redteam = ["*.json", "hypotheses/*.json", "hypotheses/*.txt"]

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 359" width="360" height="359" role="img" aria-labelledby="title" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title id="title">Share of wrong answers per language, Apertus-v1.5-8B versus Apertus-v1.5-70B-FP8</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="12.0" y="12.5" width="9" height="9" rx="2" fill="#f08a7f"/>
+<text x="25.0" y="21.0" font-size="10.5" fill="#4b5260" text-anchor="start">Apertus-v1.5-8B</text>
+<rect x="120.7" y="12.5" width="9" height="9" rx="2" fill="#a8101f"/>
+<text x="133.7" y="21.0" font-size="10.5" fill="#4b5260" text-anchor="start">Apertus-v1.5-70B-FP8</text>
+<path d="M261.1,17.0H275.1M261.1,14.0V20.0M275.1,14.0V20.0" stroke="#4b5260" fill="none"/>
+<text x="280.1" y="21.0" font-size="10.5" fill="#4b5260" text-anchor="start">95% CI</text>
+<path d="M93.3,35V244.5" stroke="#c3c1b8"/>
+<text x="93.3" y="256.5" font-size="10" fill="#868b94" text-anchor="middle">0%</text>
+<path d="M148.9,35V244.5" stroke="#e6e4de"/>
+<text x="148.9" y="256.5" font-size="10" fill="#868b94" text-anchor="middle">25%</text>
+<path d="M204.6,35V244.5" stroke="#e6e4de"/>
+<text x="204.6" y="256.5" font-size="10" fill="#868b94" text-anchor="middle">50%</text>
+<path d="M260.3,35V244.5" stroke="#e6e4de"/>
+<text x="260.3" y="256.5" font-size="10" fill="#868b94" text-anchor="middle">75%</text>
+<path d="M316.0,35V244.5" stroke="#e6e4de"/>
+<text x="316.0" y="256.5" font-size="10" fill="#868b94" text-anchor="middle">100%</text>
+<path d="M12,211.0H348" stroke="#c3c1b8"/>
+<text x="85.3" y="53.6" font-size="11" fill="#1f2430" text-anchor="end">English</text>
+<path d="M93.3,40.0h53.7a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-53.7z" fill="#f08a7f"><title>English, Apertus-v1.5-8B: 25%</title></path>
+<path d="M124.8,44.5H174.9M124.8,39.0V50.0M174.9,39.0V50.0" stroke="#4b5260" fill="none"/>
+<text x="178.9" y="48.0" font-size="10" fill="#4b5260" text-anchor="start">25%</text>
+<path d="M93.3,50.5h9.1a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-9.1z" fill="#a8101f"><title>English, Apertus-v1.5-70B-FP8: 5%</title></path>
+<path d="M97.0,55.0H113.7M97.0,49.5V60.5M113.7,49.5V60.5" stroke="#4b5260" fill="none"/>
+<text x="117.7" y="58.5" font-size="10" fill="#4b5260" text-anchor="start">5%</text>
+<text x="85.3" y="82.1" font-size="11" fill="#1f2430" text-anchor="end">German</text>
+<path d="M93.3,68.5h66.7a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-66.7z" fill="#f08a7f"><title>German, Apertus-v1.5-8B: 31%</title></path>
+<path d="M134.1,73.0H191.6M134.1,67.5V78.5M191.6,67.5V78.5" stroke="#4b5260" fill="none"/>
+<text x="195.6" y="76.5" font-size="10" fill="#4b5260" text-anchor="start">31%</text>
+<path d="M93.3,79.0h40.7a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-40.7z" fill="#a8101f"><title>German, Apertus-v1.5-70B-FP8: 19%</title></path>
+<path d="M113.7,83.5H161.9M113.7,78.0V89.0M161.9,78.0V89.0" stroke="#4b5260" fill="none"/>
+<text x="165.9" y="87.0" font-size="10" fill="#4b5260" text-anchor="start">19%</text>
+<text x="85.3" y="110.6" font-size="11" fill="#1f2430" text-anchor="end">Swiss German</text>
+<path d="M93.3,97.0h81.5a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-81.5z" fill="#f08a7f"><title>Swiss German, Apertus-v1.5-8B: 38%</title></path>
+<path d="M148.9,101.5H206.5M148.9,96.0V107.0M206.5,96.0V107.0" stroke="#4b5260" fill="none"/>
+<text x="210.5" y="105.0" font-size="10" fill="#4b5260" text-anchor="start">38%</text>
+<path d="M93.3,107.5h42.5a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-42.5z" fill="#a8101f"><title>Swiss German, Apertus-v1.5-70B-FP8: 20%</title></path>
+<path d="M115.5,112.0H161.9M115.5,106.5V117.5M161.9,106.5V117.5" stroke="#4b5260" fill="none"/>
+<text x="165.9" y="115.5" font-size="10" fill="#4b5260" text-anchor="start">20%</text>
+<text x="85.3" y="139.1" font-size="11" fill="#1f2430" text-anchor="end">French</text>
+<path d="M93.3,125.5h88.9a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-88.9z" fill="#f08a7f"><title>French, Apertus-v1.5-8B: 41%</title></path>
+<path d="M152.7,130.0H217.6M152.7,124.5V135.5M217.6,124.5V135.5" stroke="#4b5260" fill="none"/>
+<text x="221.6" y="133.5" font-size="10" fill="#4b5260" text-anchor="start">41%</text>
+<path d="M93.3,136.0h46.3a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-46.3z" fill="#a8101f"><title>French, Apertus-v1.5-70B-FP8: 22%</title></path>
+<path d="M119.3,140.5H167.5M119.3,135.0V146.0M167.5,135.0V146.0" stroke="#4b5260" fill="none"/>
+<text x="171.5" y="144.0" font-size="10" fill="#4b5260" text-anchor="start">22%</text>
+<text x="85.3" y="167.6" font-size="11" fill="#1f2430" text-anchor="end">Italian</text>
+<path d="M93.3,154.0h77.8a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-77.8z" fill="#f08a7f"><title>Italian, Apertus-v1.5-8B: 36%</title></path>
+<path d="M143.4,158.5H204.6M143.4,153.0V164.0M204.6,153.0V164.0" stroke="#4b5260" fill="none"/>
+<text x="208.6" y="162.0" font-size="10" fill="#4b5260" text-anchor="start">36%</text>
+<path d="M93.3,164.5h57.4a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-57.4z" fill="#a8101f"><title>Italian, Apertus-v1.5-70B-FP8: 27%</title></path>
+<path d="M124.8,169.0H182.4M124.8,163.5V174.5M182.4,163.5V174.5" stroke="#4b5260" fill="none"/>
+<text x="186.4" y="172.5" font-size="10" fill="#4b5260" text-anchor="start">27%</text>
+<text x="85.3" y="196.1" font-size="11" fill="#1f2430" text-anchor="end">Romansh</text>
+<path d="M93.3,182.5h105.7a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-105.7z" fill="#f08a7f"><title>Romansh, Apertus-v1.5-8B: 48%</title></path>
+<path d="M173.1,187.0H230.6M173.1,181.5V192.5M230.6,181.5V192.5" stroke="#4b5260" fill="none"/>
+<text x="234.6" y="190.5" font-size="10" fill="#4b5260" text-anchor="start">48%</text>
+<path d="M93.3,193.0h90.8a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-90.8z" fill="#a8101f"><title>Romansh, Apertus-v1.5-70B-FP8: 42%</title></path>
+<path d="M158.2,197.5H215.8M158.2,192.0V203.0M215.8,192.0V203.0" stroke="#4b5260" fill="none"/>
+<text x="219.8" y="201.0" font-size="10" fill="#4b5260" text-anchor="start">42%</text>
+<text x="85.3" y="233.6" font-size="11" fill="#1f2430" text-anchor="end" font-weight="600">All languages</text>
+<path d="M93.3,220.0h79.1a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-79.1z" fill="#f08a7f"><title>All languages, Apertus-v1.5-8B: 36%</title></path>
+<path d="M152.4,224.5H196.3M152.4,219.0V230.0M196.3,219.0V230.0" stroke="#4b5260" fill="none"/>
+<text x="200.3" y="228.0" font-size="10" fill="#4b5260" text-anchor="start">36%</text>
+<path d="M93.3,230.5h47.8a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-47.8z" fill="#a8101f"><title>All languages, Apertus-v1.5-70B-FP8: 22%</title></path>
+<path d="M127.0,235.0H161.0M127.0,229.5V240.5M161.0,229.5V240.5" stroke="#4b5260" fill="none"/>
+<text x="165.0" y="238.5" font-size="10" fill="#4b5260" text-anchor="start">22%</text>
+<text x="12.0" y="275.5" font-size="10" fill="#4b5260" text-anchor="start">Wrong answers over the 40 hypotheses attacked in both runs; 95% CI</text>
+<text x="12.0" y="289.0" font-size="10" fill="#4b5260" text-anchor="start">from resampling hypotheses. Never broken, so 0 of 3 answers per</text>
+<text x="12.0" y="302.5" font-size="10" fill="#4b5260" text-anchor="start">language: 2 on Apertus-v1.5-70B-FP8. Each run attacked adaptively,</text>
+<text x="12.0" y="316.0" font-size="10" fill="#4b5260" text-anchor="start">and 37 of the 38 hypotheses verified in both used the same prompts. Left</text>
+<text x="12.0" y="329.5" font-size="10" fill="#4b5260" text-anchor="start">out after an error: Contesting a landlord's notice. Judge: apertus-70b-fp8,</text>
+<text x="12.0" y="343.0" font-size="10" fill="#4b5260" text-anchor="start">so Apertus-v1.5-70B-FP8 judged its own answers.</text>
+</svg>

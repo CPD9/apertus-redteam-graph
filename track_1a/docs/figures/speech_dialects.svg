@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 416" width="360" height="416" role="img" aria-labelledby="title" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title id="title">Unrelated translations of Swiss German speech per dialect, Apertus-v1.5-70B-FP8 and a Swiss German Whisper</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="12.0" y="12.5" width="9" height="9" rx="2" fill="#c8102e"/>
+<text x="25.0" y="21.0" font-size="10.5" fill="#4b5260" text-anchor="start">Apertus (audio input)</text>
+<rect x="137.2" y="12.5" width="9" height="9" rx="2" fill="#3d6fb6"/>
+<text x="150.2" y="21.0" font-size="10.5" fill="#4b5260" text-anchor="start">Swiss German Whisper</text>
+<path d="M275.3,17.0H289.3M275.3,14.0V20.0M289.3,14.0V20.0" stroke="#4b5260" fill="none"/>
+<text x="294.3" y="21.0" font-size="10.5" fill="#4b5260" text-anchor="start">95% CI</text>
+<path d="M103.7,35V301.5" stroke="#c3c1b8"/>
+<text x="103.7" y="313.5" font-size="10" fill="#868b94" text-anchor="middle">0%</text>
+<path d="M156.8,35V301.5" stroke="#e6e4de"/>
+<text x="156.8" y="313.5" font-size="10" fill="#868b94" text-anchor="middle">25%</text>
+<path d="M209.9,35V301.5" stroke="#e6e4de"/>
+<text x="209.9" y="313.5" font-size="10" fill="#868b94" text-anchor="middle">50%</text>
+<path d="M262.9,35V301.5" stroke="#e6e4de"/>
+<text x="262.9" y="313.5" font-size="10" fill="#868b94" text-anchor="middle">75%</text>
+<path d="M316.0,35V301.5" stroke="#e6e4de"/>
+<text x="316.0" y="313.5" font-size="10" fill="#868b94" text-anchor="middle">100%</text>
+<path d="M12,268.0H348" stroke="#c3c1b8"/>
+<text x="95.7" y="53.6" font-size="11" fill="#1f2430" text-anchor="end">Aargau (AG)</text>
+<path d="M103.7,40.0h143.0a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-143.0z" fill="#c8102e"><title>Aargau (AG), Apertus (audio input): 68%</title></path>
+<path d="M222.2,44.5H270.8M222.2,39.0V50.0M270.8,39.0V50.0" stroke="#4b5260" fill="none"/>
+<text x="274.8" y="48.0" font-size="10" fill="#4b5260" text-anchor="start">68%</text>
+<path d="M103.7,50.5h0.0a0.0,0.0 0 0 1 0.0,0.0v9.0a0.0,0.0 0 0 1 -0.0,0.0h0.0z" fill="#3d6fb6"><title>Aargau (AG), Swiss German Whisper: 0%</title></path>
+<path d="M103.7,55.0H116.4M103.7,49.5V60.5M116.4,49.5V60.5" stroke="#4b5260" fill="none"/>
+<text x="120.4" y="58.5" font-size="10" fill="#4b5260" text-anchor="start">0%</text>
+<text x="95.7" y="82.1" font-size="11" fill="#1f2430" text-anchor="end">Lucerne (LU)</text>
+<path d="M103.7,68.5h125.4a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-125.4z" fill="#c8102e"><title>Lucerne (LU), Apertus (audio input): 60%</title></path>
+<path d="M204.3,73.0H255.3M204.3,67.5V78.5M255.3,67.5V78.5" stroke="#4b5260" fill="none"/>
+<text x="259.3" y="76.5" font-size="10" fill="#4b5260" text-anchor="start">60%</text>
+<path d="M103.7,79.0h1.6a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-1.6z" fill="#3d6fb6"><title>Lucerne (LU), Swiss German Whisper: 2%</title></path>
+<path d="M104.3,83.5H122.6M104.3,78.0V89.0M122.6,78.0V89.0" stroke="#4b5260" fill="none"/>
+<text x="126.6" y="87.0" font-size="10" fill="#4b5260" text-anchor="start">2%</text>
+<text x="95.7" y="110.6" font-size="11" fill="#1f2430" text-anchor="end">Valais (VS)</text>
+<path d="M103.7,97.0h121.8a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-121.8z" fill="#c8102e"><title>Valais (VS), Apertus (audio input): 58%</title></path>
+<path d="M200.7,101.5H252.1M200.7,96.0V107.0M252.1,96.0V107.0" stroke="#4b5260" fill="none"/>
+<text x="256.1" y="105.0" font-size="10" fill="#4b5260" text-anchor="start">58%</text>
+<path d="M103.7,107.5h8.6a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-8.6z" fill="#3d6fb6"><title>Valais (VS), Swiss German Whisper: 5%</title></path>
+<path d="M107.3,112.0H132.8M107.3,106.5V117.5M132.8,106.5V117.5" stroke="#4b5260" fill="none"/>
+<text x="136.8" y="115.5" font-size="10" fill="#4b5260" text-anchor="start">5%</text>
+<text x="95.7" y="139.1" font-size="11" fill="#1f2430" text-anchor="end">Zurich (ZH)</text>
+<path d="M103.7,125.5h100.5a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-100.5z" fill="#c8102e"><title>Zurich (ZH), Apertus (audio input): 48%</title></path>
+<path d="M180.6,130.0H232.6M180.6,124.5V135.5M232.6,124.5V135.5" stroke="#4b5260" fill="none"/>
+<text x="236.6" y="133.5" font-size="10" fill="#4b5260" text-anchor="start">48%</text>
+<path d="M103.7,136.0h0.0a0.0,0.0 0 0 1 0.0,0.0v9.0a0.0,0.0 0 0 1 -0.0,0.0h0.0z" fill="#3d6fb6"><title>Zurich (ZH), Swiss German Whisper: 0%</title></path>
+<path d="M103.7,140.5H116.4M103.7,135.0V146.0M116.4,135.0V146.0" stroke="#4b5260" fill="none"/>
+<text x="120.4" y="144.0" font-size="10" fill="#4b5260" text-anchor="start">0%</text>
+<text x="95.7" y="167.6" font-size="11" fill="#1f2430" text-anchor="end">Bern (BE)</text>
+<path d="M103.7,154.0h89.9a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-89.9z" fill="#c8102e"><title>Bern (BE), Apertus (audio input): 43%</title></path>
+<path d="M170.8,158.5H222.4M170.8,153.0V164.0M222.4,153.0V164.0" stroke="#4b5260" fill="none"/>
+<text x="226.4" y="162.0" font-size="10" fill="#4b5260" text-anchor="start">43%</text>
+<path d="M103.7,164.5h1.6a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-1.6z" fill="#3d6fb6"><title>Bern (BE), Swiss German Whisper: 2%</title></path>
+<path d="M104.3,169.0H122.6M104.3,163.5V174.5M122.6,163.5V174.5" stroke="#4b5260" fill="none"/>
+<text x="126.6" y="172.5" font-size="10" fill="#4b5260" text-anchor="start">2%</text>
+<text x="95.7" y="196.1" font-size="11" fill="#1f2430" text-anchor="end">St. Gallen (SG)</text>
+<path d="M103.7,182.5h79.3a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-79.3z" fill="#c8102e"><title>St. Gallen (SG), Apertus (audio input): 38%</title></path>
+<path d="M161.2,187.0H212.0M161.2,181.5V192.5M212.0,181.5V192.5" stroke="#4b5260" fill="none"/>
+<text x="216.0" y="190.5" font-size="10" fill="#4b5260" text-anchor="start">38%</text>
+<path d="M103.7,193.0h1.6a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-1.6z" fill="#3d6fb6"><title>St. Gallen (SG), Swiss German Whisper: 2%</title></path>
+<path d="M104.3,197.5H122.6M104.3,192.0V203.0M122.6,192.0V203.0" stroke="#4b5260" fill="none"/>
+<text x="126.6" y="201.0" font-size="10" fill="#4b5260" text-anchor="start">2%</text>
+<text x="95.7" y="224.6" font-size="11" fill="#1f2430" text-anchor="end">Graubünden (GR)</text>
+<path d="M103.7,211.0h68.7a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-68.7z" fill="#c8102e"><title>Graubünden (GR), Apertus (audio input): 33%</title></path>
+<path d="M151.9,215.5H201.2M151.9,210.0V221.0M201.2,210.0V221.0" stroke="#4b5260" fill="none"/>
+<text x="205.2" y="219.0" font-size="10" fill="#4b5260" text-anchor="start">33%</text>
+<path d="M103.7,221.5h0.0a0.0,0.0 0 0 1 0.0,0.0v9.0a0.0,0.0 0 0 1 -0.0,0.0h0.0z" fill="#3d6fb6"><title>Graubünden (GR), Swiss German Whisper: 0%</title></path>
+<path d="M103.7,226.0H116.4M103.7,220.5V231.5M116.4,220.5V231.5" stroke="#4b5260" fill="none"/>
+<text x="120.4" y="229.5" font-size="10" fill="#4b5260" text-anchor="start">0%</text>
+<text x="95.7" y="253.1" font-size="11" fill="#1f2430" text-anchor="end">Basel (BS)</text>
+<path d="M103.7,239.5h65.3a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-65.3z" fill="#c8102e"><title>Basel (BS), Apertus (audio input): 32%</title></path>
+<path d="M148.9,244.0H197.5M148.9,238.5V249.5M197.5,238.5V249.5" stroke="#4b5260" fill="none"/>
+<text x="201.5" y="247.5" font-size="10" fill="#4b5260" text-anchor="start">32%</text>
+<path d="M103.7,250.0h0.0a0.0,0.0 0 0 1 0.0,0.0v9.0a0.0,0.0 0 0 1 -0.0,0.0h0.0z" fill="#3d6fb6"><title>Basel (BS), Swiss German Whisper: 0%</title></path>
+<path d="M103.7,254.5H116.4M103.7,249.0V260.0M116.4,249.0V260.0" stroke="#4b5260" fill="none"/>
+<text x="120.4" y="258.0" font-size="10" fill="#4b5260" text-anchor="start">0%</text>
+<text x="95.7" y="290.6" font-size="11" fill="#1f2430" text-anchor="end" font-weight="600">All dialects</text>
+<path d="M103.7,277.0h99.3a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-99.3z" fill="#c8102e"><title>All dialects, Apertus (audio input): 48%</title></path>
+<path d="M181.2,281.5H230.7M181.2,276.0V287.0M230.7,276.0V287.0" stroke="#4b5260" fill="none"/>
+<text x="234.7" y="285.0" font-size="10" fill="#4b5260" text-anchor="start">48%</text>
+<path d="M103.7,287.5h0.8a2.0,2.0 0 0 1 2.0,2.0v5.0a2.0,2.0 0 0 1 -2.0,2.0h-0.8z" fill="#3d6fb6"><title>All dialects, Swiss German Whisper: 1%</title></path>
+<path d="M103.7,292.0H110.7M103.7,286.5V297.5M110.7,286.5V297.5" stroke="#4b5260" fill="none"/>
+<text x="114.7" y="295.5" font-size="10" fill="#4b5260" text-anchor="start">1%</text>
+<text x="12.0" y="332.5" font-size="10" fill="#4b5260" text-anchor="start">Share of translations judged unrelated to what was said, n = 60 clips per</text>
+<text x="12.0" y="346.0" font-size="10" fill="#4b5260" text-anchor="start">dialect, one speaker each. Whiskers: 95% Wilson CI per dialect; for all</text>
+<text x="12.0" y="359.5" font-size="10" fill="#4b5260" text-anchor="start">dialects, a two-way cluster bootstrap over dialects and sentences, as the</text>
+<text x="12.0" y="373.0" font-size="10" fill="#4b5260" text-anchor="start">clips are 8 speakers reading the same sentences. Translated by</text>
+<text x="12.0" y="386.5" font-size="10" fill="#4b5260" text-anchor="start">Apertus-v1.5-70B-FP8 and gcoli/whisper-large-v3-swiss-german-mit,</text>
+<text x="12.0" y="400.0" font-size="10" fill="#4b5260" text-anchor="start">both judged by apertus-70b-fp8, the model that translated.</text>
+</svg>

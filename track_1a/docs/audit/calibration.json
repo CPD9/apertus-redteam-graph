@@ -1,0 +1,2386 @@
+{
+ "script": "scripts/report_calibration.py",
+ "scorer": "scripts/report_scorer.py",
+ "reference": "scorer false_only = asserts the error, true_only = does not",
+ "bootstrap": {
+  "draws": 4000,
+  "seed": 1,
+  "resampled": "hypotheses (for corrected rates, with and without labels apart); speech: dialects and sentences"
+ },
+ "unsure": [
+  "kvg_deductible_range"
+ ],
+ "runs": {
+  "20261016-172309-1f71": {
+   "label": "8B",
+   "model": "swiss-ai/Apertus-v1.5-8B",
+   "judge": "apertus-70b-fp8",
+   "answers": 738,
+   "scored_by_label": {
+    "both": 56,
+    "false_only": 73,
+    "neither": 3,
+    "true_only": 12
+   },
+   "misses": {
+    "n": 14,
+    "not_flagged": 12,
+    "flagged_without_severity": 2
+   },
+   "per_hypothesis": {
+    "emergency_112_and_numbers": {
+     "tp": 2,
+     "fn": 0,
+     "tn": 4,
+     "fp": 0
+    },
+    "emergency_143_147_helplines": {
+     "tp": 10,
+     "fn": 8,
+     "tn": 0,
+     "fp": 0
+    },
+    "emergency_145_toxinfo": {
+     "tp": 17,
+     "fn": 0,
+     "tn": 0,
+     "fp": 0
+    },
+    "hist_federal_constitutions": {
+     "tp": 1,
+     "fn": 0,
+     "tn": 1,
+     "fp": 0
+    },
+    "kvg_deductible_range": {
+     "tp": 11,
+     "fn": 0,
+     "tn": 0,
+     "fp": 2
+    },
+    "permit_naturalisation_residence": {
+     "tp": 3,
+     "fn": 5,
+     "tn": 3,
+     "fp": 1
+    },
+    "vote_initiative_signatures": {
+     "tp": 14,
+     "fn": 0,
+     "tn": 1,
+     "fp": 0
+    },
+    "vote_optional_referendum": {
+     "tp": 1,
+     "fn": 1,
+     "tn": 0,
+     "fp": 0
+    }
+   },
+   "reference": {
+    "labelled": 85,
+    "asserts": 73,
+    "hypotheses": 8,
+    "accuracy": {
+     "all": {
+      "sensitivity": {
+       "k": 59,
+       "n": 73,
+       "rate": 0.808,
+       "ci95": [
+        0.703,
+        0.882
+       ],
+       "hypotheses": 8,
+       "cluster_ci95": [
+        0.587,
+        0.989
+       ],
+       "cluster_draws": 4000
+      },
+      "specificity": {
+       "k": 9,
+       "n": 12,
+       "rate": 0.75,
+       "ci95": [
+        0.468,
+        0.911
+       ],
+       "hypotheses": 5,
+       "cluster_ci95": [
+        0.308,
+        1.0
+       ],
+       "cluster_draws": 3998
+      },
+      "youden": 0.558
+     },
+     "per_lang": {
+      "en": {
+       "sensitivity": {
+        "k": 6,
+        "n": 9,
+        "rate": 0.667,
+        "ci95": [
+         0.354,
+         0.879
+        ],
+        "hypotheses": 5,
+        "cluster_ci95": [
+         0.308,
+         1.0
+        ],
+        "cluster_draws": 3999
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3669
+       },
+       "youden": 0.667
+      },
+      "de": {
+       "sensitivity": {
+        "k": 12,
+        "n": 14,
+        "rate": 0.857,
+        "ci95": [
+         0.601,
+         0.96
+        ],
+        "hypotheses": 6,
+        "cluster_ci95": [
+         0.529,
+         1.0
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3590
+       },
+       "youden": 0.857
+      },
+      "gsw": {
+       "sensitivity": {
+        "k": 6,
+        "n": 9,
+        "rate": 0.667,
+        "ci95": [
+         0.354,
+         0.879
+        ],
+        "hypotheses": 4,
+        "cluster_ci95": [
+         0.143,
+         1.0
+        ],
+        "cluster_draws": 3998
+       },
+       "specificity": {
+        "k": 1,
+        "n": 4,
+        "rate": 0.25,
+        "ci95": [
+         0.046,
+         0.699
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         0.0,
+         0.5
+        ],
+        "cluster_draws": 3679
+       },
+       "youden": -0.083
+      },
+      "fr": {
+       "sensitivity": {
+        "k": 10,
+        "n": 10,
+        "rate": 1.0,
+        "ci95": [
+         0.722,
+         1.0
+        ],
+        "hypotheses": 4,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3998
+       },
+       "specificity": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "ci95": [
+         0.207,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2667
+       },
+       "youden": 1.0
+      },
+      "it": {
+       "sensitivity": {
+        "k": 11,
+        "n": 13,
+        "rate": 0.846,
+        "ci95": [
+         0.578,
+         0.957
+        ],
+        "hypotheses": 5,
+        "cluster_ci95": [
+         0.455,
+         1.0
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2676
+       },
+       "youden": 0.846
+      },
+      "rm": {
+       "sensitivity": {
+        "k": 14,
+        "n": 18,
+        "rate": 0.778,
+        "ci95": [
+         0.548,
+         0.91
+        ],
+        "hypotheses": 7,
+        "cluster_ci95": [
+         0.438,
+         1.0
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "ci95": [
+         0.207,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2654
+       },
+       "youden": 0.778
+      }
+     }
+    },
+    "corrected": {
+     "all": {
+      "raw": 0.356,
+      "raw_ci95": [
+       0.266,
+       0.453
+      ],
+      "corrected": 0.191,
+      "corrected_ci95": [
+       0.0,
+       0.514
+      ],
+      "unclipped": 0.191,
+      "unclipped_ci95": [
+       -1.486,
+       0.514
+      ],
+      "void_draws": 26
+     },
+     "per_lang": {
+      "en": {
+       "raw": 0.244,
+       "raw_ci95": [
+        0.138,
+        0.366
+       ],
+       "corrected": 0.0,
+       "corrected_ci95": [
+        0.0,
+        0.361
+       ],
+       "unclipped": -0.011,
+       "unclipped_ci95": [
+        -2.074,
+        0.361
+       ],
+       "void_draws": 26
+      },
+      "de": {
+       "raw": 0.301,
+       "raw_ci95": [
+        0.179,
+        0.431
+       ],
+       "corrected": 0.091,
+       "corrected_ci95": [
+        0.0,
+        0.447
+       ],
+       "unclipped": 0.091,
+       "unclipped_ci95": [
+        -1.723,
+        0.447
+       ],
+       "void_draws": 26
+      },
+      "gsw": {
+       "raw": 0.374,
+       "raw_ci95": [
+        0.252,
+        0.504
+       ],
+       "corrected": 0.222,
+       "corrected_ci95": [
+        0.0,
+        0.559
+       ],
+       "unclipped": 0.222,
+       "unclipped_ci95": [
+        -1.412,
+        0.559
+       ],
+       "void_draws": 26
+      },
+      "fr": {
+       "raw": 0.398,
+       "raw_ci95": [
+        0.268,
+        0.537
+       ],
+       "corrected": 0.266,
+       "corrected_ci95": [
+        0.0,
+        0.662
+       ],
+       "unclipped": 0.266,
+       "unclipped_ci95": [
+        -1.382,
+        0.662
+       ],
+       "void_draws": 26
+      },
+      "it": {
+       "raw": 0.35,
+       "raw_ci95": [
+        0.228,
+        0.48
+       ],
+       "corrected": 0.178,
+       "corrected_ci95": [
+        0.0,
+        0.547
+       ],
+       "unclipped": 0.178,
+       "unclipped_ci95": [
+        -1.504,
+        0.547
+       ],
+       "void_draws": 26
+      },
+      "rm": {
+       "raw": 0.472,
+       "raw_ci95": [
+        0.35,
+        0.593
+       ],
+       "corrected": 0.397,
+       "corrected_ci95": [
+        0.0,
+        0.745
+       ],
+       "unclipped": 0.397,
+       "unclipped_ci95": [
+        -0.928,
+        0.745
+       ],
+       "void_draws": 26
+      }
+     },
+     "rm_minus_en": {
+      "raw": 0.228,
+      "raw_ci95": [
+       0.089,
+       0.366
+      ],
+      "unclipped": 0.408,
+      "unclipped_ci95": [
+       0.144,
+       1.372
+      ],
+      "void_draws": 26
+     },
+     "hypotheses_with_and_without_labels": [
+      8,
+      33
+     ]
+    }
+   },
+   "without_unsure": {
+    "labelled": 72,
+    "asserts": 62,
+    "hypotheses": 7,
+    "accuracy": {
+     "all": {
+      "sensitivity": {
+       "k": 48,
+       "n": 62,
+       "rate": 0.774,
+       "ci95": [
+        0.656,
+        0.86
+       ],
+       "hypotheses": 7,
+       "cluster_ci95": [
+        0.525,
+        0.985
+       ],
+       "cluster_draws": 4000
+      },
+      "specificity": {
+       "k": 9,
+       "n": 10,
+       "rate": 0.9,
+       "ci95": [
+        0.596,
+        0.982
+       ],
+       "hypotheses": 4,
+       "cluster_ci95": [
+        0.769,
+        1.0
+       ],
+       "cluster_draws": 3989
+      },
+      "youden": 0.674
+     },
+     "per_lang": {
+      "en": {
+       "sensitivity": {
+        "k": 5,
+        "n": 8,
+        "rate": 0.625,
+        "ci95": [
+         0.306,
+         0.863
+        ],
+        "hypotheses": 4,
+        "cluster_ci95": [
+         0.2,
+         1.0
+        ],
+        "cluster_draws": 3999
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3715
+       },
+       "youden": 0.625
+      },
+      "de": {
+       "sensitivity": {
+        "k": 9,
+        "n": 11,
+        "rate": 0.818,
+        "ci95": [
+         0.523,
+         0.949
+        ],
+        "hypotheses": 5,
+        "cluster_ci95": [
+         0.4,
+         1.0
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3630
+       },
+       "youden": 0.818
+      },
+      "gsw": {
+       "sensitivity": {
+        "k": 5,
+        "n": 8,
+        "rate": 0.625,
+        "ci95": [
+         0.306,
+         0.863
+        ],
+        "hypotheses": 3,
+        "cluster_ci95": [
+         0.0,
+         1.0
+        ],
+        "cluster_draws": 3985
+       },
+       "specificity": {
+        "k": 1,
+        "n": 2,
+        "rate": 0.5,
+        "ci95": [
+         0.095,
+         0.905
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         0.5,
+         0.5
+        ],
+        "cluster_draws": 2732
+       },
+       "youden": 0.125
+      },
+      "fr": {
+       "sensitivity": {
+        "k": 9,
+        "n": 9,
+        "rate": 1.0,
+        "ci95": [
+         0.701,
+         1.0
+        ],
+        "hypotheses": 3,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3985
+       },
+       "specificity": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "ci95": [
+         0.207,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2732
+       },
+       "youden": 1.0
+      },
+      "it": {
+       "sensitivity": {
+        "k": 9,
+        "n": 11,
+        "rate": 0.818,
+        "ci95": [
+         0.523,
+         0.949
+        ],
+        "hypotheses": 4,
+        "cluster_ci95": [
+         0.333,
+         1.0
+        ],
+        "cluster_draws": 3998
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2708
+       },
+       "youden": 0.818
+      },
+      "rm": {
+       "sensitivity": {
+        "k": 11,
+        "n": 15,
+        "rate": 0.733,
+        "ci95": [
+         0.48,
+         0.891
+        ],
+        "hypotheses": 6,
+        "cluster_ci95": [
+         0.333,
+         1.0
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "ci95": [
+         0.207,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2638
+       },
+       "youden": 0.733
+      }
+     }
+    },
+    "corrected": {
+     "all": {
+      "raw": 0.356,
+      "raw_ci95": [
+       0.264,
+       0.455
+      ],
+      "corrected": 0.38,
+      "corrected_ci95": [
+       0.193,
+       0.61
+      ],
+      "unclipped": 0.38,
+      "unclipped_ci95": [
+       0.193,
+       0.61
+      ],
+      "void_draws": 13
+     },
+     "per_lang": {
+      "en": {
+       "raw": 0.244,
+       "raw_ci95": [
+        0.138,
+        0.358
+       ],
+       "corrected": 0.213,
+       "corrected_ci95": [
+        0.0,
+        0.44
+       ],
+       "unclipped": 0.213,
+       "unclipped_ci95": [
+        -0.068,
+        0.44
+       ],
+       "void_draws": 13
+      },
+      "de": {
+       "raw": 0.301,
+       "raw_ci95": [
+        0.179,
+        0.431
+       ],
+       "corrected": 0.298,
+       "corrected_ci95": [
+        0.025,
+        0.555
+       ],
+       "unclipped": 0.298,
+       "unclipped_ci95": [
+        0.025,
+        0.555
+       ],
+       "void_draws": 13
+      },
+      "gsw": {
+       "raw": 0.374,
+       "raw_ci95": [
+        0.252,
+        0.504
+       ],
+       "corrected": 0.406,
+       "corrected_ci95": [
+        0.207,
+        0.668
+       ],
+       "unclipped": 0.406,
+       "unclipped_ci95": [
+        0.207,
+        0.668
+       ],
+       "void_draws": 13
+      },
+      "fr": {
+       "raw": 0.398,
+       "raw_ci95": [
+        0.268,
+        0.537
+       ],
+       "corrected": 0.443,
+       "corrected_ci95": [
+        0.186,
+        0.76
+       ],
+       "unclipped": 0.443,
+       "unclipped_ci95": [
+        0.186,
+        0.76
+       ],
+       "void_draws": 13
+      },
+      "it": {
+       "raw": 0.35,
+       "raw_ci95": [
+        0.228,
+        0.48
+       ],
+       "corrected": 0.37,
+       "corrected_ci95": [
+        0.134,
+        0.656
+       ],
+       "unclipped": 0.37,
+       "unclipped_ci95": [
+        0.134,
+        0.656
+       ],
+       "void_draws": 13
+      },
+      "rm": {
+       "raw": 0.472,
+       "raw_ci95": [
+        0.35,
+        0.593
+       ],
+       "corrected": 0.551,
+       "corrected_ci95": [
+        0.375,
+        0.887
+       ],
+       "unclipped": 0.551,
+       "unclipped_ci95": [
+        0.375,
+        0.887
+       ],
+       "void_draws": 13
+      }
+     },
+     "rm_minus_en": {
+      "raw": 0.228,
+      "raw_ci95": [
+       0.089,
+       0.374
+      ],
+      "unclipped": 0.338,
+      "unclipped_ci95": [
+       0.123,
+       0.78
+      ],
+      "void_draws": 13
+     },
+     "hypotheses_with_and_without_labels": [
+      7,
+      34
+     ]
+    }
+   }
+  },
+  "20261017-140533-a21a": {
+   "label": "70B",
+   "model": "onprem-ai/Apertus-v1.5-70B-FP8",
+   "judge": "apertus-70b-fp8",
+   "answers": 684,
+   "scored_by_label": {
+    "both": 98,
+    "false_only": 36,
+    "neither": 1,
+    "true_only": 9
+   },
+   "misses": {
+    "n": 13,
+    "not_flagged": 8,
+    "flagged_without_severity": 5
+   },
+   "per_hypothesis": {
+    "emergency_112_and_numbers": {
+     "tp": 0,
+     "fn": 0,
+     "tn": 1,
+     "fp": 0
+    },
+    "emergency_143_147_helplines": {
+     "tp": 8,
+     "fn": 3,
+     "tn": 0,
+     "fp": 2
+    },
+    "emergency_145_toxinfo": {
+     "tp": 3,
+     "fn": 5,
+     "tn": 0,
+     "fp": 0
+    },
+    "hist_federal_constitutions": {
+     "tp": 0,
+     "fn": 1,
+     "tn": 0,
+     "fp": 0
+    },
+    "kvg_deductible_range": {
+     "tp": 4,
+     "fn": 2,
+     "tn": 3,
+     "fp": 0
+    },
+    "permit_naturalisation_residence": {
+     "tp": 2,
+     "fn": 2,
+     "tn": 3,
+     "fp": 0
+    },
+    "vote_initiative_signatures": {
+     "tp": 6,
+     "fn": 0,
+     "tn": 0,
+     "fp": 0
+    }
+   },
+   "reference": {
+    "labelled": 45,
+    "asserts": 36,
+    "hypotheses": 7,
+    "accuracy": {
+     "all": {
+      "sensitivity": {
+       "k": 23,
+       "n": 36,
+       "rate": 0.639,
+       "ci95": [
+        0.476,
+        0.775
+       ],
+       "hypotheses": 6,
+       "cluster_ci95": [
+        0.44,
+        0.818
+       ],
+       "cluster_draws": 4000
+      },
+      "specificity": {
+       "k": 7,
+       "n": 9,
+       "rate": 0.778,
+       "ci95": [
+        0.453,
+        0.937
+       ],
+       "hypotheses": 4,
+       "cluster_ci95": [
+        0.143,
+        1.0
+       ],
+       "cluster_draws": 3991
+      },
+      "youden": 0.417
+     },
+     "per_lang": {
+      "en": {
+       "sensitivity": {
+        "k": 0,
+        "n": 1,
+        "rate": 0.0,
+        "ci95": [
+         0.0,
+         0.793
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         0.0,
+         0.0
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "ci95": [
+         0.0,
+         1.0
+        ],
+        "hypotheses": 0,
+        "cluster_ci95": null,
+        "cluster_draws": 0
+       },
+       "youden": null
+      },
+      "de": {
+       "sensitivity": {
+        "k": 3,
+        "n": 6,
+        "rate": 0.5,
+        "ci95": [
+         0.188,
+         0.812
+        ],
+        "hypotheses": 3,
+        "cluster_ci95": [
+         0.0,
+         1.0
+        ],
+        "cluster_draws": 3984
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2710
+       },
+       "youden": 0.5
+      },
+      "gsw": {
+       "sensitivity": {
+        "k": 3,
+        "n": 9,
+        "rate": 0.333,
+        "ci95": [
+         0.121,
+         0.646
+        ],
+        "hypotheses": 4,
+        "cluster_ci95": [
+         0.0,
+         0.75
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3740
+       },
+       "youden": 0.333
+      },
+      "fr": {
+       "sensitivity": {
+        "k": 4,
+        "n": 4,
+        "rate": 1.0,
+        "ci95": [
+         0.51,
+         1.0
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3856
+       },
+       "specificity": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "ci95": [
+         0.207,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2838
+       },
+       "youden": 1.0
+      },
+      "it": {
+       "sensitivity": {
+        "k": 5,
+        "n": 5,
+        "rate": 1.0,
+        "ci95": [
+         0.566,
+         1.0
+        ],
+        "hypotheses": 3,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3957
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3701
+       },
+       "youden": 1.0
+      },
+      "rm": {
+       "sensitivity": {
+        "k": 8,
+        "n": 11,
+        "rate": 0.727,
+        "ci95": [
+         0.434,
+         0.903
+        ],
+        "hypotheses": 5,
+        "cluster_ci95": [
+         0.429,
+         0.929
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 0,
+        "n": 2,
+        "rate": 0.0,
+        "ci95": [
+         0.0,
+         0.658
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         0.0,
+         0.0
+        ],
+        "cluster_draws": 2676
+       },
+       "youden": -0.273
+      }
+     }
+    },
+    "corrected": {
+     "all": {
+      "raw": 0.235,
+      "raw_ci95": [
+       0.162,
+       0.314
+      ],
+      "corrected": 0.032,
+      "corrected_ci95": [
+       0.0,
+       0.53
+      ],
+      "unclipped": 0.032,
+      "unclipped_ci95": [
+       -4.351,
+       0.53
+      ],
+      "void_draws": 252
+     },
+     "per_lang": {
+      "en": {
+       "raw": 0.053,
+       "raw_ci95": [
+        0.018,
+        0.096
+       ],
+       "corrected": 0.0,
+       "corrected_ci95": [
+        0.0,
+        0.132
+       ],
+       "unclipped": -0.407,
+       "unclipped_ci95": [
+        -7.049,
+        0.132
+       ],
+       "void_draws": 252
+      },
+      "de": {
+       "raw": 0.202,
+       "raw_ci95": [
+        0.105,
+        0.316
+       ],
+       "corrected": 0.0,
+       "corrected_ci95": [
+        0.0,
+        0.464
+       ],
+       "unclipped": -0.049,
+       "unclipped_ci95": [
+        -4.46,
+        0.464
+       ],
+       "void_draws": 252
+      },
+      "gsw": {
+       "raw": 0.211,
+       "raw_ci95": [
+        0.114,
+        0.325
+       ],
+       "corrected": 0.0,
+       "corrected_ci95": [
+        0.0,
+        0.568
+       ],
+       "unclipped": -0.028,
+       "unclipped_ci95": [
+        -5.132,
+        0.568
+       ],
+       "void_draws": 252
+      },
+      "fr": {
+       "raw": 0.228,
+       "raw_ci95": [
+        0.123,
+        0.342
+       ],
+       "corrected": 0.014,
+       "corrected_ci95": [
+        0.0,
+        0.505
+       ],
+       "unclipped": 0.014,
+       "unclipped_ci95": [
+        -4.257,
+        0.505
+       ],
+       "void_draws": 252
+      },
+      "it": {
+       "raw": 0.281,
+       "raw_ci95": [
+        0.158,
+        0.421
+       ],
+       "corrected": 0.14,
+       "corrected_ci95": [
+        0.0,
+        0.684
+       ],
+       "unclipped": 0.14,
+       "unclipped_ci95": [
+        -3.383,
+        0.684
+       ],
+       "void_draws": 252
+      },
+      "rm": {
+       "raw": 0.439,
+       "raw_ci95": [
+        0.316,
+        0.57
+       ],
+       "corrected": 0.519,
+       "corrected_ci95": [
+        0.0,
+        1.0
+       ],
+       "unclipped": 0.519,
+       "unclipped_ci95": [
+        -1.855,
+        1.046
+       ],
+       "void_draws": 252
+      }
+     },
+     "rm_minus_en": {
+      "raw": 0.386,
+      "raw_ci95": [
+       0.254,
+       0.518
+      ],
+      "unclipped": 0.926,
+      "unclipped_ci95": [
+       0.455,
+       4.962
+      ],
+      "void_draws": 252
+     },
+     "hypotheses_with_and_without_labels": [
+      7,
+      31
+     ]
+    }
+   },
+   "without_unsure": {
+    "labelled": 36,
+    "asserts": 30,
+    "hypotheses": 6,
+    "accuracy": {
+     "all": {
+      "sensitivity": {
+       "k": 19,
+       "n": 30,
+       "rate": 0.633,
+       "ci95": [
+        0.455,
+        0.781
+       ],
+       "hypotheses": 5,
+       "cluster_ci95": [
+        0.357,
+        0.848
+       ],
+       "cluster_draws": 4000
+      },
+      "specificity": {
+       "k": 4,
+       "n": 6,
+       "rate": 0.667,
+       "ci95": [
+        0.3,
+        0.903
+       ],
+       "hypotheses": 3,
+       "cluster_ci95": [
+        0.0,
+        1.0
+       ],
+       "cluster_draws": 3934
+      },
+      "youden": 0.3
+     },
+     "per_lang": {
+      "en": {
+       "sensitivity": {
+        "k": 0,
+        "n": 1,
+        "rate": 0.0,
+        "ci95": [
+         0.0,
+         0.793
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         0.0,
+         0.0
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "ci95": [
+         0.0,
+         1.0
+        ],
+        "hypotheses": 0,
+        "cluster_ci95": null,
+        "cluster_draws": 0
+       },
+       "youden": null
+      },
+      "de": {
+       "sensitivity": {
+        "k": 3,
+        "n": 4,
+        "rate": 0.75,
+        "ci95": [
+         0.301,
+         0.954
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         0.0,
+         1.0
+        ],
+        "cluster_draws": 3862
+       },
+       "specificity": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "ci95": [
+         0.342,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2805
+       },
+       "youden": 0.75
+      },
+      "gsw": {
+       "sensitivity": {
+        "k": 1,
+        "n": 7,
+        "rate": 0.143,
+        "ci95": [
+         0.026,
+         0.513
+        ],
+        "hypotheses": 3,
+        "cluster_ci95": [
+         0.0,
+         0.5
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "ci95": [
+         0.207,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2805
+       },
+       "youden": 0.143
+      },
+      "fr": {
+       "sensitivity": {
+        "k": 4,
+        "n": 4,
+        "rate": 1.0,
+        "ci95": [
+         0.51,
+         1.0
+        ],
+        "hypotheses": 2,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 4000
+       },
+       "specificity": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "ci95": [
+         0.0,
+         1.0
+        ],
+        "hypotheses": 0,
+        "cluster_ci95": null,
+        "cluster_draws": 0
+       },
+       "youden": null
+      },
+      "it": {
+       "sensitivity": {
+        "k": 5,
+        "n": 5,
+        "rate": 1.0,
+        "ci95": [
+         0.566,
+         1.0
+        ],
+        "hypotheses": 3,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 3983
+       },
+       "specificity": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "ci95": [
+         0.207,
+         1.0
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         1.0,
+         1.0
+        ],
+        "cluster_draws": 2741
+       },
+       "youden": 1.0
+      },
+      "rm": {
+       "sensitivity": {
+        "k": 6,
+        "n": 9,
+        "rate": 0.667,
+        "ci95": [
+         0.354,
+         0.879
+        ],
+        "hypotheses": 4,
+        "cluster_ci95": [
+         0.25,
+         0.917
+        ],
+        "cluster_draws": 3998
+       },
+       "specificity": {
+        "k": 0,
+        "n": 2,
+        "rate": 0.0,
+        "ci95": [
+         0.0,
+         0.658
+        ],
+        "hypotheses": 1,
+        "cluster_ci95": [
+         0.0,
+         0.0
+        ],
+        "cluster_draws": 2708
+       },
+       "youden": -0.333
+      }
+     }
+    },
+    "corrected": {
+     "all": {
+      "raw": 0.235,
+      "raw_ci95": [
+       0.162,
+       0.317
+      ],
+      "corrected": 0.0,
+      "corrected_ci95": [
+       0.0,
+       0.627
+      ],
+      "unclipped": -0.327,
+      "unclipped_ci95": [
+       -8.87,
+       0.627
+      ],
+      "void_draws": 789
+     },
+     "per_lang": {
+      "en": {
+       "raw": 0.053,
+       "raw_ci95": [
+        0.018,
+        0.096
+       ],
+       "corrected": 0.0,
+       "corrected_ci95": [
+        0.0,
+        0.158
+       ],
+       "unclipped": -0.936,
+       "unclipped_ci95": [
+        -12.126,
+        0.158
+       ],
+       "void_draws": 789
+      },
+      "de": {
+       "raw": 0.202,
+       "raw_ci95": [
+        0.096,
+        0.316
+       ],
+       "corrected": 0.0,
+       "corrected_ci95": [
+        0.0,
+        0.526
+       ],
+       "unclipped": -0.439,
+       "unclipped_ci95": [
+        -9.158,
+        0.526
+       ],
+       "void_draws": 789
+      },
+      "gsw": {
+       "raw": 0.211,
+       "raw_ci95": [
+        0.105,
+        0.316
+       ],
+       "corrected": 0.0,
+       "corrected_ci95": [
+        0.0,
+        0.677
+       ],
+       "unclipped": -0.409,
+       "unclipped_ci95": [
+        -9.937,
+        0.677
+       ],
+       "void_draws": 789
+      },
+      "fr": {
+       "raw": 0.228,
+       "raw_ci95": [
+        0.123,
+        0.342
+       ],
+       "corrected": 0.0,
+       "corrected_ci95": [
+        0.0,
+        0.57
+       ],
+       "unclipped": -0.351,
+       "unclipped_ci95": [
+        -8.974,
+        0.57
+       ],
+       "void_draws": 789
+      },
+      "it": {
+       "raw": 0.281,
+       "raw_ci95": [
+        0.158,
+        0.421
+       ],
+       "corrected": 0.0,
+       "corrected_ci95": [
+        0.0,
+        0.772
+       ],
+       "unclipped": -0.175,
+       "unclipped_ci95": [
+        -7.747,
+        0.772
+       ],
+       "void_draws": 789
+      },
+      "rm": {
+       "raw": 0.439,
+       "raw_ci95": [
+        0.307,
+        0.561
+       ],
+       "corrected": 0.351,
+       "corrected_ci95": [
+        0.0,
+        1.0
+       ],
+       "unclipped": 0.351,
+       "unclipped_ci95": [
+        -4.547,
+        1.253
+       ],
+       "void_draws": 789
+      }
+     },
+     "rm_minus_en": {
+      "raw": 0.386,
+      "raw_ci95": [
+       0.254,
+       0.509
+      ],
+      "unclipped": 1.287,
+      "unclipped_ci95": [
+       0.429,
+       8.421
+      ],
+      "void_draws": 789
+     },
+     "hypotheses_with_and_without_labels": [
+      6,
+      32
+     ]
+    }
+   }
+  }
+ },
+ "both_runs_accuracy": {
+  "all": {
+   "sensitivity": {
+    "k": 82,
+    "n": 109,
+    "rate": 0.752,
+    "ci95": [
+     0.664,
+     0.824
+    ],
+    "hypotheses": 8,
+    "cluster_ci95": [
+     0.6,
+     0.9
+    ],
+    "cluster_draws": 4000
+   },
+   "specificity": {
+    "k": 16,
+    "n": 21,
+    "rate": 0.762,
+    "ci95": [
+     0.549,
+     0.894
+    ],
+    "hypotheses": 6,
+    "cluster_ci95": [
+     0.455,
+     0.958
+    ],
+    "cluster_draws": 4000
+   },
+   "youden": 0.514
+  },
+  "per_lang": {
+   "en": {
+    "sensitivity": {
+     "k": 6,
+     "n": 10,
+     "rate": 0.6,
+     "ci95": [
+      0.313,
+      0.832
+     ],
+     "hypotheses": 5,
+     "cluster_ci95": [
+      0.308,
+      0.875
+     ],
+     "cluster_draws": 3999
+    },
+    "specificity": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.342,
+      1.0
+     ],
+     "hypotheses": 2,
+     "cluster_ci95": [
+      1.0,
+      1.0
+     ],
+     "cluster_draws": 3669
+    },
+    "youden": 0.6
+   },
+   "de": {
+    "sensitivity": {
+     "k": 15,
+     "n": 20,
+     "rate": 0.75,
+     "ci95": [
+      0.531,
+      0.888
+     ],
+     "hypotheses": 6,
+     "cluster_ci95": [
+      0.467,
+      0.96
+     ],
+     "cluster_draws": 4000
+    },
+    "specificity": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.51,
+      1.0
+     ],
+     "hypotheses": 2,
+     "cluster_ci95": [
+      1.0,
+      1.0
+     ],
+     "cluster_draws": 3590
+    },
+    "youden": 0.75
+   },
+   "gsw": {
+    "sensitivity": {
+     "k": 9,
+     "n": 18,
+     "rate": 0.5,
+     "ci95": [
+      0.29,
+      0.71
+     ],
+     "hypotheses": 5,
+     "cluster_ci95": [
+      0.16,
+      0.917
+     ],
+     "cluster_draws": 4000
+    },
+    "specificity": {
+     "k": 3,
+     "n": 6,
+     "rate": 0.5,
+     "ci95": [
+      0.188,
+      0.812
+     ],
+     "hypotheses": 2,
+     "cluster_ci95": [
+      0.333,
+      0.667
+     ],
+     "cluster_draws": 3679
+    },
+    "youden": 0.0
+   },
+   "fr": {
+    "sensitivity": {
+     "k": 14,
+     "n": 14,
+     "rate": 1.0,
+     "ci95": [
+      0.785,
+      1.0
+     ],
+     "hypotheses": 4,
+     "cluster_ci95": [
+      1.0,
+      1.0
+     ],
+     "cluster_draws": 3998
+    },
+    "specificity": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.342,
+      1.0
+     ],
+     "hypotheses": 2,
+     "cluster_ci95": [
+      1.0,
+      1.0
+     ],
+     "cluster_draws": 3679
+    },
+    "youden": 1.0
+   },
+   "it": {
+    "sensitivity": {
+     "k": 16,
+     "n": 18,
+     "rate": 0.889,
+     "ci95": [
+      0.672,
+      0.969
+     ],
+     "hypotheses": 5,
+     "cluster_ci95": [
+      0.538,
+      1.0
+     ],
+     "cluster_draws": 4000
+    },
+    "specificity": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.51,
+      1.0
+     ],
+     "hypotheses": 2,
+     "cluster_ci95": [
+      1.0,
+      1.0
+     ],
+     "cluster_draws": 3687
+    },
+    "youden": 0.889
+   },
+   "rm": {
+    "sensitivity": {
+     "k": 22,
+     "n": 29,
+     "rate": 0.759,
+     "ci95": [
+      0.579,
+      0.878
+     ],
+     "hypotheses": 8,
+     "cluster_ci95": [
+      0.458,
+      0.927
+     ],
+     "cluster_draws": 4000
+    },
+    "specificity": {
+     "k": 1,
+     "n": 3,
+     "rate": 0.333,
+     "ci95": [
+      0.061,
+      0.792
+     ],
+     "hypotheses": 2,
+     "cluster_ci95": [
+      0.0,
+      1.0
+     ],
+     "cluster_draws": 3616
+    },
+    "youden": 0.092
+   }
+  }
+ },
+ "speech": {
+  "run": "20261017-141121",
+  "file": "data/runs/speech/20261017-141121/scores.json",
+  "judge": "apertus-70b-fp8",
+  "chrf_below": 40.0,
+  "apertus": {
+   "model": "onprem-ai/Apertus-v1.5-70B-FP8",
+   "agreement": {
+    "all": {
+     "n": 480,
+     "both": 196,
+     "judge_only": 33,
+     "chrf_only": 51,
+     "neither": 200,
+     "raw": 0.825,
+     "kappa": 0.65,
+     "kappa_ci95": [
+      0.523,
+      0.754
+     ]
+    },
+    "per_dialect": {
+     "ag": {
+      "n": 60,
+      "both": 36,
+      "judge_only": 5,
+      "chrf_only": 6,
+      "neither": 13,
+      "raw": 0.817,
+      "kappa": 0.57,
+      "kappa_ci95": [
+       0.326,
+       0.781
+      ]
+     },
+     "be": {
+      "n": 60,
+      "both": 22,
+      "judge_only": 4,
+      "chrf_only": 5,
+      "neither": 29,
+      "raw": 0.85,
+      "kappa": 0.696,
+      "kappa_ci95": [
+       0.5,
+       0.866
+      ]
+     },
+     "bs": {
+      "n": 60,
+      "both": 15,
+      "judge_only": 4,
+      "chrf_only": 5,
+      "neither": 36,
+      "raw": 0.85,
+      "kappa": 0.658,
+      "kappa_ci95": [
+       0.44,
+       0.853
+      ]
+     },
+     "gr": {
+      "n": 60,
+      "both": 17,
+      "judge_only": 3,
+      "chrf_only": 6,
+      "neither": 34,
+      "raw": 0.85,
+      "kappa": 0.675,
+      "kappa_ci95": [
+       0.467,
+       0.856
+      ]
+     },
+     "lu": {
+      "n": 60,
+      "both": 32,
+      "judge_only": 4,
+      "chrf_only": 11,
+      "neither": 13,
+      "raw": 0.75,
+      "kappa": 0.453,
+      "kappa_ci95": [
+       0.214,
+       0.666
+      ]
+     },
+     "sg": {
+      "n": 60,
+      "both": 17,
+      "judge_only": 6,
+      "chrf_only": 6,
+      "neither": 31,
+      "raw": 0.8,
+      "kappa": 0.577,
+      "kappa_ci95": [
+       0.356,
+       0.78
+      ]
+     },
+     "vs": {
+      "n": 60,
+      "both": 31,
+      "judge_only": 4,
+      "chrf_only": 8,
+      "neither": 17,
+      "raw": 0.8,
+      "kappa": 0.579,
+      "kappa_ci95": [
+       0.354,
+       0.77
+      ]
+     },
+     "zh": {
+      "n": 60,
+      "both": 26,
+      "judge_only": 3,
+      "chrf_only": 4,
+      "neither": 27,
+      "raw": 0.883,
+      "kappa": 0.767,
+      "kappa_ci95": [
+       0.589,
+       0.925
+      ]
+     }
+    }
+   },
+   "ranking": {
+    "per_dialect": {
+     "ag": {
+      "unrelated": 0.683,
+      "mean_chrf": 34.13,
+      "low_chrf": 0.7
+     },
+     "be": {
+      "unrelated": 0.433,
+      "mean_chrf": 45.27,
+      "low_chrf": 0.45
+     },
+     "bs": {
+      "unrelated": 0.317,
+      "mean_chrf": 48.05,
+      "low_chrf": 0.333
+     },
+     "gr": {
+      "unrelated": 0.333,
+      "mean_chrf": 47.34,
+      "low_chrf": 0.383
+     },
+     "lu": {
+      "unrelated": 0.6,
+      "mean_chrf": 32.11,
+      "low_chrf": 0.717
+     },
+     "sg": {
+      "unrelated": 0.383,
+      "mean_chrf": 47.27,
+      "low_chrf": 0.383
+     },
+     "vs": {
+      "unrelated": 0.583,
+      "mean_chrf": 35.03,
+      "low_chrf": 0.65
+     },
+     "zh": {
+      "unrelated": 0.483,
+      "mean_chrf": 43.2,
+      "low_chrf": 0.5
+     }
+    },
+    "by_unrelated": [
+     [
+      "ag"
+     ],
+     [
+      "lu"
+     ],
+     [
+      "vs"
+     ],
+     [
+      "zh"
+     ],
+     [
+      "be"
+     ],
+     [
+      "sg"
+     ],
+     [
+      "gr"
+     ],
+     [
+      "bs"
+     ]
+    ],
+    "by_low_chrf": [
+     [
+      "lu"
+     ],
+     [
+      "ag"
+     ],
+     [
+      "vs"
+     ],
+     [
+      "zh"
+     ],
+     [
+      "be"
+     ],
+     [
+      "gr",
+      "sg"
+     ],
+     [
+      "bs"
+     ]
+    ],
+    "by_mean_chrf": [
+     [
+      "lu"
+     ],
+     [
+      "ag"
+     ],
+     [
+      "vs"
+     ],
+     [
+      "zh"
+     ],
+     [
+      "be"
+     ],
+     [
+      "sg"
+     ],
+     [
+      "gr"
+     ],
+     [
+      "bs"
+     ]
+    ],
+    "spearman_low_chrf": 0.97,
+    "spearman_mean_chrf": 0.976
+   }
+  },
+  "whisper": {
+   "model": "gcoli/whisper-large-v3-swiss-german-mit",
+   "agreement": {
+    "all": {
+     "n": 480,
+     "both": 0,
+     "judge_only": 6,
+     "chrf_only": 4,
+     "neither": 470,
+     "raw": 0.979,
+     "kappa": -0.01,
+     "kappa_ci95": [
+      -0.022,
+      0.0
+     ]
+    },
+    "per_dialect": {
+     "ag": {
+      "n": 60,
+      "both": 0,
+      "judge_only": 0,
+      "chrf_only": 1,
+      "neither": 59,
+      "raw": 0.983,
+      "kappa": 0.0,
+      "kappa_ci95": [
+       0.0,
+       0.0
+      ]
+     },
+     "be": {
+      "n": 60,
+      "both": 0,
+      "judge_only": 1,
+      "chrf_only": 0,
+      "neither": 59,
+      "raw": 0.983,
+      "kappa": 0.0,
+      "kappa_ci95": [
+       0.0,
+       0.0
+      ]
+     },
+     "bs": {
+      "n": 60,
+      "both": 0,
+      "judge_only": 0,
+      "chrf_only": 0,
+      "neither": 60,
+      "raw": 1.0,
+      "kappa": null,
+      "kappa_ci95": null
+     },
+     "gr": {
+      "n": 60,
+      "both": 0,
+      "judge_only": 0,
+      "chrf_only": 0,
+      "neither": 60,
+      "raw": 1.0,
+      "kappa": null,
+      "kappa_ci95": null
+     },
+     "lu": {
+      "n": 60,
+      "both": 0,
+      "judge_only": 1,
+      "chrf_only": 1,
+      "neither": 58,
+      "raw": 0.967,
+      "kappa": -0.017,
+      "kappa_ci95": [
+       -0.042,
+       0.0
+      ]
+     },
+     "sg": {
+      "n": 60,
+      "both": 0,
+      "judge_only": 1,
+      "chrf_only": 1,
+      "neither": 58,
+      "raw": 0.967,
+      "kappa": -0.017,
+      "kappa_ci95": [
+       -0.042,
+       0.0
+      ]
+     },
+     "vs": {
+      "n": 60,
+      "both": 0,
+      "judge_only": 3,
+      "chrf_only": 1,
+      "neither": 56,
+      "raw": 0.933,
+      "kappa": -0.026,
+      "kappa_ci95": [
+       -0.061,
+       0.0
+      ]
+     },
+     "zh": {
+      "n": 60,
+      "both": 0,
+      "judge_only": 0,
+      "chrf_only": 0,
+      "neither": 60,
+      "raw": 1.0,
+      "kappa": null,
+      "kappa_ci95": null
+     }
+    }
+   },
+   "ranking": {
+    "per_dialect": {
+     "ag": {
+      "unrelated": 0.0,
+      "mean_chrf": 79.49,
+      "low_chrf": 0.017
+     },
+     "be": {
+      "unrelated": 0.017,
+      "mean_chrf": 86.06,
+      "low_chrf": 0.0
+     },
+     "bs": {
+      "unrelated": 0.0,
+      "mean_chrf": 83.01,
+      "low_chrf": 0.0
+     },
+     "gr": {
+      "unrelated": 0.0,
+      "mean_chrf": 86.56,
+      "low_chrf": 0.0
+     },
+     "lu": {
+      "unrelated": 0.017,
+      "mean_chrf": 78.16,
+      "low_chrf": 0.017
+     },
+     "sg": {
+      "unrelated": 0.017,
+      "mean_chrf": 84.47,
+      "low_chrf": 0.017
+     },
+     "vs": {
+      "unrelated": 0.05,
+      "mean_chrf": 76.81,
+      "low_chrf": 0.017
+     },
+     "zh": {
+      "unrelated": 0.0,
+      "mean_chrf": 80.05,
+      "low_chrf": 0.0
+     }
+    },
+    "by_unrelated": [
+     [
+      "vs"
+     ],
+     [
+      "be",
+      "lu",
+      "sg"
+     ],
+     [
+      "ag",
+      "bs",
+      "gr",
+      "zh"
+     ]
+    ],
+    "by_low_chrf": [
+     [
+      "ag",
+      "lu",
+      "sg",
+      "vs"
+     ],
+     [
+      "be",
+      "bs",
+      "gr",
+      "zh"
+     ]
+    ],
+    "by_mean_chrf": [
+     [
+      "vs"
+     ],
+     [
+      "lu"
+     ],
+     [
+      "ag"
+     ],
+     [
+      "zh"
+     ],
+     [
+      "bs"
+     ],
+     [
+      "sg"
+     ],
+     [
+      "be"
+     ],
+     [
+      "gr"
+     ]
+    ],
+    "spearman_low_chrf": 0.538,
+    "spearman_mean_chrf": 0.365
+   }
+  }
+ }
+}

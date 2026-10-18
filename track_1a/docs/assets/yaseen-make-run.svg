@@ -1,0 +1,276 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 562" width="900" height="562" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif">
+  <style>
+    .bg { fill: #ffffff; }
+    .box { fill: #f6f5f1; stroke: #d9d6cc; stroke-width: 1.5; }
+    .card { fill: #ffffff; stroke: #d9d6cc; stroke-width: 1.5; }
+    .name { fill: #1d2433; font-size: 13.5px; font-weight: 700; }
+    .step { fill: #1d2433; font-size: 13px; font-weight: 700; }
+    .ink { fill: #1d2433; font-size: 12px; }
+    .sub { fill: #5f6672; font-size: 11.5px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .b { font-weight: 700; }
+    .title { fill: #1d2433; font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+    .label { fill: #5f6672; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+    .edge { stroke: #8b929e; stroke-width: 1.6; fill: none; }
+    .thin { stroke: #8b929e; stroke-width: 1.2; fill: none; }
+    .ahead { fill: #8b929e; }
+    .rule { stroke: #d9d6cc; stroke-width: 1; }
+    .red { fill: #d00511; }
+    .redS { stroke: #e30613; }
+    .redF { fill: #e30613; }
+    .green { fill: #1a7f37; }
+    .greenS { stroke: #1a7f37; }
+    .greenF { fill: #1a7f37; }
+    .white { fill: #ffffff; }
+    .icon { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .tick { fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .chk { fill: none; stroke: #5f6672; stroke-width: 1.4; }
+    .can { fill: #f6f5f1; stroke: #6b7280; stroke-width: 1.5; }
+    .key { stroke: #6b7280; stroke-width: 1.6; }
+    .coin { fill: #f2c14e; stroke: #a87a12; stroke-width: 1.5; }
+    .coinText { fill: #1d2433; font-size: 13px; font-weight: 700; }
+    .lid { fill: #e9e6dd; }
+    .note { fill: none; stroke: #928e82; stroke-width: 1.2; stroke-dasharray: 2 4; }
+
+    /* emphasis only: every element is visible without animation */
+    .glow { fill: none; stroke: #e30613; stroke-width: 3.5; opacity: 0; animation: hl 7s linear infinite; }
+    .glow.ok { stroke: #1a7f37; }
+    .d0 { animation-delay: 0s; } .d1 { animation-delay: 0.71s; } .d2 { animation-delay: 1.70s; }
+    .d3 { animation-delay: 2.70s; } .d4 { animation-delay: 3.69s; } .d5 { animation-delay: 4.68s; }
+    .d6 { animation-delay: 5.67s; }
+    .dot { fill: #e30613; animation: travel 7s linear infinite; }
+    .ping { fill: none; stroke: #1a7f37; stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; animation: ping 7s ease-out 3.9s infinite; }
+    .pop { transform-box: fill-box; transform-origin: center; animation: pop 7s ease-out 3.9s infinite; }
+    .flow { stroke-dasharray: 4 4; animation: dash 1s linear infinite; }
+    .frame { fill: none; stroke: #8b929e; stroke-width: 1.4; stroke-dasharray: 6 5; animation: march 4s linear infinite; }
+    .beat { fill: none; stroke: #e30613; stroke-width: 4; opacity: 0; animation: beat 2.4s ease-in-out infinite; }
+
+    @keyframes travel { 0% { transform: translateX(0); } 85%, 100% { transform: translateX(744px); } }
+    @keyframes hl { 0% { opacity: 0; } 4% { opacity: 1; } 12%, 100% { opacity: 0; } }
+    @keyframes ping { 0% { opacity: .9; transform: scale(1); } 14% { opacity: 0; transform: scale(2.3); } 100% { opacity: 0; } }
+    @keyframes pop { 0% { transform: scale(1); } 5% { transform: scale(1.3); } 12%, 100% { transform: scale(1); } }
+    @keyframes dash { to { stroke-dashoffset: -8; } }
+    @keyframes march { to { stroke-dashoffset: -22; } }
+    @keyframes beat { 0%, 100% { opacity: 0; } 50% { opacity: .85; } }
+
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+
+    @media (prefers-color-scheme: dark) {
+      .bg, .card { fill: #0d1117; }
+      .card { stroke: #343947; }
+      .box { fill: #1b1e26; stroke: #343947; }
+      .name, .step, .ink, .title { fill: #e8e9ee; }
+      .sub, .label { fill: #9aa1ad; }
+      .edge, .thin, .frame { stroke: #9aa1ad; }
+      .ahead { fill: #9aa1ad; }
+      .rule { stroke: #343947; }
+      .red { fill: #f85149; }
+      .redS { stroke: #f85149; }
+      .green { fill: #3fb950; }
+      .greenS { stroke: #3fb950; }
+      .chk, .can, .key { stroke: #9aa1ad; }
+      .can { fill: #1b1e26; }
+      .lid { fill: #2a2e39; }
+      .note { stroke: #6b7280; }
+      .glow.ok, .ping { stroke: #3fb950; }
+    }
+  </style>
+
+  <defs>
+    <marker id="ah" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="ahead" d="M0 0 L8 4 L0 8 z"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="900" height="562" rx="14"/>
+
+  <!-- ============ strip 1: make run ============ -->
+  <text class="title" x="20" y="32">MAKE RUN SHOWS THE FIVE FINDINGS</text>
+  <text class="label" x="874" y="32" text-anchor="end">DONE IN PR #2 · MON: 2ND LAPTOP</text>
+
+  <!-- bracket over the steps make run does (docker build … print table), acceptance pill inline -->
+  <path class="thin" d="M146 80 V66 H628 M856 66 H870 V80"/>
+  <rect class="bg" x="156" y="57" width="78" height="18"/>
+  <text class="ink mono b" x="164" y="70.5">make run</text>
+  <rect class="card greenS" x="628" y="55" width="228" height="21" rx="10.5"/>
+  <path class="icon greenS" d="M640 65.5 l3.5 3.5 l6.5 -7"/>
+  <text class="ink green b" x="753" y="70" text-anchor="middle">&lt; 2 min · twice = identical files</text>
+
+  <!-- arrows between the seven steps -->
+  <g class="edge" marker-end="url(#ah)">
+    <path d="M130 123 H143"/><path d="M254 123 H267"/><path d="M378 123 H391"/>
+    <path d="M502 123 H515"/><path d="M626 123 H639"/><path d="M750 123 H763"/>
+  </g>
+
+  <!-- steps: x = 20 + 124 i, centres 74 198 322 446 570 694 818 -->
+  <g>
+    <rect class="box" x="20" y="86" width="108" height="74" rx="12" style="stroke-dasharray:5 4"/>
+    <rect class="glow d0" x="20" y="86" width="108" height="74" rx="12"/>
+    <text class="step" x="74" y="110" text-anchor="middle">clean clone</text>
+    <text class="sub" x="74" y="127" text-anchor="middle">Mon · 2nd laptop</text>
+  </g>
+  <g>
+    <rect class="box" x="144" y="86" width="108" height="74" rx="12"/>
+    <rect class="glow d1" x="144" y="86" width="108" height="74" rx="12"/>
+    <text class="step" x="198" y="121" text-anchor="middle">docker build</text>
+  </g>
+  <g>
+    <rect class="box" x="268" y="86" width="108" height="74" rx="12"/>
+    <rect class="glow d2" x="268" y="86" width="108" height="74" rx="12"/>
+    <text class="step" x="322" y="110" text-anchor="middle">replay cache</text>
+    <text class="sub" x="322" y="127" text-anchor="middle">no GPU · no net</text>
+  </g>
+  <g>
+    <rect class="box" x="392" y="86" width="108" height="74" rx="12"/>
+    <rect class="glow d3" x="392" y="86" width="108" height="74" rx="12"/>
+    <text class="step" x="446" y="110" text-anchor="middle">rebuild</text>
+    <text class="sub" x="446" y="127" text-anchor="middle">the 5 findings</text>
+  </g>
+  <g>
+    <rect class="box" x="516" y="86" width="108" height="74" rx="12"/>
+    <rect class="glow ok d4" x="516" y="86" width="108" height="74" rx="12"/>
+    <text class="step" x="570" y="110" text-anchor="middle">compare</text>
+    <text class="sub" x="570" y="127" text-anchor="middle">with <tspan class="mono">findings/</tspan></text>
+    <text class="sub red b" x="570" y="143" text-anchor="middle">fails on any diff</text>
+    <!-- green check badge: always shown, pops when the probe arrives -->
+    <circle class="ping" cx="614" cy="95" r="10"/>
+    <g class="pop">
+      <circle class="greenF" cx="614" cy="95" r="10"/>
+      <path class="tick" d="M609 95.5 l3.2 3.2 l5.6 -6.4"/>
+    </g>
+  </g>
+  <g>
+    <rect class="box" x="640" y="86" width="108" height="74" rx="12"/>
+    <rect class="glow d5" x="640" y="86" width="108" height="74" rx="12"/>
+    <text class="step" x="694" y="110" text-anchor="middle">schema check</text>
+    <text class="sub" x="694" y="127" text-anchor="middle">also in CI</text>
+  </g>
+  <g>
+    <rect class="box" x="764" y="86" width="108" height="74" rx="12"/>
+    <rect class="glow d6" x="764" y="86" width="108" height="74" rx="12"/>
+    <text class="step" x="818" y="110" text-anchor="middle">print table</text>
+    <text class="sub" x="818" y="127" text-anchor="middle">= report's table</text>
+  </g>
+
+  <!-- travelling probe, on top of the boxes, below the subtitles -->
+  <circle class="dot" cx="74" cy="152" r="4"/>
+
+  <!-- inputs feeding replay and rebuild -->
+  <text class="label" x="24" y="234">INPUTS</text>
+  <path class="edge flow" marker-end="url(#ah)" d="M191 188 C191 175 322 178 322 163"/>
+  <path class="edge flow" marker-end="url(#ah)" d="M363 188 C363 175 424 178 424 163"/>
+  <path class="edge flow" marker-end="url(#ah)" d="M535 188 C535 175 468 178 468 163"/>
+
+  <g>
+    <path class="box" d="M110 198 V262 A81 8 0 0 0 272 262 V198 Z"/>
+    <ellipse class="box lid" cx="191" cy="198" rx="81" ry="8"/>
+    <text class="ink mono b" x="191" y="223" text-anchor="middle">data/llm_cache</text>
+    <text class="ink b" x="191" y="240" text-anchor="middle">~2 MB, one pack</text>
+    <text class="sub" x="191" y="255" text-anchor="middle">recorded model calls</text>
+  </g>
+  <g>
+    <path class="box" d="M282 198 V262 A81 8 0 0 0 444 262 V198 Z"/>
+    <ellipse class="box lid" cx="363" cy="198" rx="81" ry="8"/>
+    <text class="ink mono b" x="363" y="223" text-anchor="middle">data/runs/&lt;id&gt;</text>
+    <text class="ink b" x="363" y="240" text-anchor="middle">~9 MB</text>
+    <text class="sub" x="363" y="255" text-anchor="middle">events · control · rejudge</text>
+  </g>
+  <g>
+    <path class="box" d="M454 198 V262 A81 8 0 0 0 616 262 V198 Z"/>
+    <ellipse class="box lid" cx="535" cy="198" rx="81" ry="8"/>
+    <text class="ink b" x="535" y="223" text-anchor="middle">speech scores</text>
+    <text class="ink" x="535" y="240" text-anchor="middle">per clip · <tspan class="red b">no text</tspan></text>
+    <text class="sub" x="535" y="255" text-anchor="middle">SwissDial is CC BY-NC</text>
+  </g>
+
+  <!-- what make run prints -->
+  <text class="label" x="628" y="182">MAKE RUN PRINTS</text>
+  <path class="edge" marker-end="url(#ah)" d="M818 163 V196"/>
+  <g>
+    <rect class="card greenS" x="628" y="198" width="246" height="66" rx="10"/>
+    <path class="icon greenS" d="M640 210.5 l3 3 l6 -7"/>
+    <text class="label green" x="655" y="215">THE REPORT'S NUMBERS</text>
+    <text class="ink" x="641" y="236">5 findings, same as <tspan class="mono">findings/</tspan></text>
+    <text class="ink" x="641" y="253">16 of 31 flagged hypotheses counted</text>
+  </g>
+
+  <line class="rule" x1="20" y1="302" x2="874" y2="302"/>
+
+  <!-- ============ strip 2: one pod session ============ -->
+  <text class="title" x="20" y="330">ONE POD SESSION, ONE BATCH</text>
+  <text class="label" x="874" y="330" text-anchor="end">SUN</text>
+
+  <!-- marching dashes = pod is running -->
+  <rect class="frame" x="20" y="344" width="506" height="146" rx="14"/>
+  <text class="label" x="34" y="361">GPU POD</text>
+
+  <g class="edge" marker-end="url(#ah)">
+    <path d="M164 423 H182"/><path d="M400 423 H414"/><path d="M518 423 H546"/>
+  </g>
+
+  <g>
+    <rect class="box" x="34" y="368" width="128" height="110" rx="12"/>
+    <text class="name" x="48" y="390">pod setup</text>
+    <circle class="ahead" cx="51" cy="404" r="2"/><text class="sub" x="58" y="408">install vLLM</text>
+    <circle class="ahead" cx="51" cy="419" r="2"/><text class="sub" x="58" y="423">serve 8B and 70B</text>
+    <circle class="ahead" cx="51" cy="434" r="2"/><text class="sub" x="58" y="438">steps in</text>
+    <text class="sub mono" x="58" y="453">runpod/README</text>
+  </g>
+  <g>
+    <rect class="box" x="184" y="368" width="214" height="110" rx="12"/>
+    <text class="name mono" x="198" y="390">batches.sh rejudge</text>
+    <circle class="ahead" cx="201" cy="404" r="2"/><text class="sub" x="208" y="408">second judge, full answers</text>
+    <line class="rule" x1="198" y1="420" x2="384" y2="420"/>
+    <text class="ink" x="198" y="438"><tspan class="b">by hand:</tspan> official 8B on bank 2</text>
+    <text class="sub mono" x="198" y="455">redteam.run --only</text>
+    <text class="sub" x="198" y="470">no batch for it yet</text>
+  </g>
+  <g>
+    <rect class="box" x="416" y="368" width="100" height="110" rx="12"/>
+    <text class="name" x="466" y="392" text-anchor="middle">copy cache</text>
+    <text class="name" x="466" y="409" text-anchor="middle">back</text>
+    <path class="can" d="M452 426 V442 A14 4 0 0 0 480 442 V426 Z"/>
+    <ellipse class="can lid" cx="466" cy="426" rx="14" ry="4"/>
+  </g>
+
+  <!-- stop the pod: red, pulsing -->
+  <g>
+    <rect class="box redS" x="548" y="368" width="116" height="110" rx="12" style="stroke-width:2"/>
+    <rect class="beat" x="548" y="368" width="116" height="110" rx="12"/>
+    <circle class="redF" cx="606" cy="391" r="12"/>
+    <rect class="white" x="601" y="386" width="10" height="10" rx="1.5"/>
+    <text class="red b" x="606" y="421" text-anchor="middle" font-size="14" letter-spacing=".06em">STOP POD</text>
+    <text class="sub" x="606" y="438" text-anchor="middle">idle pod</text>
+    <text class="sub" x="606" y="452" text-anchor="middle">costs money</text>
+    <circle class="coin" cx="660" cy="370" r="12"/>
+    <text class="coinText" x="660" y="374.5" text-anchor="middle">€</text>
+  </g>
+
+  <!-- Peter's one manual step, needed before the 8B is served (gated) -->
+  <path class="thin" marker-end="url(#ah)" d="M291 502 V481" stroke-dasharray="4 4"/>
+  <rect class="card" x="170" y="502" width="242" height="24" rx="12"/>
+  <path class="icon key" d="M186 514 m-4 0 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M190 514 H200 M197 514 V518"/>
+  <text class="ink" x="208" y="518.5"><tspan class="b">Peter:</tspan> <tspan class="mono">hf auth login</tspan> <tspan class="sub">· gated 8B</tspan></text>
+
+  <!-- not in any batch: these need new code and hypotheses first -->
+  <g>
+    <rect class="note" x="430" y="502" width="444" height="46" rx="12"/>
+    <text class="label" x="444" y="520">NOT READY · NEEDS NEW CODE FIRST</text>
+    <text class="ink" x="444" y="538">privacy control that names the person · more invented people</text>
+  </g>
+
+  <!-- small chores: a side note, not a pod step -->
+  <g>
+    <rect class="note" x="684" y="344" width="190" height="134" rx="12"/>
+    <text class="label" x="698" y="367">ALSO · SMALL</text>
+    <rect class="greenF" x="698" y="384" width="12" height="12" rx="3"/>
+    <path class="tick" d="M701 390 l2 2 l4 -4.5"/>
+    <text class="sub" x="718" y="394.5">Origin check on POST</text>
+    <rect class="chk" x="698" y="412" width="12" height="12" rx="3"/>
+    <text class="ink" x="718" y="422.5">tests in Docker image</text>
+    <rect class="greenF" x="698" y="440" width="12" height="12" rx="3"/>
+    <path class="tick" d="M701 446 l2 2 l4 -4.5"/>
+    <text class="sub" x="718" y="450.5">forward <tspan class="mono">RED_LLM_*</tspan></text>
+    <text class="sub" x="698" y="470">ticked: done in PR #2</text>
+  </g>
+</svg>

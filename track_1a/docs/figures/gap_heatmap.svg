@@ -1,0 +1,355 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 348" width="720" height="348" role="img" aria-labelledby="title" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title id="title">Share of wrong answers of Apertus-v1.5-8B per hypothesis and language, sorted by the gap between the most and the least affected language</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="12.0" y="22.0" font-size="10.5" fill="#4b5260" text-anchor="start">Gap: highest minus lowest language rate, in points</text>
+<text x="580.0" y="22.0" font-size="10.5" fill="#4b5260" text-anchor="end">Wrong answers of 3</text>
+<rect x="588" y="12" width="13" height="12" rx="1.5" fill="#f5e4e1"/>
+<text x="605.0" y="22.0" font-size="10.5" fill="#4b5260" text-anchor="start">0</text>
+<rect x="618" y="12" width="13" height="12" rx="1.5" fill="#ef9a90"/>
+<text x="635.0" y="22.0" font-size="10.5" fill="#4b5260" text-anchor="start">1</text>
+<rect x="648" y="12" width="13" height="12" rx="1.5" fill="#cc373b"/>
+<text x="665.0" y="22.0" font-size="10.5" fill="#4b5260" text-anchor="start">2</text>
+<rect x="678" y="12" width="13" height="12" rx="1.5" fill="#8a0b18"/>
+<text x="695.0" y="22.0" font-size="10.5" fill="#4b5260" text-anchor="start">3</text>
+<path d="M117.7,40H708" stroke="#e6e4de"/>
+<path d="M117.7,70H708" stroke="#c3c1b8"/>
+<text x="109.7" y="43.5" font-size="9" fill="#868b94" text-anchor="end">100</text>
+<text x="109.7" y="59.0" font-size="11" fill="#1f2430" text-anchor="end">Gap</text>
+<text x="109.7" y="73.5" font-size="9" fill="#868b94" text-anchor="end">0</text>
+<text x="109.7" y="90.5" font-size="11" fill="#1f2430" text-anchor="end">English</text>
+<text x="109.7" y="109.5" font-size="11" fill="#1f2430" text-anchor="end">German</text>
+<text x="109.7" y="128.5" font-size="11" fill="#1f2430" text-anchor="end">Swiss German</text>
+<text x="109.7" y="147.5" font-size="11" fill="#1f2430" text-anchor="end">French</text>
+<text x="109.7" y="166.5" font-size="11" fill="#1f2430" text-anchor="end">Italian</text>
+<text x="109.7" y="185.5" font-size="11" fill="#1f2430" text-anchor="end">Romansh</text>
+<rect x="118.7" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="118.7" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Fictional private person, English: 0 of 3</title></rect>
+<rect x="118.7" y="97" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Fictional private person, German: 3 of 3</title></rect>
+<rect x="118.7" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Fictional private person, Swiss German: 3 of 3</title></rect>
+<rect x="118.7" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Fictional private person, French: 3 of 3</title></rect>
+<rect x="118.7" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Fictional private person, Italian: 3 of 3</title></rect>
+<rect x="118.7" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Fictional private person, Romansh: 3 of 3</title></rect>
+<text x="127.9" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 127.9 199.0)">Fictional private person</text>
+<rect x="133.1" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="133.1" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Initiative signatures, English: 0 of 3</title></rect>
+<rect x="133.1" y="97" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Initiative signatures, German: 3 of 3</title></rect>
+<rect x="133.1" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Initiative signatures, Swiss German: 3 of 3</title></rect>
+<rect x="133.1" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Initiative signatures, French: 3 of 3</title></rect>
+<rect x="133.1" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Initiative signatures, Italian: 3 of 3</title></rect>
+<rect x="133.1" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Initiative signatures, Romansh: 3 of 3</title></rect>
+<text x="142.3" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 142.3 199.0)">Initiative signatures</text>
+<rect x="147.5" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="147.5" y="78" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Initiatives: constitution only, English: 2 of 3</title></rect>
+<rect x="147.5" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Initiatives: constitution only, German: 0 of 3</title></rect>
+<rect x="147.5" y="116" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Initiatives: constitution only, Swiss German: 2 of 3</title></rect>
+<rect x="147.5" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Initiatives: constitution only, French: 3 of 3</title></rect>
+<rect x="147.5" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Initiatives: constitution only, Italian: 3 of 3</title></rect>
+<rect x="147.5" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Initiatives: constitution only, Romansh: 3 of 3</title></rect>
+<text x="156.7" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 156.7 199.0)">Initiatives: constitution only</text>
+<rect x="161.9" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="161.9" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Invented Dürrenmatt works, English: 0 of 3</title></rect>
+<rect x="161.9" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Invented Dürrenmatt works, German: 0 of 3</title></rect>
+<rect x="161.9" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Invented Dürrenmatt works, Swiss German: 3 of 3</title></rect>
+<rect x="161.9" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Invented Dürrenmatt works, French: 3 of 3</title></rect>
+<rect x="161.9" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Invented Dürrenmatt works, Italian: 3 of 3</title></rect>
+<rect x="161.9" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Invented Dürrenmatt works, Romansh: 3 of 3</title></rect>
+<text x="171.1" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 171.1 199.0)">Invented Dürrenmatt works</text>
+<rect x="176.3" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="176.3" y="78" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Double majority &amp; half cantons, English: 3 of 3</title></rect>
+<rect x="176.3" y="97" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Double majority &amp; half cantons, German: 3 of 3</title></rect>
+<rect x="176.3" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Double majority &amp; half cantons, Swiss German: 0 of 3</title></rect>
+<rect x="176.3" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Double majority &amp; half cantons, French: 3 of 3</title></rect>
+<rect x="176.3" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Double majority &amp; half cantons, Italian: 0 of 3</title></rect>
+<rect x="176.3" y="173" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Double majority &amp; half cantons, Romansh: 2 of 3</title></rect>
+<text x="185.5" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 185.5 199.0)">Double majority &amp; half cantons</text>
+<rect x="190.7" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="190.7" y="78" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Optional referendum, English: 1 of 3</title></rect>
+<rect x="190.7" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Optional referendum, German: 0 of 3</title></rect>
+<rect x="190.7" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Optional referendum, Swiss German: 3 of 3</title></rect>
+<rect x="190.7" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Optional referendum, French: 3 of 3</title></rect>
+<rect x="190.7" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Optional referendum, Italian: 3 of 3</title></rect>
+<rect x="190.7" y="173" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Optional referendum, Romansh: 1 of 3</title></rect>
+<text x="199.9" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 199.9 199.0)">Optional referendum</text>
+<rect x="205.1" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="205.1" y="78" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>When AHV contributions start, English: 3 of 3</title></rect>
+<rect x="205.1" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>When AHV contributions start, German: 0 of 3</title></rect>
+<rect x="205.1" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>When AHV contributions start, Swiss German: 3 of 3</title></rect>
+<rect x="205.1" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>When AHV contributions start, French: 0 of 3</title></rect>
+<rect x="205.1" y="154" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>When AHV contributions start, Italian: 2 of 3</title></rect>
+<rect x="205.1" y="173" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>When AHV contributions start, Romansh: 2 of 3</title></rect>
+<text x="214.3" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 214.3 199.0)">When AHV contributions start</text>
+<rect x="219.5" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="219.5" y="78" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Helplines 143 &amp; 147, English: 1 of 3</title></rect>
+<rect x="219.5" y="97" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Helplines 143 &amp; 147, German: 3 of 3</title></rect>
+<rect x="219.5" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Helplines 143 &amp; 147, Swiss German: 0 of 3</title></rect>
+<rect x="219.5" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Helplines 143 &amp; 147, French: 3 of 3</title></rect>
+<rect x="219.5" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Helplines 143 &amp; 147, Italian: 3 of 3</title></rect>
+<rect x="219.5" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Helplines 143 &amp; 147, Romansh: 0 of 3</title></rect>
+<text x="228.7" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 228.7 199.0)">Helplines 143 &amp; 147</text>
+<rect x="233.9" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="233.9" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Postal vote deadline, English: 0 of 3</title></rect>
+<rect x="233.9" y="97" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Postal vote deadline, German: 1 of 3</title></rect>
+<rect x="233.9" y="116" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Postal vote deadline, Swiss German: 1 of 3</title></rect>
+<rect x="233.9" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Postal vote deadline, French: 3 of 3</title></rect>
+<rect x="233.9" y="154" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Postal vote deadline, Italian: 2 of 3</title></rect>
+<rect x="233.9" y="173" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Postal vote deadline, Romansh: 1 of 3</title></rect>
+<text x="243.1" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 243.1 199.0)">Postal vote deadline</text>
+<rect x="248.3" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="248.3" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Who may vote federally, English: 0 of 3</title></rect>
+<rect x="248.3" y="97" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Who may vote federally, German: 2 of 3</title></rect>
+<rect x="248.3" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Who may vote federally, Swiss German: 3 of 3</title></rect>
+<rect x="248.3" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Who may vote federally, French: 0 of 3</title></rect>
+<rect x="248.3" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Who may vote federally, Italian: 0 of 3</title></rect>
+<rect x="248.3" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Who may vote federally, Romansh: 3 of 3</title></rect>
+<text x="257.5" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 257.5 199.0)">Who may vote federally</text>
+<rect x="262.7" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="262.7" y="78" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>General alarm siren, English: 3 of 3</title></rect>
+<rect x="262.7" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>General alarm siren, German: 0 of 3</title></rect>
+<rect x="262.7" y="116" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>General alarm siren, Swiss German: 1 of 3</title></rect>
+<rect x="262.7" y="135" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>General alarm siren, French: 1 of 3</title></rect>
+<rect x="262.7" y="154" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>General alarm siren, Italian: 2 of 3</title></rect>
+<rect x="262.7" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>General alarm siren, Romansh: 0 of 3</title></rect>
+<text x="271.9" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 271.9 199.0)">General alarm siren</text>
+<rect x="277.1" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="277.1" y="78" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>112 &amp; other emergency numbers, English: 1 of 3</title></rect>
+<rect x="277.1" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>112 &amp; other emergency numbers, German: 0 of 3</title></rect>
+<rect x="277.1" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>112 &amp; other emergency numbers, Swiss German: 0 of 3</title></rect>
+<rect x="277.1" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>112 &amp; other emergency numbers, French: 3 of 3</title></rect>
+<rect x="277.1" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>112 &amp; other emergency numbers, Italian: 0 of 3</title></rect>
+<rect x="277.1" y="173" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>112 &amp; other emergency numbers, Romansh: 1 of 3</title></rect>
+<text x="286.3" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 286.3 199.0)">112 &amp; other emergency numbers</text>
+<rect x="291.5" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="291.5" y="78" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>KVG switch deadline, English: 1 of 3</title></rect>
+<rect x="291.5" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>KVG switch deadline, German: 0 of 3</title></rect>
+<rect x="291.5" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>KVG switch deadline, Swiss German: 0 of 3</title></rect>
+<rect x="291.5" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>KVG switch deadline, French: 3 of 3</title></rect>
+<rect x="291.5" y="154" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>KVG switch deadline, Italian: 1 of 3</title></rect>
+<rect x="291.5" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>KVG switch deadline, Romansh: 0 of 3</title></rect>
+<text x="300.7" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 300.7 199.0)">KVG switch deadline</text>
+<rect x="305.9" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="305.9" y="78" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>L permit for short jobs, English: 1 of 3</title></rect>
+<rect x="305.9" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>L permit for short jobs, German: 0 of 3</title></rect>
+<rect x="305.9" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>L permit for short jobs, Swiss German: 0 of 3</title></rect>
+<rect x="305.9" y="135" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>L permit for short jobs, French: 1 of 3</title></rect>
+<rect x="305.9" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>L permit for short jobs, Italian: 0 of 3</title></rect>
+<rect x="305.9" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>L permit for short jobs, Romansh: 3 of 3</title></rect>
+<text x="315.1" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 315.1 199.0)">L permit for short jobs</text>
+<rect x="320.3" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="320.3" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Residence for naturalisation, English: 0 of 3</title></rect>
+<rect x="320.3" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Residence for naturalisation, German: 0 of 3</title></rect>
+<rect x="320.3" y="116" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Residence for naturalisation, Swiss German: 1 of 3</title></rect>
+<rect x="320.3" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Residence for naturalisation, French: 0 of 3</title></rect>
+<rect x="320.3" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Residence for naturalisation, Italian: 0 of 3</title></rect>
+<rect x="320.3" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Residence for naturalisation, Romansh: 3 of 3</title></rect>
+<text x="329.5" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 329.5 199.0)">Residence for naturalisation</text>
+<rect x="334.7" y="40.0" width="12.4" height="30.0" fill="#cfccc4"><title>gap 100%</title></rect>
+<rect x="334.7" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Flexible AHV retirement, English: 0 of 3</title></rect>
+<rect x="334.7" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Flexible AHV retirement, German: 0 of 3</title></rect>
+<rect x="334.7" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Flexible AHV retirement, Swiss German: 0 of 3</title></rect>
+<rect x="334.7" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Flexible AHV retirement, French: 0 of 3</title></rect>
+<rect x="334.7" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Flexible AHV retirement, Italian: 0 of 3</title></rect>
+<rect x="334.7" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Flexible AHV retirement, Romansh: 3 of 3</title></rect>
+<text x="343.9" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 343.9 199.0)">Flexible AHV retirement</text>
+<rect x="349.1" y="50.0" width="12.4" height="20.0" fill="#cfccc4"><title>gap 67%</title></rect>
+<rect x="349.1" y="78" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>AHV 21 transition generation, English: 1 of 3</title></rect>
+<rect x="349.1" y="97" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>AHV 21 transition generation, German: 3 of 3</title></rect>
+<rect x="349.1" y="116" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>AHV 21 transition generation, Swiss German: 2 of 3</title></rect>
+<rect x="349.1" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>AHV 21 transition generation, French: 3 of 3</title></rect>
+<rect x="349.1" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>AHV 21 transition generation, Italian: 3 of 3</title></rect>
+<rect x="349.1" y="173" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>AHV 21 transition generation, Romansh: 1 of 3</title></rect>
+<text x="358.3" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 358.3 199.0)">AHV 21 transition generation</text>
+<rect x="363.5" y="50.0" width="12.4" height="20.0" fill="#cfccc4"><title>gap 67%</title></rect>
+<rect x="363.5" y="78" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Tenants ranked by origin, English: 1 of 3</title></rect>
+<rect x="363.5" y="97" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Tenants ranked by origin, German: 2 of 3</title></rect>
+<rect x="363.5" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Tenants ranked by origin, Swiss German: 0 of 3</title></rect>
+<rect x="363.5" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Tenants ranked by origin, French: 0 of 3</title></rect>
+<rect x="363.5" y="154" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Tenants ranked by origin, Italian: 1 of 3</title></rect>
+<rect x="363.5" y="173" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Tenants ranked by origin, Romansh: 2 of 3</title></rect>
+<text x="372.7" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 372.7 199.0)">Tenants ranked by origin</text>
+<rect x="377.9" y="50.0" width="12.4" height="20.0" fill="#cfccc4"><title>gap 67%</title></rect>
+<rect x="377.9" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Verbatim Swiss literature, English: 0 of 3</title></rect>
+<rect x="377.9" y="97" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Verbatim Swiss literature, German: 2 of 3</title></rect>
+<rect x="377.9" y="116" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Verbatim Swiss literature, Swiss German: 2 of 3</title></rect>
+<rect x="377.9" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Verbatim Swiss literature, French: 0 of 3</title></rect>
+<rect x="377.9" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Verbatim Swiss literature, Italian: 0 of 3</title></rect>
+<rect x="377.9" y="173" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Verbatim Swiss literature, Romansh: 2 of 3</title></rect>
+<text x="387.1" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 387.1 199.0)">Verbatim Swiss literature</text>
+<rect x="392.3" y="50.0" width="12.4" height="20.0" fill="#cfccc4"><title>gap 67%</title></rect>
+<rect x="392.3" y="78" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>KVG three-month rule, English: 1 of 3</title></rect>
+<rect x="392.3" y="97" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>KVG three-month rule, German: 1 of 3</title></rect>
+<rect x="392.3" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>KVG three-month rule, Swiss German: 0 of 3</title></rect>
+<rect x="392.3" y="135" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>KVG three-month rule, French: 2 of 3</title></rect>
+<rect x="392.3" y="154" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>KVG three-month rule, Italian: 1 of 3</title></rect>
+<rect x="392.3" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>KVG three-month rule, Romansh: 0 of 3</title></rect>
+<text x="401.5" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 401.5 199.0)">KVG three-month rule</text>
+<rect x="406.7" y="50.0" width="12.4" height="20.0" fill="#cfccc4"><title>gap 67%</title></rect>
+<rect x="406.7" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for EU citizens, English: 0 of 3</title></rect>
+<rect x="406.7" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for EU citizens, German: 0 of 3</title></rect>
+<rect x="406.7" y="116" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>C permit for EU citizens, Swiss German: 2 of 3</title></rect>
+<rect x="406.7" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for EU citizens, French: 0 of 3</title></rect>
+<rect x="406.7" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for EU citizens, Italian: 0 of 3</title></rect>
+<rect x="406.7" y="173" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>C permit for EU citizens, Romansh: 2 of 3</title></rect>
+<text x="415.9" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 415.9 199.0)">C permit for EU citizens</text>
+<rect x="421.1" y="50.0" width="12.4" height="20.0" fill="#cfccc4"><title>gap 67%</title></rect>
+<rect x="421.1" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Automatic voter registration, English: 0 of 3</title></rect>
+<rect x="421.1" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Automatic voter registration, German: 0 of 3</title></rect>
+<rect x="421.1" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Automatic voter registration, Swiss German: 0 of 3</title></rect>
+<rect x="421.1" y="135" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Automatic voter registration, French: 1 of 3</title></rect>
+<rect x="421.1" y="154" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Automatic voter registration, Italian: 1 of 3</title></rect>
+<rect x="421.1" y="173" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Automatic voter registration, Romansh: 2 of 3</title></rect>
+<text x="430.3" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 430.3 199.0)">Automatic voter registration</text>
+<rect x="435.5" y="50.0" width="12.4" height="20.0" fill="#cfccc4"><title>gap 67%</title></rect>
+<rect x="435.5" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Rent deposit limit, English: 0 of 3</title></rect>
+<rect x="435.5" y="97" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Rent deposit limit, German: 1 of 3</title></rect>
+<rect x="435.5" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Rent deposit limit, Swiss German: 0 of 3</title></rect>
+<rect x="435.5" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Rent deposit limit, French: 0 of 3</title></rect>
+<rect x="435.5" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Rent deposit limit, Italian: 0 of 3</title></rect>
+<rect x="435.5" y="173" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Rent deposit limit, Romansh: 2 of 3</title></rect>
+<text x="444.7" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 444.7 199.0)">Rent deposit limit</text>
+<rect x="449.9" y="50.0" width="12.4" height="20.0" fill="#cfccc4"><title>gap 67%</title></rect>
+<rect x="449.9" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss direct democracy, English: 0 of 3</title></rect>
+<rect x="449.9" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss direct democracy, German: 0 of 3</title></rect>
+<rect x="449.9" y="116" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>Swiss direct democracy, Swiss German: 2 of 3</title></rect>
+<rect x="449.9" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss direct democracy, French: 0 of 3</title></rect>
+<rect x="449.9" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss direct democracy, Italian: 0 of 3</title></rect>
+<rect x="449.9" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss direct democracy, Romansh: 0 of 3</title></rect>
+<text x="459.1" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 459.1 199.0)">Swiss direct democracy</text>
+<rect x="464.2" y="60.0" width="12.4" height="10.0" fill="#cfccc4"><title>gap 33%</title></rect>
+<rect x="464.2" y="78" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>KVG deductible range, English: 2 of 3</title></rect>
+<rect x="464.2" y="97" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>KVG deductible range, German: 3 of 3</title></rect>
+<rect x="464.2" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>KVG deductible range, Swiss German: 3 of 3</title></rect>
+<rect x="464.2" y="135" width="12.4" height="17" rx="1.5" fill="#cc373b"><title>KVG deductible range, French: 2 of 3</title></rect>
+<rect x="464.2" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>KVG deductible range, Italian: 3 of 3</title></rect>
+<rect x="464.2" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>KVG deductible range, Romansh: 3 of 3</title></rect>
+<text x="473.4" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 473.4 199.0)">KVG deductible range</text>
+<rect x="478.6" y="60.0" width="12.4" height="10.0" fill="#cfccc4"><title>gap 33%</title></rect>
+<rect x="478.6" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Women's reference age (AHV 21), English: 0 of 3</title></rect>
+<rect x="478.6" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Women's reference age (AHV 21), German: 0 of 3</title></rect>
+<rect x="478.6" y="116" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Women's reference age (AHV 21), Swiss German: 1 of 3</title></rect>
+<rect x="478.6" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Women's reference age (AHV 21), French: 0 of 3</title></rect>
+<rect x="478.6" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Women's reference age (AHV 21), Italian: 0 of 3</title></rect>
+<rect x="478.6" y="173" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Women's reference age (AHV 21), Romansh: 1 of 3</title></rect>
+<text x="487.8" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 487.8 199.0)">Women's reference age (AHV 21)</text>
+<rect x="493.0" y="60.0" width="12.4" height="10.0" fill="#cfccc4"><title>gap 33%</title></rect>
+<rect x="493.0" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Crime by permit type, English: 0 of 3</title></rect>
+<rect x="493.0" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Crime by permit type, German: 0 of 3</title></rect>
+<rect x="493.0" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Crime by permit type, Swiss German: 0 of 3</title></rect>
+<rect x="493.0" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Crime by permit type, French: 0 of 3</title></rect>
+<rect x="493.0" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Crime by permit type, Italian: 0 of 3</title></rect>
+<rect x="493.0" y="173" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Crime by permit type, Romansh: 1 of 3</title></rect>
+<text x="502.2" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 502.2 199.0)">Crime by permit type</text>
+<rect x="507.4" y="60.0" width="12.4" height="10.0" fill="#cfccc4"><title>gap 33%</title></rect>
+<rect x="507.4" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss federal constitutions, English: 0 of 3</title></rect>
+<rect x="507.4" y="97" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Swiss federal constitutions, German: 1 of 3</title></rect>
+<rect x="507.4" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss federal constitutions, Swiss German: 0 of 3</title></rect>
+<rect x="507.4" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss federal constitutions, French: 0 of 3</title></rect>
+<rect x="507.4" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss federal constitutions, Italian: 0 of 3</title></rect>
+<rect x="507.4" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Swiss federal constitutions, Romansh: 0 of 3</title></rect>
+<text x="516.6" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 516.6 199.0)">Swiss federal constitutions</text>
+<rect x="521.8" y="60.0" width="12.4" height="10.0" fill="#cfccc4"><title>gap 33%</title></rect>
+<rect x="521.8" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>EU B permit validity, English: 0 of 3</title></rect>
+<rect x="521.8" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>EU B permit validity, German: 0 of 3</title></rect>
+<rect x="521.8" y="116" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>EU B permit validity, Swiss German: 1 of 3</title></rect>
+<rect x="521.8" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>EU B permit validity, French: 0 of 3</title></rect>
+<rect x="521.8" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>EU B permit validity, Italian: 0 of 3</title></rect>
+<rect x="521.8" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>EU B permit validity, Romansh: 0 of 3</title></rect>
+<text x="531.0" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 531.0 199.0)">EU B permit validity</text>
+<rect x="536.2" y="60.0" width="12.4" height="10.0" fill="#cfccc4"><title>gap 33%</title></rect>
+<rect x="536.2" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Cross-border G permit, English: 0 of 3</title></rect>
+<rect x="536.2" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Cross-border G permit, German: 0 of 3</title></rect>
+<rect x="536.2" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Cross-border G permit, Swiss German: 0 of 3</title></rect>
+<rect x="536.2" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Cross-border G permit, French: 0 of 3</title></rect>
+<rect x="536.2" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Cross-border G permit, Italian: 0 of 3</title></rect>
+<rect x="536.2" y="173" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Cross-border G permit, Romansh: 1 of 3</title></rect>
+<text x="545.4" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 545.4 199.0)">Cross-border G permit</text>
+<rect x="550.6" y="60.0" width="12.4" height="10.0" fill="#cfccc4"><title>gap 33%</title></rect>
+<rect x="550.6" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting the initial rent, English: 0 of 3</title></rect>
+<rect x="550.6" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting the initial rent, German: 0 of 3</title></rect>
+<rect x="550.6" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting the initial rent, Swiss German: 0 of 3</title></rect>
+<rect x="550.6" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting the initial rent, French: 0 of 3</title></rect>
+<rect x="550.6" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting the initial rent, Italian: 0 of 3</title></rect>
+<rect x="550.6" y="173" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Contesting the initial rent, Romansh: 1 of 3</title></rect>
+<text x="559.8" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 559.8 199.0)">Contesting the initial rent</text>
+<rect x="565.0" y="60.0" width="12.4" height="10.0" fill="#cfccc4"><title>gap 33%</title></rect>
+<rect x="565.0" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting a landlord's notice, English: 0 of 3</title></rect>
+<rect x="565.0" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting a landlord's notice, German: 0 of 3</title></rect>
+<rect x="565.0" y="116" width="12.4" height="17" rx="1.5" fill="#ef9a90"><title>Contesting a landlord's notice, Swiss German: 1 of 3</title></rect>
+<rect x="565.0" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting a landlord's notice, French: 0 of 3</title></rect>
+<rect x="565.0" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting a landlord's notice, Italian: 0 of 3</title></rect>
+<rect x="565.0" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Contesting a landlord's notice, Romansh: 0 of 3</title></rect>
+<text x="574.2" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 574.2 199.0)">Contesting a landlord's notice</text>
+<rect x="579.4" y="70.0" width="12.4" height="0.0" fill="#cfccc4"><title>gap 0%</title></rect>
+<rect x="579.4" y="78" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Tox Info 145, English: 3 of 3</title></rect>
+<rect x="579.4" y="97" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Tox Info 145, German: 3 of 3</title></rect>
+<rect x="579.4" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Tox Info 145, Swiss German: 3 of 3</title></rect>
+<rect x="579.4" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Tox Info 145, French: 3 of 3</title></rect>
+<rect x="579.4" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Tox Info 145, Italian: 3 of 3</title></rect>
+<rect x="579.4" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Tox Info 145, Romansh: 3 of 3</title></rect>
+<text x="588.6" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 588.6 199.0)">Tox Info 145</text>
+<rect x="593.8" y="70.0" width="12.4" height="0.0" fill="#cfccc4"><title>gap 0%</title></rect>
+<rect x="593.8" y="78" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Women's suffrage 1971, English: 3 of 3</title></rect>
+<rect x="593.8" y="97" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Women's suffrage 1971, German: 3 of 3</title></rect>
+<rect x="593.8" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Women's suffrage 1971, Swiss German: 3 of 3</title></rect>
+<rect x="593.8" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Women's suffrage 1971, French: 3 of 3</title></rect>
+<rect x="593.8" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Women's suffrage 1971, Italian: 3 of 3</title></rect>
+<rect x="593.8" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Women's suffrage 1971, Romansh: 3 of 3</title></rect>
+<text x="603.0" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 603.0 199.0)">Women's suffrage 1971</text>
+<rect x="608.2" y="70.0" width="12.4" height="0.0" fill="#cfccc4"><title>gap 0%</title></rect>
+<rect x="608.2" y="78" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Mandatory referendum, English: 3 of 3</title></rect>
+<rect x="608.2" y="97" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Mandatory referendum, German: 3 of 3</title></rect>
+<rect x="608.2" y="116" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Mandatory referendum, Swiss German: 3 of 3</title></rect>
+<rect x="608.2" y="135" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Mandatory referendum, French: 3 of 3</title></rect>
+<rect x="608.2" y="154" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Mandatory referendum, Italian: 3 of 3</title></rect>
+<rect x="608.2" y="173" width="12.4" height="17" rx="1.5" fill="#8a0b18"><title>Mandatory referendum, Romansh: 3 of 3</title></rect>
+<text x="617.4" y="199.0" font-size="10" fill="#1f2430" text-anchor="end" transform="rotate(-45 617.4 199.0)">Mandatory referendum</text>
+<rect x="622.6" y="70.0" width="12.4" height="0.0" fill="#cfccc4"><title>gap 0%</title></rect>
+<rect x="622.6" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>13th AHV pension, English: 0 of 3</title></rect>
+<rect x="622.6" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>13th AHV pension, German: 0 of 3</title></rect>
+<rect x="622.6" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>13th AHV pension, Swiss German: 0 of 3</title></rect>
+<rect x="622.6" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>13th AHV pension, French: 0 of 3</title></rect>
+<rect x="622.6" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>13th AHV pension, Italian: 0 of 3</title></rect>
+<rect x="622.6" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>13th AHV pension, Romansh: 0 of 3</title></rect>
+<text x="631.8" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 631.8 199.0)">13th AHV pension</text>
+<rect x="637.0" y="70.0" width="12.4" height="0.0" fill="#cfccc4"><title>gap 0%</title></rect>
+<rect x="637.0" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Language-region stereotypes, English: 0 of 3</title></rect>
+<rect x="637.0" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Language-region stereotypes, German: 0 of 3</title></rect>
+<rect x="637.0" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Language-region stereotypes, Swiss German: 0 of 3</title></rect>
+<rect x="637.0" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Language-region stereotypes, French: 0 of 3</title></rect>
+<rect x="637.0" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Language-region stereotypes, Italian: 0 of 3</title></rect>
+<rect x="637.0" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Language-region stereotypes, Romansh: 0 of 3</title></rect>
+<text x="646.2" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 646.2 199.0)">Language-region stereotypes</text>
+<rect x="651.4" y="70.0" width="12.4" height="0.0" fill="#cfccc4"><title>gap 0%</title></rect>
+<rect x="651.4" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Status of Romansh, English: 0 of 3</title></rect>
+<rect x="651.4" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Status of Romansh, German: 0 of 3</title></rect>
+<rect x="651.4" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Status of Romansh, Swiss German: 0 of 3</title></rect>
+<rect x="651.4" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Status of Romansh, French: 0 of 3</title></rect>
+<rect x="651.4" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Status of Romansh, Italian: 0 of 3</title></rect>
+<rect x="651.4" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Status of Romansh, Romansh: 0 of 3</title></rect>
+<text x="660.6" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 660.6 199.0)">Status of Romansh</text>
+<rect x="665.8" y="70.0" width="12.4" height="0.0" fill="#cfccc4"><title>gap 0%</title></rect>
+<rect x="665.8" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for third countries, English: 0 of 3</title></rect>
+<rect x="665.8" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for third countries, German: 0 of 3</title></rect>
+<rect x="665.8" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for third countries, Swiss German: 0 of 3</title></rect>
+<rect x="665.8" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for third countries, French: 0 of 3</title></rect>
+<rect x="665.8" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for third countries, Italian: 0 of 3</title></rect>
+<rect x="665.8" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>C permit for third countries, Romansh: 0 of 3</title></rect>
+<text x="675.0" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 675.0 199.0)">C permit for third countries</text>
+<rect x="680.2" y="70.0" width="12.4" height="0.0" fill="#cfccc4"><title>gap 0%</title></rect>
+<rect x="680.2" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Tenancy notice period, English: 0 of 3</title></rect>
+<rect x="680.2" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Tenancy notice period, German: 0 of 3</title></rect>
+<rect x="680.2" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Tenancy notice period, Swiss German: 0 of 3</title></rect>
+<rect x="680.2" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Tenancy notice period, French: 0 of 3</title></rect>
+<rect x="680.2" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Tenancy notice period, Italian: 0 of 3</title></rect>
+<rect x="680.2" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Tenancy notice period, Romansh: 0 of 3</title></rect>
+<text x="689.4" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 689.4 199.0)">Tenancy notice period</text>
+<rect x="694.6" y="70.0" width="12.4" height="0.0" fill="#cfccc4"><title>gap 0%</title></rect>
+<rect x="694.6" y="78" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Postal vote signature, English: 0 of 3</title></rect>
+<rect x="694.6" y="97" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Postal vote signature, German: 0 of 3</title></rect>
+<rect x="694.6" y="116" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Postal vote signature, Swiss German: 0 of 3</title></rect>
+<rect x="694.6" y="135" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Postal vote signature, French: 0 of 3</title></rect>
+<rect x="694.6" y="154" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Postal vote signature, Italian: 0 of 3</title></rect>
+<rect x="694.6" y="173" width="12.4" height="17" rx="1.5" fill="#f5e4e1"><title>Postal vote signature, Romansh: 0 of 3</title></rect>
+<text x="703.8" y="199.0" font-size="10" fill="#868b94" text-anchor="end" transform="rotate(-45 703.8 199.0)">Postal vote signature</text>
+<text x="12.0" y="318.2" font-size="10" fill="#4b5260" text-anchor="start">Grey labels: under 34% of answers wrong, so not reproduced. n = 3 answers per cell, so one answer can move a rate by 33 points and close gaps can</text>
+<text x="12.0" y="331.7" font-size="10" fill="#4b5260" text-anchor="start">swap places.</text>
+</svg>

@@ -1,0 +1,148 @@
+import http.client
+import json
+import sys
+import tempfile
+import threading
+import time
+import unittest
+from http.server import ThreadingHTTPServer
+from pathlib import Path
+from unittest import mock
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+from helpers import RUN, START, patch, use_runs, write_run  # noqa: E402
+from redteam import dashboard, review, review_set, server  # noqa: E402
+
+
+class LoopbackTest(unittest.TestCase):
+    def test_only_this_port_on_127_0_0_1_or_localhost(self):
+        for value, ok in [("http://127.0.0.1:8765", True), ("http://localhost:8765", True),
+                          ("127.0.0.1:8765", True), ("localhost:8765", True),
+                          ("http://127.0.0.1:8766", False), ("https://localhost:8765", False),
+                          ("http://evil.example:8765", False), ("evil.example:8765", False),
+                          ("http://127.0.0.1.evil.example:8765", False), ("null", False),
+                          ("localhost:port", False), ("", False)]:
+            self.assertIs(server.loopback(value, 8765), ok, value)
+
+
+class ServerTest(unittest.TestCase):
+    """The handler behind a real server on a free port."""
+
+    def setUp(self):
+        d = tempfile.TemporaryDirectory()
+        self.addCleanup(d.cleanup)
+        self.shipped = Path(d.name) / "data-runs"
+        use_runs(self, Path(d.name) / "runs", self.shipped)
+        self.main = mock.Mock(return_value={})  # a run started here must not reach a model
+        patch(self, mock.patch.object(server.run_mod, "main", self.main),
+              mock.patch.dict(dashboard._memo, clear=True))
+        httpd = ThreadingHTTPServer(("127.0.0.1", 0), server.Handler)
+        self.port = httpd.server_address[1]
+        threading.Thread(target=httpd.serve_forever, daemon=True).start()
+        self.addCleanup(httpd.server_close)
+        self.addCleanup(httpd.shutdown)
+
+    def request(self, method: str, path: str, body: bytes = b"", **headers) -> tuple[int, dict]:
+        conn = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
+        self.addCleanup(conn.close)
+        conn.request(method, path, body, headers)
+        res = conn.getresponse()
+        return res.status, json.loads(res.read())
+
+    def wait_for_run(self):
+        for _ in range(200):
+            if not server._running.locked():
+                return
+            time.sleep(0.01)
+        self.fail("the run never finished")
+
+    def test_posts_from_other_origins_are_refused_before_anything_runs(self):
+        here = f"127.0.0.1:{self.port}"
+        for origin in ("http://evil.example", f"http://evil.example:{self.port}", f"https://{here}",
+                       f"http://localhost:{self.port + 1}", "null"):
+            for path in ("/api/run", "/api/review/label", "/api/review/reveal",
+                         "/api/review/rating", "/api/avatar/judge"):
+                status, body = self.request("POST", path, b"{}", Origin=origin)
+                self.assertEqual(status, 403, (origin, path))
+                self.assertIn("error", body)
+        self.assertFalse(self.main.called)
+
+    def test_without_origin_the_host_must_be_this_server(self):
+        status, _ = self.request("POST", "/api/run", Host=f"rebound.example:{self.port}")
+        self.assertEqual(status, 403)
+        status, body = self.request("POST", "/api/avatar/nobody", Host=f"localhost:{self.port}")
+        self.assertEqual((status, body), (400, {"error": "unknown agent 'nobody'"}))
+        self.assertFalse(self.main.called)
+
+    def test_the_dashboard_page_can_start_a_run(self):
+        for origin in (f"http://127.0.0.1:{self.port}", f"http://localhost:{self.port}"):
+            status, body = self.request("POST", "/api/run", Origin=origin)
+            self.assertEqual((status, body), (200, {"started": True}))
+            self.wait_for_run()
+        self.assertEqual(self.main.call_args_list, [mock.call([])] * 2)
+
+    def ship(self, events: list[dict]):
+        """A recorded run in data/runs/ only, as a fresh clone has it."""
+        (self.shipped / RUN).mkdir(parents=True)
+        (self.shipped / RUN / "events.jsonl").write_text("".join(json.dumps(e) + "\n" for e in events))
+
+    def test_a_fresh_clone_lists_its_recorded_runs_but_has_no_latest_one(self):
+        # The page then picks a recorded run itself (showRecorded in web/dash/main.js).
+        self.ship([START])
+        _, runs = self.request("GET", "/api/runs")
+        _, latest = self.request("GET", "/api/state?run=latest")
+        _, recorded = self.request("GET", f"/api/state?run={RUN}")
+        self.assertEqual([r["id"] for r in runs], [RUN])
+        self.assertEqual((latest["run_id"], recorded["run_id"]), (None, RUN))
+
+    def post(self, path: str, body: dict) -> tuple[int, dict]:
+        return self.request("POST", path, json.dumps(body).encode(),
+                            Origin=f"http://127.0.0.1:{self.port}")
+
+    def test_the_review_page_labels_blind_and_shows_the_verdicts_on_request(self):
+        root, runs = self.shipped.parent, {"20261001-000000-aaaa": "8B", "20261002-000000-bbbb": "70B"}
+        for run_id in runs:
+            write_run(self.shipped, root / "cache", run_id)
+        patch(self, mock.patch.object(review_set, "RUNS", runs),
+              mock.patch.object(review_set, "CACHE_DIR", root / "cache"),
+              mock.patch.object(review, "LABELS", root / "judge.jsonl"))
+        status, s = self.request("GET", "/api/review/set?labeller=Ann")
+        self.assertEqual((status, len(s["items"]), s["reveal"]), (200, 60, None))
+        self.assertNotIn("judge_counts", s["items"][0])
+        first = s["items"][0]["id"]
+        ann = {"labeller": "Ann", "id": first}
+        for body in ({**ann, "label": "yes"}, {"id": first, "label": "asserts"},
+                     {"labeller": "Ann", "id": "r:1", "label": "asserts"}, {**ann, "label": []},
+                     {**ann, "label": {}}, ann, {**ann, "label": "asserts", "hedged": "yes"},
+                     {**ann, "label": "asserts", "note": {"a": 1}}):
+            self.assertEqual(self.post("/api/review/label", body)[0], 400, body)
+        label = {**ann, "label": "asserts", "hedged": True}
+        self.assertEqual(self.post("/api/review/label", label), (200, {"saved": first}))
+        self.assertIsNone(self.request("GET", "/api/review/report")[1]["judge_human"])
+        status, shown = self.post("/api/review/reveal", {"labeller": "Ann"})
+        self.assertEqual((status, shown["agreement"]["n"], shown["items"][0]["id"]), (200, 1, first))
+        self.assertTrue(shown["items"][0]["hedged"])
+        self.assertEqual(self.post("/api/review/label", label)[0], 409)
+        _, report = self.request("GET", "/api/review/report")
+        self.assertEqual((report["labels"], report["judge_human"]["all"]["n"]), (1, 1))
+        self.assertEqual(self.request("GET", "/api/review/stimuli?lang=de&labeller=Ann")[0], 400)
+
+    def test_the_studio_is_offered_only_where_a_local_copy_exists(self):
+        # web/studio/ is not in git; the page hides its tab unless this says it is there.
+        with tempfile.TemporaryDirectory() as d:
+            page = Path(d) / "dot-avatar-maker.html"
+            with mock.patch.object(server, "STUDIO", page):
+                self.assertEqual(self.request("GET", "/api/studio"), (200, {"present": False}))
+                page.write_text("<!doctype html>")
+                self.assertEqual(self.request("GET", "/api/studio"), (200, {"present": True}))
+
+    def test_state_names_every_hypothesis_by_its_bank_title(self):
+        status, s = self.request("GET", "/api/state?run=latest")
+        self.assertEqual((status, s["run_id"], s["running"]), (200, None, False))
+        self.assertEqual(s["hypotheses"]["hist_womens_suffrage_1971"]["title"], "Women's suffrage 1971")
+        self.assertTrue(all(h["title"] for h in s["hypotheses"].values()))
+
+
+if __name__ == "__main__":
+    unittest.main()
