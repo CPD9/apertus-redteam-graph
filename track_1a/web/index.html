@@ -4,41 +4,71 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apertus Red-Team Graph</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="dash/style.css">
+<link rel="stylesheet" href="dash/cards.css">
+<link rel="stylesheet" href="dash/explain.css">
 <script type="module" src="dash/main.js"></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header>
-  <h1>Apertus Red-Team Graph <small>Track 1A harness</small></h1>
+  <div class="brand">
+    <h1>Apertus Red-Team Graph <small>Track 1A harness</small></h1>
+    <a id="introLink" href="#intro" aria-controls="intro">What am I looking at?</a>
+  </div>
   <div class="controls">
-    <select id="runPick" aria-label="Run to show"><option value="latest">Latest run</option></select>
-    <span id="backend" class="badge">backend: –</span>
-    <a id="reviewLink" href="review.html">Review judge</a>
-    <button id="runBtn">Run graph</button>
+    <label for="runPick">Run</label>
+    <select id="runPick"></select>
+    <label id="allRunsBox" class="allruns" hidden><input id="allRuns" type="checkbox">
+      <span id="allRunsText"></span></label>
+    <a id="reviewLink" href="review.html">Check the judge's verdicts</a>
+    <div id="runTools" class="runtools" hidden>
+      <button id="runBtn" class="secondary" type="button">Start a new run</button>
+      <span id="nextRun" class="nextrun"></span>
+      <span id="runMsg" class="runmsg" role="status"></span>
+    </div>
   </div>
 </header>
-<nav>
-  <button data-tab="graph" class="on">Graph</button>
-  <button data-tab="findings">Findings <span id="fcount"></span></button>
-  <button data-tab="gap">Language gap</button>
-  <button data-tab="studio" hidden>Persona studio</button>
+
+<div class="runinfo">
+  <div id="provenance" class="provenance">Loading run…</div>
+  <div id="system" class="system"></div>
+  <div id="mockBanner" class="banner" role="alert" hidden>
+    <p><b>Test data only:</b> no model answered, so nothing here is a finding about Apertus.</p>
+    <details>
+      <summary>How to run against Apertus instead</summary>
+      <p>No Apertus endpoint was reachable when this run started, so every answer is canned text that
+        exercises the graph. <span id="mockHow"></span></p>
+    </details>
+  </div>
+  <p id="summary" class="summary"></p>
+</div>
+
+<nav role="tablist" aria-label="Views">
+  <button type="button" role="tab" id="t-findings" aria-controls="tab-findings" data-tab="findings">Findings</button>
+  <button type="button" role="tab" id="t-gap" aria-controls="tab-gap" data-tab="gap">Language gap</button>
+  <button type="button" role="tab" id="t-explain" aria-controls="tab-explain" data-tab="explain">How it works</button>
+  <button type="button" role="tab" id="t-graph" aria-controls="tab-graph" data-tab="graph">Graph</button>
+  <button type="button" role="tab" id="t-studio" aria-controls="tab-studio" data-tab="studio" hidden>Persona studio</button>
 </nav>
-<main>
-  <div id="mockBanner" class="banner" hidden><b>MOCK backend.</b> No Apertus endpoint was reachable, so every
-    answer below is canned text that exercises the graph. These are <b>not</b> findings about Apertus. Start vLLM
-    and open the SSH tunnel on 127.0.0.1:8000, then run again.</div>
 
-  <section id="tab-graph">
-    <div class="graph" id="graph"></div>
-    <div class="loop">Judge finds nothing → <em>loop back to Attacker</em> with feedback (up to 4 attempts, one per
-      attack strategy) · Judge finds a violation → Verifier reruns every language × seed</div>
-    <div class="cols">
-      <div class="card"><h2>Hypotheses</h2><div id="hyps" class="empty">Start a run to see progress.</div></div>
-      <div class="card"><h2>Live event feed</h2><div id="feed" class="feed"></div></div>
-    </div>
-  </section>
+<div id="notices" class="notices" role="status"></div>
 
-  <section id="tab-findings" hidden>
+<aside id="intro" class="intro" aria-label="About this dashboard" hidden>
+  <div id="introBody"></div>
+  <div class="introactions">
+    <button type="button" data-intro="explain">Step through one question</button>
+    <button type="button" class="secondary" data-intro="glossary">Glossary</button>
+    <button type="button" class="secondary" data-intro="close">Got it</button>
+  </div>
+</aside>
+
+<main id="main" tabindex="-1">
+
+  <section id="tab-findings" role="tabpanel" aria-labelledby="t-findings">
+    <div id="submitted"></div>
+    <h2 class="sechead">Reproduced in this run</h2>
     <p id="facts" class="facts"></p>
     <div class="scale"><span>share of answers that failed, per language</span></div>
     <div class="toolbar">
@@ -48,9 +78,9 @@
     <div id="findings" class="findings"><p class="empty">Loading…</p></div>
   </section>
 
-  <section id="tab-gap" hidden>
+  <section id="tab-gap" role="tabpanel" aria-labelledby="t-gap" hidden>
     <div class="card">
-      <div class="gaphead"><h2>Language gap</h2><p id="gapNote"></p></div>
+      <div class="gaphead"><h2>Language gap</h2><p id="gapNote" hidden></p></div>
       <div class="legend">
         <div class="scale"><span>share of answers that failed</span></div>
         <div id="gapLegend"></div>
@@ -60,18 +90,49 @@
     </div>
   </section>
 
-  <section id="tab-studio" hidden>
+  <section id="tab-explain" role="tabpanel" aria-labelledby="t-explain" hidden>
+    <div id="explain"><p class="empty">Loading…</p></div>
+  </section>
+
+  <section id="tab-graph" role="tabpanel" aria-labelledby="t-graph" hidden>
+    <div class="graph" id="graph"></div>
+    <p class="loop">Judge finds nothing → <em>loop back to Attacker</em> with feedback, one attempt per attack
+      strategy · Judge finds a violation → Verifier reruns every language × seed. A neutral question per
+      hypothesis and a second judge can check a finished run; the Findings tab says whether they did for this one.</p>
+    <div class="cols">
+      <div class="card">
+        <h2>Hypotheses</h2>
+        <p id="tally" class="tally"></p>
+        <div id="hyps" class="empty">Start a run to see progress.</div>
+      </div>
+      <div class="card">
+        <h2 id="feedHead">Live event feed</h2>
+        <div id="feed" class="feed" tabindex="0" role="region" aria-labelledby="feedHead"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-studio" role="tabpanel" aria-labelledby="t-studio" hidden>
     <div class="studio">
       <div>
-        <div class="pick" id="pick"></div>
+        <fieldset class="pickset">
+          <legend>Agent</legend>
+          <div class="pick" id="pick"></div>
+        </fieldset>
         <p class="empty">Design a character in the studio, pick an agent, then save it as that agent's avatar.</p>
-        <button id="saveAvatar">Save as avatar</button>
+        <button id="saveAvatar" type="button">Save as avatar</button>
         <p id="saveMsg" class="empty"></p>
       </div>
       <iframe id="studio" title="Dot Avatar Maker" data-src="studio/dot-avatar-maker.html?embed=1&lang=en"></iframe>
     </div>
   </section>
+
+  <details id="glossary" class="glossary">
+    <summary>Glossary</summary>
+    <div id="glossaryBody"></div>
+  </details>
 </main>
+<div id="status" class="sr" role="status"></div>
 <div id="tip" role="tooltip" hidden></div>
 </body>
 </html>

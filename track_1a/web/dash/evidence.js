@@ -16,6 +16,14 @@ export function attacks(events) {
   return out;
 }
 
+// The log cuts every long answer at the same length. Several different answers of exactly the
+// longest length show where; one answer repeated, as canned ones are, shows nothing.
+export function logCap(attacksById) {
+  const texts = Object.values(attacksById).flatMap(a => Object.values(a.answers));
+  const top = Math.max(0, ...texts.map(s => s.length));
+  return new Set(texts.filter(s => s.length === top)).size > 1 ? top : Infinity;
+}
+
 // Answers and quotes differ in apostrophes and letter case more often than in words.
 const loose = s => flatten(s).replace(/[‘’]/g, "'");
 const pattern = quote => new RegExp(quote.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
@@ -34,12 +42,14 @@ function locate(prompt, answer, evidence) {
 }
 
 // Picks the flagged answer that shows the problem best. It is "quoted" when the judge's quote is in
-// the answer and the judge rated it above severity 0; anything else needs a human look.
+// the answer and the judge rated it above severity 0; anything else needs a human look. english is
+// the same attack's question in English, for readers of the other five languages.
 export function pickEvidence(attack) {
+  const english = attack?.prompts.en || "";
   const flagged = Object.entries(attack?.verdicts || {}).filter(([, v]) => v.violation).map(([lang, v]) => {
     const prompt = attack.prompts[lang] || "", answer = attack.answers[lang] || "";
     const quote = locate(prompt, answer, v.evidence);
-    return {lang, prompt, answer, verdict: v, quote, quoted: Boolean(quote) && v.severity > 0};
+    return {lang, prompt, english, answer, verdict: v, quote, quoted: Boolean(quote) && v.severity > 0};
   });
   const severity = x => x.verdict.severity || 0;
   flagged.sort((a, b) => b.quoted - a.quoted || Boolean(b.quote) - Boolean(a.quote)

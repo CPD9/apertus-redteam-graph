@@ -1,21 +1,30 @@
-import {$, LANGS, LANG_NAMES, UNCOUNTED, clip, esc, flatten, pct, titleOf} from "./text.js";
-import {excerptHtml, pickEvidence} from "./evidence.js";
-import {asCells, cellRates, heatCell, spread} from "./heat.js";
+import {$, LANGS, LANG_NAMES, UNCOUNTED_TAB, clip, esc, flatten, langAttr, pct, strong, sum, term, titleOf,
+        walkHref} from "./text.js";
+import {excerptHtml, logCap, pickEvidence} from "./evidence.js";
+import {asCells, cellRates, failedAny, heatCell, range, spread} from "./heat.js";
+import {controlLine, premiseEffect} from "./cards-control.js";
+import {factsHtml} from "./cards-facts.js";
 
-const PLACEHOLDER = /\[[^\]]+\]/;  // a neutral question still holding e.g. "[Datum einfügen]"
-const EFFECTS = {
-  premise: "Clearly worse with the false premise",
-  neutral: "Worse when asked neutrally",
-  same: "No clear difference from a neutral question",
-};
+export {renderSubmitted} from "./cards-submitted.js";
 
-// Compares the neutral control with the false-premise answers by their 95% intervals, not their
-// rates: with 18 answers each, 17% against 39% is not a difference.
-function premiseEffect(control, premiseCi) {
-  if (PLACEHOLDER.test(control.neutral_question)) return "unusable";
-  const [lo, hi] = control.neutral_ci95 || [control.neutral_rate, control.neutral_rate];
-  const [premiseLo, premiseHi] = premiseCi || [control.premise_rate, control.premise_rate];
-  return hi < premiseLo ? "premise" : lo > premiseHi ? "neutral" : "same";
+// renderFindings runs again on every filter change, without the run; it words its empty state by
+// what the last renderFacts saw.
+let progress = {planned: 0, finished: 0};
+
+// Where the log cuts long answers, worked out once per run.
+const caps = new WeakMap();
+function capOf(attacksById) {
+  if (!caps.has(attacksById)) caps.set(attacksById, logCap(attacksById));
+  return caps.get(attacksById);
+}
+
+// Which submitted finding names this hypothesis. Only the run the submission rests on can say that a
+// reproduced hypothesis was left out; leftOutOf is then how many findings were submitted.
+function submission(id, run) {
+  const submitted = run.submitted || [], cited = submitted.filter(e => e.run_id && e.run_id === run.runId);
+  if (!cited.length) return {};
+  const entry = cited.find(e => (e.variations || []).some(v => v.id === id));
+  return entry ? {submittedIn: entry} : {leftOutOf: submitted.length};
 }
 
 // The numbers come from the verifier results, which the server recounts by the published rule. Older
@@ -26,48 +35,55 @@ export function cardModel(f, run) {
   const control = run.control[id], ver = run.ver[id], seeds = p.harness_seeds || run.seeds;
   const cells = ver?.cells || asCells(p.harness_reproduction_rates || {});
   const ci = ver?.ci95 || p.harness_overall_ci95;
+  const attack = run.attacks[id], evidence = pickEvidence(attack);
+  // Canned answers are short and alike, so they never show where the log cuts.
+  if (evidence) evidence.cut = !run.mock && evidence.answer.length >= capOf(run.attacks);
   return {
-    id, f, p, hyp, control, cells, ci, seeds,
+    id, f, p, hyp, control, cells, ci, seeds, evidence,
+    runId: run.runId, mock: Boolean(run.mock),
     title: titleOf(id, run.hypotheses),
     domain: hyp.domain || "",
     overall: ver?.overall ?? p.harness_overall_rate,
     gap: spread(cellRates(cells)),
-    answers: Object.values(cells).reduce((sum, c) => sum + (c.n ?? seeds.length), 0),
+    failed: Object.values(cells).every(c => c.n) ? sum(Object.values(cells).map(c => c.k)) : null,
+    answers: sum(Object.values(cells).map(c => c.n ?? seeds.length)),
     uncounted: run.uncounted.has(id),
-    effect: control ? premiseEffect(control, ci) : null,
-    strategy: run.attacks[id]?.strategy,
-    evidence: pickEvidence(run.attacks[id]),
+    effect: control ? premiseEffect(control, ci, run.minRate) : null,
+    strategy: attack?.strategy,
+    asked: Object.keys(attack?.answers || {}).length,
+    ...submission(id, run),
   };
 }
 
 export const byStrength = (a, b) =>
   Boolean(b.evidence?.quoted) - Boolean(a.evidence?.quoted) || b.overall - a.overall || b.gap - a.gap;
 
-function controlLine(x) {
-  if (!x.control) return "";
-  const c = x.control, asked = `“${esc(clip(flatten(c.neutral_question), 90))}”`;
-  if (x.effect === "unusable") {
-    return `<p class="ctl"><b>Neutral control unusable:</b> its question still holds a placeholder, ` +
-           `${asked}.</p>`;
-  }
-  return `<p class="ctl"><b>${EFFECTS[x.effect]}.</b> Asked neutrally (${asked}), ` +
-         `${pct(c.neutral_rate)} of its answers failed; with the false premise, ${pct(x.overall)}.</p>`;
-}
-
-function checkNote(ev) {
+function checkNote(x) {
+  const ev = x.evidence, answer = x.mock ? "the canned answer" : "Apertus' answer";
   if (ev?.quoted) return "";
   if (!ev) return '<p class="check"><b>Needs a human check:</b> the run log has no judge record for it.</p>';
+  const quoted = flatten(ev.verdict.evidence);
   const why = ev.quote ? "the judge flagged this answer but rated it severity 0"
-                       : "the judge's quote does not appear in Apertus' answer";
+    : quoted ? `the judge's quote, “${esc(clip(quoted, 160))}”, does not appear in ${answer}`
+    : `the judge gave no quote from ${answer}`;
   return `<p class="check"><b>Needs a human check:</b> ${why}. ` +
          `Its reasoning: “${esc(clip(flatten(ev.verdict.reason), 200))}”</p>`;
 }
 
-function said(ev) {
+// The example comes from the attack step, which only finds a failure; the counted answers are the
+// verifier's reruns, which the log keeps as flags without text.
+function said(x) {
+  const ev = x.evidence;
   if (!ev) return "";
-  return `<section class="said"><h4>What Apertus said <span>${esc(LANG_NAMES[ev.lang] || ev.lang)}</span></h4>
-    <p class="asked">Asked: “${esc(clip(flatten(ev.prompt), 110))}”</p>
-    <p>“${excerptHtml(ev.answer, ev.quote)}”</p></section>`;
+  const lang = esc(LANG_NAMES[ev.lang] || ev.lang);
+  const english = ev.lang !== "en" && ev.english
+    ? `<p class="english">In English: <q>${esc(flatten(ev.english))}</q></p>` : "";
+  const key = ev.quote ? '<p class="mkey"><mark>Underlined</mark>: the passage the judge quoted.</p>' : "";
+  return `<section class="said"><h4>${x.mock ? "Canned test answer" : `What Apertus said, in ${lang}`}</h4>
+    <p class="from">Example from the ${term("attack-step", "attack step")} (not one of the ${x.answers}
+      counted answers)</p>
+    <p class="asked">Asked: <q ${langAttr(ev.lang)}>${esc(flatten(ev.prompt))}</q></p>${english}
+    <p class="answer" ${langAttr(ev.lang)}>“${excerptHtml(ev.answer, ev.quote)}”</p>${key}</section>`;
 }
 
 function sources(urls) {
@@ -77,46 +93,81 @@ function sources(urls) {
   return links.length ? `<p class="sources">Source: ${links.join(", ")}</p>` : "";
 }
 
+// Every claim the judge settled, so a correct sentence on a flagged answer shows as correct.
+function claimsHtml(ev) {
+  const claims = (ev?.verdict.claims || []).filter(c => ["supported", "contradicted"].includes(c.verdict));
+  return claims.length ? `<ul class="claims">` + claims.map(c =>
+    `<li><span class="cv ${c.verdict}">${c.verdict}</span> ${esc(c.claim)}</li>`).join("") + "</ul>" : "";
+}
+
+function exchangeHtml(ev) {
+  if (!ev) return "";
+  const lang = langAttr(ev.lang), name = esc(LANG_NAMES[ev.lang] || ev.lang);
+  return `<div class="exchange"><p class="label">Full exchange in ${name}` +
+    `${ev.cut ? ", as far as the log keeps it" : ""}</p><p ${lang}>“${esc(ev.prompt)}”</p>` +
+    `<pre ${lang} tabindex="0" aria-label="${ev.cut ? "Logged answer" : "Full answer"}">` +
+    `${strong(esc(ev.answer))}${ev.cut ? "…" : ""}</pre>` +
+    (ev.cut ? '<p class="cutnote">The log keeps only the start of a long answer.</p>' : "") + "</div>";
+}
+
 function details(x) {
-  const s = x.f.issue_summary || {}, ci = x.ci, ev = x.evidence;
-  const marked = (ev?.verdict.claims || []).filter(c => c.verdict === "contradicted").map(c => c.claim);
-  const perLang = LANGS.filter(l => x.cells[l]?.n).map(l => `${l} ${x.cells[l].k} of ${x.cells[l].n}`);
+  const s = x.f.issue_summary || {}, ci = x.ci, ev = x.evidence, cells = Object.values(x.cells);
+  const langs = LANGS.filter(l => x.cells[l]?.n), withCi = langs.some(l => x.cells[l].ci95);
+  const perLang = langs.map(l => `${l} ${Number(x.cells[l].k)} of ${Number(x.cells[l].n)}` +
+                                 (x.cells[l].ci95 ? ` (${range(x.cells[l].ci95)})` : ""));
   const temperature = x.p.temperature == null ? "" : ` at temperature ${x.p.temperature}`;
+  const overall = `${esc(pct(x.overall))} of ${Number(x.answers)} answers` +
+                  (ci ? `, ${term("ci", "95% CI")} ${esc(range(ci))}` : "");
   const rows = [
-    ["Why it matters", x.hyp.harm],
-    ["Hypothesis", x.hyp.hypothesis],
-    ["Judge's reasoning", ev?.verdict.reason],
-    ["Claims it marked wrong", marked.join(" · ")],
-    ["Failed per language", perLang.join(" · ")],
-    ["Overall", `${pct(x.overall)} of ${x.answers} answers` + (ci ? `, 95% CI ${pct(ci[0])}–${pct(ci[1])}` : "")],
-    ["Seeds", x.seeds.length ? x.seeds.join(", ") + temperature : ""],
-    ["Judge's top severity", s.self_assessed_severity && `${s.self_assessed_severity} of 10`],
-    ["Breadth", [s.self_assessed_breadth, s.self_assessed_breadth_justification].filter(Boolean).join(": ")],
-    ["Attack strategy", x.strategy?.replace(/_/g, " ")],
-    ["Neutral question", x.control?.neutral_question],
+    ["Why it matters", esc(x.hyp.harm)],
+    ["Hypothesis", esc(x.hyp.hypothesis)],
+    ["Hypothesis id", `<code>${esc(x.id)}</code>`],
+    ["Judge's reasoning", esc(ev?.verdict.reason)],
+    ["Claims the judge checked", claimsHtml(ev)],
+    [withCi ? "Failed per language, with 95% CI" : "Failed per language", esc(perLang.join(" · "))],
+    ["Overall", overall],
+    ["Seeds", esc(x.seeds.length ? x.seeds.join(", ") + temperature : "")],
+    ["Highest severity the judge gave one answer (0–10 scale)", esc(s.self_assessed_severity)],
+    ["Breadth", cells.length
+      ? `Fails at least once in ${cells.filter(failedAny).length} of ${cells.length} languages` : ""],
+    ["Attack strategy", esc(x.strategy?.replace(/_/g, " "))],
   ].filter(([, v]) => v);
-  const exchange = ev ? `<div class="exchange"><p>Full exchange in ${esc(LANG_NAMES[ev.lang] || ev.lang)}: ` +
-                        `“${esc(ev.prompt)}”</p><pre>${esc(ev.answer)}</pre></div>` : "";
-  return `<details><summary>Details</summary>
-    <dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl>${exchange}</details>`;
+  return `<details><summary>Details<span class="sr"> for ${esc(x.title)}</span></summary>
+    <dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>${exchangeHtml(ev)}</details>`;
+}
+
+// The tags explain themselves in a tip; they take the focus so the keyboard reaches it too.
+function badges(x) {
+  const entry = x.submittedIn;
+  return [
+    x.domain && `<span class="chip">${esc(x.domain.replace(/_/g, " "))}</span>`,
+    x.uncounted && UNCOUNTED_TAB,
+    entry && `<span class="subchip" tabindex="0" data-tip="One of the variations of this submitted ` +
+             `finding.">Submitted in: ${esc(entry.issue_title)}</span>`,
+    x.leftOutOf && `<span class="tag quiet" tabindex="0" data-tip="Reproduced here but left out of the ` +
+                   `${x.leftOutOf} submitted findings; their notes say why.">not submitted</span>`,
+  ].filter(Boolean).join(" ");
 }
 
 function card(x) {
-  const chip = x.domain ? `<span class="chip">${esc(x.domain.replace(/_/g, " "))}</span>` : "";
-  const strip = LANGS.filter(l => l in x.cells).map(l => heatCell(x.cells[l], l, true)).join("");
+  const strip = LANGS.filter(l => l in x.cells).map(l => heatCell(x.cells[l], l, {big: true})).join("");
   const truth = esc(x.hyp.reference || x.f.issue_summary?.desired_behavior);
+  const failed = (x.failed != null ? `${x.failed} of ${x.answers}` : `of ${x.answers}`) +
+                 " <span>answers failed</span>";
+  const walk = "How this was tested, step by step";
   return `<article class="card fcard" id="f-${esc(x.id)}">
     <div class="fhead">
-      <div>${chip}${x.uncounted ? UNCOUNTED : ""}<h3 title="${esc(x.id)}">${esc(x.title)}</h3></div>
-      <div class="overall"><b>${pct(x.overall)}</b><small>of ${x.answers} answers failed</small></div>
+      <div>${badges(x)}<h3>${esc(x.title)}</h3></div>
+      <div class="overall"><b>${pct(x.overall)}</b><small>${failed}</small></div>
     </div>
-    <div class="strip">${strip}</div>
-    ${checkNote(x.evidence)}
+    <div class="strip" role="group" aria-label="Share of answers that failed, per language">${strip}</div>
+    ${checkNote(x)}
     ${controlLine(x)}
-    <div class="pair">${said(x.evidence)}
+    <div class="pair">${said(x)}
       <section class="truth"><h4>What is correct</h4>
         <p>${truth}</p>${sources(x.hyp.sources)}</section>
     </div>
+    <a class="walk" href="${walkHref(x.runId, x.id)}" data-explain="${esc(x.id)}">${walk} ›</a>
     ${details(x)}
   </article>`;
 }
@@ -127,8 +178,11 @@ export function renderChips(cards, view) {
   // A hypothesis without a domain (older runs) is listed under All only.
   const named = Object.entries(counts).filter(([d]) => d).sort();
   const chips = [["", "All", cards.length], ...named.map(([d, n]) => [d, d.replace(/_/g, " "), n])];
-  const chip = ([d, label, n]) => `<button class="${d === view.domain ? "on" : ""}" data-domain="${esc(d)}">` +
-                                  `${esc(label)}<span>${n}</span></button>`;
+  const chip = ([d, label, n]) => {
+    const on = d === view.domain;
+    return `<button class="${on ? "on" : ""}" aria-pressed="${on}" data-domain="${esc(d)}">` +
+           `${esc(label)} <span>${Number(n)}</span></button>`;
+  };
   $("#domains").innerHTML = cards.length ? chips.map(chip).join("") : "";
 }
 
@@ -137,31 +191,15 @@ export function renderFindings(cards, view) {
   const q = view.query.trim().toLowerCase();
   const text = x => [x.title, x.id, x.domain, x.hyp.hypothesis, x.hyp.reference].join(" ").toLowerCase();
   const shown = cards.filter(x => (!view.domain || x.domain === view.domain) && (!q || text(x).includes(q)));
-  const empty = cards.length ? "No finding matches this filter." : "No findings in this run yet.";
+  const done = progress.planned && progress.finished >= progress.planned;
+  const empty = cards.length ? "No reproduced hypothesis matches this filter."
+                             : done ? "Nothing reproduced in this run." : "Nothing reproduced yet.";
   $("#findings").innerHTML = shown.length ? shown.map(card).join("") : `<p class="empty">${empty}</p>`;
   open.forEach(id => document.getElementById(id)?.querySelector("details")?.setAttribute("open", ""));
 }
 
-export function renderFacts(cards, {planned, finished, rejudge}) {
-  const total = cards.length, quoted = cards.filter(x => x.evidence?.quoted).length;
-  const parts = [finished < planned
-    ? `<b>${total}</b> findings so far · ${finished} of ${planned} hypotheses tested`
-    : `<b>${total}</b> findings from ${planned} hypotheses`];
-  if (total) {
-    const unchecked = total - quoted;
-    parts.push(`<b>${quoted}</b> backed by a quote from Apertus' answer, ` +
-               `${unchecked} ${unchecked === 1 ? "needs" : "need"} a human check`);
-  }
-  const controlled = cards.filter(x => x.effect && x.effect !== "unusable");
-  const worse = controlled.filter(x => x.effect === "premise").length;
-  if (controlled.length) {
-    parts.push(`the false premise clearly makes it worse in <b>${worse}</b> of ${controlled.length} ` +
-               "checked against a neutral question");
-  }
-  if (rejudge?.n) {
-    const kappa = rejudge.kappa == null ? "n/a" : rejudge.kappa.toFixed(2);
-    parts.push(`a second judge agrees on <b>${pct(rejudge.raw_agreement)}</b> of ${rejudge.n} answers ` +
-               `(κ ${kappa})`);
-  }
-  $("#facts").innerHTML = parts.join(" · ");
+// run: planned holds the ids of the run's hypotheses, finished how many of them have ended.
+export function renderFacts(cards, run) {
+  progress = {planned: run.planned.length, finished: run.finished};
+  $("#facts").innerHTML = factsHtml(cards, run);
 }

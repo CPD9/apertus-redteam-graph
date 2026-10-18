@@ -1,11 +1,13 @@
 import {$} from "./text.js";
+import {onLoopback} from "./shell-state.js";
 
 // web/studio/ is not in git, so a fresh clone has no studio. The server checks: a request for the
 // missing page itself would put a 404 in the console.
 export async function offerStudio() {
+  if (!onLoopback()) return false;
   const studio = await fetch("/api/studio").then(r => r.json()).catch(() => null);
   if (!studio?.present) return false;
-  $("nav [data-tab=studio]").hidden = false;
+  $("#t-studio").hidden = false;
   return true;
 }
 
