@@ -1,4 +1,5 @@
-// The glossary and the first-visit intro. Numbers come from the facts of the run shown only.
+// The glossary and the overview's lines on how a run works. Numbers come from the facts of the run
+// shown only.
 import {andList, esc, needed, pct, short, term} from "./text.js";
 import {mockRun, selfJudged} from "./graph.js";
 import {langName} from "./explain-steps.js";
@@ -69,7 +70,5 @@ export function introHtml(facts = {}) {
       (mock ? ` This ${term("mock", "mock")} run uses canned text instead.` : ""),
     `<b>How:</b> a ${term("judge", "judge")}${self} checks every answer, a verifier asks again ${again}, and a ` +
       `${term("neutral", "neutral version")} separates “does not know” from “gives in”.`,
-    "<b>Where:</b> “Same question, six Swiss languages, different truths.” Findings has the evidence, " +
-      "Language gap compares the languages, How it works steps through one question.",
   ].map(line => `<p>${line}</p>`).join("");
 }

@@ -75,12 +75,6 @@ button:disabled,button.secondary:disabled{background:var(--sunk);color:var(--mut
 .summary{flex-basis:100%;margin:2px 0 0;font-size:16px;font-weight:600;line-height:1.4;max-width:100ch}
 .summary:empty{display:none}
 
-/* First-visit orientation */
-.intro{margin:16px var(--inline) 0;padding:14px 18px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--red);border-radius:var(--radius);font-size:14.5px}
-.intro p{margin:0 0 6px;max-width:90ch}
-.introactions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.intro:focus{outline:none}
-.intro:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 
 /* Tabs. The selected one carries an ink rule and a heavier weight, not colour alone. */
 nav{display:flex;flex-wrap:wrap;gap:4px;padding:12px var(--inline) 0;border-bottom:1px solid var(--line)}
@@ -263,7 +257,6 @@ a.hrow:hover,a.hrow:focus-visible{background:var(--sunk);box-shadow:0 0 0 1px va
   nav [role="tab"]{padding:6px 8px 5px;font-size:14px;border-radius:6px 6px 0 0}
   .summary{font-size:15px}
   .overall{white-space:normal}
-  .intro{padding:12px 14px}
   .strip .hc span{font-size:14px}
 }
 @media (prefers-reduced-motion:reduce){

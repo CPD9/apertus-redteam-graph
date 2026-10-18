@@ -3,7 +3,8 @@ import {attacks} from "./evidence.js";
 import {byStrength, cardModel, renderChips, renderFacts, renderFindings, renderSubmitted} from "./findings.js";
 import {renderGap, scaleHtml, verified} from "./heat.js";
 import {drawAgents, hypothesisStatus, plannedHypotheses, renderGraphTab, renderLive} from "./graph.js";
-import {introHtml, renderGlossary} from "./explain.js";
+import {renderGlossary} from "./explain.js";
+import {renderOverview} from "./overview.js";
 import {offerStudio, saveAvatar} from "./studio.js";
 import {anchorFromUrl, announce, fromUrl, onLoopback, page, setNotice, syncUrl, view} from "./shell-state.js";
 import {drawPicker, listAllRuns, loadRuns, runRow, runTitle, startingRun, syncRunOption} from "./shell-runs.js";
@@ -11,7 +12,6 @@ import {renderProvenance, runMeta} from "./shell-provenance.js";
 import {awaitingStart, followRun, renderRunTools, startRun} from "./shell-newrun.js";
 import {wireTips} from "./shell-tip.js";
 import {drawExplain, jumpTo, selectTab, showTab, wireNav} from "./shell-nav.js";
-import {wireIntro} from "./shell-intro.js";
 
 // A live run changes with every event. A finished run changes only when its neutral control or
 // second judge lands, which are run from the command line; a reload shows them. It is not fetched
@@ -51,7 +51,7 @@ function renderHelp(s, run) {
   const facts = {langs: s.events[0]?.data?.langs || [], seeds: run.seeds, planned: run.planned,
                  minRate: s.min_rate, judge: run.meta.judge, target: run.meta.target};
   renderGlossary($("#glossaryBody"), facts);
-  $("#introBody").innerHTML = introHtml(facts);
+  renderOverview(s, facts);
 }
 
 // The findings and the heatmap change once per finished hypothesis, the graph tab with every event.
@@ -166,18 +166,16 @@ function init() {
   pendingAnchor = anchorFromUrl();
 
   drawAgents(Date.now());
-  $("#introBody").innerHTML = introHtml({});
   renderGlossary($("#glossaryBody"), {});
   document.querySelectorAll(".scale").forEach(el => el.insertAdjacentHTML("afterbegin", scaleHtml()));
-  selectTab(pendingAnchor.startsWith("#f-") ? "findings" : asked.tab);
+  selectTab(/^#[fs]-/.test(pendingAnchor) ? "findings" : asked.tab);
   view.anchor = pendingAnchor;
-  wireIntro();
   wireTips();
   wireNav(switchRun);
   trackNavHeight();
   if (onLoopback()) $("#runTools").hidden = false;
   offerStudio().then(present => {
-    if (present && asked.tab === "studio" && view.tab === "findings") showTab("studio", false);
+    if (present && asked.tab === "studio" && view.tab === "overview") showTab("studio", false);
   });
 
   $("#runPick").onchange = e => {

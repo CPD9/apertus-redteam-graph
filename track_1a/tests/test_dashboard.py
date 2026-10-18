@@ -450,5 +450,91 @@ class NextRunTest(unittest.TestCase):
         self.assertEqual(dashboard.state("nope")["next_run"], next_run.plan())
 
 
+class ChecksTest(unittest.TestCase):
+    """The overview's "How we know" panel: one line per audit, from docs/audit/, and one for the
+    second judge of the recorded runs."""
+
+    def setUp(self):
+        d = tempfile.TemporaryDirectory()
+        self.addCleanup(d.cleanup)
+        self.audit, shipped = Path(d.name) / "audit", Path(d.name) / "shipped"
+        self.rejudge = shipped / dashboard.CANONICAL_RUN / "rejudge.json"
+        patch(self, mock.patch.object(dashboard, "AUDIT", self.audit),
+              mock.patch.object(dashboard.paths, "SHIPPED", shipped),
+              mock.patch.dict(dashboard._memo, clear=True))
+
+    def write_audits(self):
+        run = dashboard.CANONICAL_RUN
+        write_json(self.audit / "crosscheck.json", {"checked": 10, "differ": 0, "checks": []})
+        write_json(self.rejudge, {"n": 258, "kappa": 0.19, "raw_agreement": 0.67, "cells": []})
+        write_json(self.audit / "scorer.json", {"runs": {run: {
+            "model": "m8", "hypotheses": 41, "scorable_hypotheses": ["a", "b"],
+            "agreement": {"by_label": {"false_only": {"n": 7, "counted": 5},
+                                       "true_only": {"n": 4, "counted": 1}}}}}})
+        sign = {"higher": 9, "lower": 3, "p": 0.1, "p_holm": 0.2}
+        write_json(self.audit / "stats.json", {"models": {run: "m8"},
+                                               "runs": {run: {"english_vs": {"rm": {"sign": sign}}}}})
+        write_json(self.audit / "stimuli.json", {"prompts_total": {
+            "prompts": 702, "word_list": 3, "uncertain": 12, "harness": 226}})
+        source = {"url": "u", "status": "supports"}
+        write_json(self.audit / "references-a.json", {"hypotheses": [
+            {"verdict": "supported", "sources": [source, source]}]})
+        write_json(self.audit / "references-b.json", {"hypotheses": [
+            {"verdict": "partly", "sources": [{**source, "status": "unreachable", "cited": False}]}]})
+        return sign
+
+    def test_each_audit_gives_its_result_its_denominator_and_its_file(self):
+        sign = self.write_audits()
+        self.assertEqual(dashboard.state("nope")["checks"], [
+            {"check": "recount", "file": "docs/audit/crosscheck.json", "checked": 10, "differ": 0},
+            {"check": "judge", "file": "data/runs/*/rejudge.json",
+             "runs": [{"run": "Apertus 8B", "n": 258, "kappa": 0.19, "raw_agreement": 0.67}]},
+            {"check": "scorer", "file": "docs/audit/scorer.json", "model": "m8", "scorable": 2,
+             "hypotheses": 41, "false_only": {"n": 7, "counted": 5},
+             "true_only": {"n": 4, "counted": 1}},
+            {"check": "stats", "file": "docs/audit/stats.json",
+             "romansh_vs_english": [{"model": "m8", **sign}]},
+            {"check": "prompts", "file": "docs/audit/stimuli.json", "prompts": 702, "word_list": 3,
+             "uncertain": 12},
+            {"check": "references", "file": "docs/audit/references-*.json", "hypotheses": 2,
+             "verdicts": {"supported": 1, "partly": 1}, "sources": 3, "unreachable": 1,
+             "uncited": 1}])
+
+    def test_a_missing_or_reshaped_audit_drops_out_and_the_rest_stay(self):
+        self.write_audits()
+        write_json(self.audit / "stats.json", {"models": {}, "runs": []})
+        write_json(self.audit / "scorer.json", {"runs": {"another-run": {}}})
+        (self.audit / "stimuli.json").write_text("{")
+        write_json(self.rejudge, {"n": 0, "kappa": None, "raw_agreement": None})
+        checks = [c["check"] for c in dashboard.state("nope")["checks"]]
+        self.assertEqual(checks, ["recount", "references"])
+
+    def test_audits_are_read_again_only_when_a_file_changes(self):
+        self.write_audits()
+        with mock.patch.object(dashboard, "_crosscheck", wraps=dashboard._crosscheck) as read:
+            dashboard.state("nope"), dashboard.state("nope")
+            self.assertEqual(read.call_count, 1)
+            write_json(self.audit / "crosscheck.json", {"checked": 11, "differ": 1})
+            os.utime(self.audit / "crosscheck.json", ns=(1, 1))
+            self.assertEqual(dashboard.state("nope")["checks"][0]["checked"], 11)
+        self.assertEqual(read.call_count, 2)
+
+
+class ShippedAuditsTest(unittest.TestCase):
+    def test_the_shipped_audits_fill_every_line_of_the_panel(self):
+        with mock.patch.dict(dashboard._memo, clear=True):
+            checks = {c["check"]: c for c in dashboard._checks()}
+        self.assertEqual(list(checks),
+                         ["recount", "judge", "scorer", "stats", "prompts", "references"])
+        self.assertGreater(checks["recount"]["checked"], 0)
+        self.assertEqual([r["run"] for r in checks["judge"]["runs"]], ["Apertus 8B", "Apertus 70B"])
+        self.assertGreater(checks["scorer"]["false_only"]["n"], 0)
+        self.assertGreater(checks["prompts"]["prompts"], 0)
+        # The panel prints each verdict as the audit writes it; these are the ones it explains.
+        meaning = json.loads((dashboard.AUDIT / "references-a.json").read_text())["verdict_meaning"]
+        self.assertLessEqual(set(checks["references"]["verdicts"]), set(meaning))
+        self.assertGreater(checks["references"]["sources"], 0)
+
+
 if __name__ == "__main__":
     unittest.main()

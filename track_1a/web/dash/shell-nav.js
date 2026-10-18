@@ -40,7 +40,7 @@ function keepInView(tab) {
 
 // Shows a tab without touching the URL; showTab also records it.
 export function selectTab(name) {
-  if (!available(name)) name = "findings";
+  if (!available(name)) name = "overview";
   if (view.tab !== name) view.anchor = "";
   view.tab = name;
   for (const tab of document.querySelectorAll('nav [role="tab"]')) {
@@ -50,6 +50,8 @@ export function selectTab(name) {
     if (on) keepInView(tab);
   }
   document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "tab-" + name);
+  // The overview leads with the submission's own sentence; the run's would compete with it.
+  $("#summary").hidden = name === "overview";
   hideTip();
   if (name === "studio") loadStudio();
 }
@@ -104,12 +106,24 @@ export function openGlossary(key, instant = false) {
   view.anchor = entry ? "#g-" + key : "";
 }
 
+// A submitted finding's card, opened; the overview links to each.
+function openSubmitted(key) {
+  const card = document.getElementById("s-" + key);
+  if (!card) return;
+  card.open = true;
+  focusOn(card.querySelector("summary"), "lit", true);
+}
+
 // An anchor from the URL waits for the first payload: the cards and the glossary come with it. A
 // link to a card of another run, or a mistyped one, says so instead of landing at the top unexplained.
 export function jumpTo(anchor) {
   const key = anchor.slice(3);
   if (anchor.startsWith("#g-")) {
     if (document.getElementById("g-" + key)) openGlossary(key, true);
+    return;
+  }
+  if (anchor.startsWith("#s-")) {
+    openSubmitted(key);
     return;
   }
   if (!focusCard(key, true) && page.cards.some(x => x.id === key)) {
@@ -174,7 +188,7 @@ function applyUrl() {
   Object.assign(view, {hypothesis: asked.hypothesis, domain: asked.domain, query: asked.query});
   $("#search").value = view.query;
   const anchor = anchorFromUrl();
-  selectTab(anchor.startsWith("#f-") ? "findings" : asked.tab);
+  selectTab(/^#[fs]-/.test(anchor) ? "findings" : asked.tab);
   view.anchor = anchor;
   if (asked.run && asked.run !== view.run) {
     showRun(asked.run, {anchor});

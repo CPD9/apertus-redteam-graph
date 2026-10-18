@@ -6,8 +6,8 @@ export const onLoopback = () => ["127.0.0.1", "localhost"].includes(location.hos
 // For a reader elsewhere, "this machine" would be their own.
 export const here = () => onLoopback() ? "this machine" : "the server";
 
-// What the page shows, mirrored in the URL: ?tab=&run=&h=&domain=&q= and #f-<id> or #g-<key>.
-export const view = {tab: "findings", run: "", hypothesis: "", domain: "", query: "", anchor: ""};
+// What the page shows, mirrored in the URL: ?tab=&run=&h=&domain=&q= and #f-<id>, #s-<file> or #g-<key>.
+export const view = {tab: "overview", run: "", hypothesis: "", domain: "", query: "", anchor: ""};
 
 // The newest payload with what was derived from it, and the finding cards built from it.
 export const page = {latest: null, cards: []};
@@ -20,7 +20,7 @@ export function fromUrl() {
 
 // A hand-edited hash such as #f-100% does not decode; it is ignored rather than stopping the page.
 export function anchorFromUrl() {
-  if (!/^#[fg]-./.test(location.hash)) return "";
+  if (!/^#[fgs]-./.test(location.hash)) return "";
   try {
     return decodeURIComponent(location.hash);
   } catch {

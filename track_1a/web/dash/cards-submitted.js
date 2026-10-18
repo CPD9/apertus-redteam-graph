@@ -1,5 +1,5 @@
 // The submitted findings: what the team sent in, from findings/*.json.
-import {$, CHECK_TIP, esc, pct, short, sum, term, titleOf} from "./text.js";
+import {$, CHECK_TIP, esc, pct, short, sum, titleOf} from "./text.js";
 import {pickEvidence} from "./evidence.js";
 import {range} from "./heat.js";
 
@@ -13,19 +13,13 @@ const PLACES = /;\s+(?=\w+:\s)/;
 // Some steps go on after the command with what it does: "… --judge writes runs/…".
 const GOES_ON = /\s(?=(?:writes|recomputes)\s)/;
 
-// A difference in percentage points; a range that crosses zero reads "−39 to +33", not "-39–33".
-const points = d => Math.round(d * 100);
-const signed = d => (points(d) > 0 ? "+" : "") + String(points(d)).replace("-", "−");
-const pointRange = ([lo, hi]) =>
-  points(lo) >= 0 ? `${points(lo)}–${points(hi)}` : `${signed(lo)} to ${signed(hi)}`;
 const runLink = id => `<a href="?tab=findings&amp;run=${esc(encodeURIComponent(id))}">${esc(id)}</a>`;
 
-// The closed card. A summary is one button, so these lines hold no links.
+// The closed card: which file and model, and the one count. The overview draws the rest to scale.
+// A summary is one button, so these lines hold no links.
 function submittedLines(e) {
-  const vars = e.variations || [], c = e.control, r = e.replication, all = e.unrelated?.all;
+  const vars = e.variations || [], all = e.unrelated?.all;
   const version = String(e.model_version ?? "").slice(0, 7);
-  const share = x => `${Number(x.k)} of ${Number(x.n)} (${pct(x.rate)}` +
-                     (x.ci95 ? `, 95% CI ${range(x.ci95)})` : ")");
   // The speech answers share speakers and sentences, so they are not independent: an interval that
   // treats them so is too narrow. Only the one that resamples speakers and sentences is shown.
   const unrelated = x => `${Number(x.k)} of ${Number(x.n)} (${pct(x.rate)}` +
@@ -34,15 +28,7 @@ function submittedLines(e) {
     `<span class="subfile">findings/${esc(e.file)} · ${esc(short(e.model))} ${esc(version)}</span>`,
     vars.length && `<b>${sum(vars.map(v => v.k))} of ${sum(vars.map(v => v.n))}</b> answers failed ` +
                    `(${pct(e.overall_rate)}${e.overall_ci95 ? `, 95% CI ${range(e.overall_ci95)}` : ""})`,
-    all && `Unrelated to the recording: Apertus <b>${unrelated(all.apertus)}</b>, ` +
-           `Whisper ${unrelated(all.whisper)}`,
-    c && `With the false claim ${Number(c.premise.k)}/${Number(c.premise.n)}, asked plainly ` +
-         `${Number(c.neutral.k)}/${Number(c.neutral.n)}` + (c.premise_minus_neutral_ci95
-           ? `; the false claim adds ${pointRange(c.premise_minus_neutral_ci95)} points (95% CI)` : ""),
-    r && `On ${esc(short(r.model))}: ${share(r)}, ${(r.variations_reproduced || []).length} of ` +
-         `${(r.variations_measured || []).length} variations reproduced`,
-    `Team's own rubric score, not the judge's 0–10 severity: severity ${esc(e.severity)}, ` +
-      `breadth ${esc(e.breadth)}`,
+    all && `Unrelated to the recording: Apertus <b>${unrelated(all.apertus)}</b>`,
   ].filter(Boolean).map(line => `<span class="line">${line}</span>`).join("");
 }
 
@@ -112,9 +98,12 @@ function dialectTable(e) {
       picker.</p>`;
 }
 
+// The id is what the overview links to: #s-civic_sycophancy for findings/civic_sycophancy.json.
 function submittedCard(e, run) {
-  return `<details class="sub" data-file="${esc(e.file)}"><summary><h3>${esc(e.issue_title)}</h3>
-    ${submittedLines(e)}<span class="open">Overview, variations and how to reproduce</span></summary>
+  const id = "s-" + e.file.replace(/\.json$/, "");
+  return `<details class="sub" id="${esc(id)}" data-file="${esc(e.file)}">
+    <summary><h3>${esc(e.issue_title)}</h3>${submittedLines(e)}
+      <span class="open">Overview, variations and how to reproduce</span></summary>
     <div class="subbody">
       ${sourceLine(e)}
       ${e.overview ? `<p>${esc(e.overview)}</p>` : ""}
@@ -157,8 +146,6 @@ export function renderSubmitted(submitted, run) {
   const open = new Set([...box.querySelectorAll("details[open]")].map(d => d.dataset.file));
   box.classList.add("submitted");
   box.innerHTML = `<h2>Submitted findings (${submitted.length})</h2>${elsewhere(submitted, run)}` +
-    `<p class="subnote">The ${term("ci", "95% intervals")} cover sampling only, not the judge's own errors; ` +
-    "how far a second judge agrees is said under “Reproduced in this run”.</p>" +
     `<div class="subs">${submitted.map(e => submittedCard(e, run)).join("")}</div>`;
   box.querySelectorAll("details").forEach(d => { if (open.has(d.dataset.file)) d.open = true; });
   box.onclick = e => {

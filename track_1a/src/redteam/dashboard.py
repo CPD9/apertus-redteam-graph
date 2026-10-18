@@ -1,15 +1,18 @@
 """What the dashboard shows of a run: its events with the verifier results counted like the
 findings, its findings, the neutral control, the second judge's agreement and the hypotheses,
-plus the five submitted findings, where the run's files are and what a new run would use
-(next_run.py). Also the list of runs for the picker.
+plus the five submitted findings, how each audit in docs/audit/ came out, where the run's files
+are and what a new run would use (next_run.py). Also the list of runs for the picker.
 
 The server asks for this every few hundred milliseconds while a run is live, so the hypothesis
-banks, the submitted findings and the recounts are kept until the files they come from change.
+banks, the submitted findings, the audits and the recounts are kept until the files they come
+from change.
 """
 from __future__ import annotations
 
 import json
 import time
+from collections import Counter
+from contextlib import suppress
 from pathlib import Path
 
 from . import answers, next_run, paths, review, stats
@@ -20,11 +23,13 @@ from .graph import Config
 
 HYPOTHESIS_FIELDS = ("title", "domain", "hypothesis", "reference", "harm", "sources")
 FINDINGS = paths.ROOT / "findings"
+AUDIT = paths.ROOT / "docs" / "audit"
+CANONICAL_RUN = "20261016-172309-1f71"
 
 # The four runs the report cites, by the name the report gives them. Every other run is listed by
 # its date and target model.
 REPORT_RUNS = {
-    "20261016-172309-1f71": "Apertus 8B",
+    CANONICAL_RUN: "Apertus 8B",
     "20261017-140533-a21a": "Apertus 70B",
     "20261017-144423-5519": "Apertus 70B with a safety system prompt",
     "20261017-143329-b04d": "Apertus 70B, second question bank",
@@ -74,18 +79,22 @@ def state(run_id: str) -> dict:
     d = paths.run_dir(run_id)
     shared = {"run_id": d.name if d else None, "run_folder": _folder(d) if d else None,
               "min_rate": Config.min_rate, "hypotheses": hypotheses(),
-              "submitted": _submitted(), "human_labels": _human_labels(), "next_run": next_run.plan()}
+              "submitted": _submitted(), "checks": _checks(), "human_labels": _human_labels(),
+              "next_run": next_run.plan()}
     if d is None:
         return {**shared, "events": [], "findings": [], "uncounted": [], "control": [],
                 "rejudge": None, "language_means": {}}
     events = read_events(d / "events.jsonl")
     verified, uncounted = _recount(d, events)
     below = _below_bar(verified)
-    rejudge = _json_file(d / "rejudge.json", None)
-    agreement = {k: rejudge.get(k) for k in ("n", "kappa", "raw_agreement")} if rejudge else None
     return {**shared, "events": events, "findings": _findings(d, events, below),
-            "uncounted": sorted(uncounted), "control": _recount_control(d), "rejudge": agreement,
-            "language_means": _language_means(d, verified)}
+            "uncounted": sorted(uncounted), "control": _recount_control(d),
+            "rejudge": _agreement(d), "language_means": _language_means(d, verified)}
+
+
+def _agreement(run_dir: Path) -> dict | None:
+    r = _json_file(run_dir / "rejudge.json", None)
+    return {k: r.get(k) for k in ("n", "kappa", "raw_agreement")} if r else None
 
 
 def _folder(run_dir: Path) -> str:
@@ -128,6 +137,67 @@ def _with_cluster_ci(unrelated: dict | None, clustered: dict | None) -> dict | N
     totals = {model: {**counts, "cluster_ci95": clustered.get(model)}
               for model, counts in unrelated["all"].items()}
     return {**unrelated, "all": totals}
+
+
+def _checks() -> list[dict]:
+    """How each audit and the second judge came out, in the overview's order, with the files they
+    come from; read again only when one of those files changes. An audit that is missing, or
+    written in another shape, drops out of the list rather than taking the page down."""
+    def read():
+        checks = []
+        for check in (_crosscheck, _judges, _scorer, _stats, _prompts, _references):
+            with suppress(KeyError, TypeError, AttributeError):
+                checks.append(check())
+        return [c for c in checks if c]
+    files = [*AUDIT.glob("*.json"), *paths.SHIPPED.glob("*/rejudge.json")]
+    return _memoised("checks", _files_key(files), read)
+
+
+def _crosscheck() -> dict:
+    cc = _json_file(AUDIT / "crosscheck.json", {})
+    return {"check": "recount", "file": "docs/audit/crosscheck.json", "checked": cc["checked"],
+            "differ": cc["differ"]}
+
+
+def _judges() -> dict | None:
+    # The recorded copies, so that every clone shows the same agreement.
+    runs = [{"run": name, **a} for run_id, name in REPORT_RUNS.items()
+            if (a := _agreement(paths.SHIPPED / run_id)) and a["kappa"] is not None]
+    return {"check": "judge", "file": "data/runs/*/rejudge.json", "runs": runs} if runs else None
+
+
+def _scorer() -> dict:
+    run = _json_file(AUDIT / "scorer.json", {})["runs"][CANONICAL_RUN]
+    labels = run["agreement"]["by_label"]
+    return {"check": "scorer", "file": "docs/audit/scorer.json", "model": run["model"],
+            "scorable": len(run["scorable_hypotheses"]), "hypotheses": run["hypotheses"],
+            "false_only": labels["false_only"], "true_only": labels["true_only"]}
+
+
+def _stats() -> dict:
+    s = _json_file(AUDIT / "stats.json", {})
+    # Romansh against English counted over hypotheses, which needs no independence of answers.
+    runs = [{"model": s["models"][run], **data["english_vs"]["rm"]["sign"]}
+            for run, data in s["runs"].items()]
+    return {"check": "stats", "file": "docs/audit/stats.json", "romansh_vs_english": runs}
+
+
+def _prompts() -> dict:
+    total = _json_file(AUDIT / "stimuli.json", {})["prompts_total"]
+    return {"check": "prompts", "file": "docs/audit/stimuli.json", "prompts": total["prompts"],
+            "word_list": total["word_list"], "uncertain": total["uncertain"]}
+
+
+def _references() -> dict | None:
+    files = sorted(AUDIT.glob("references-*.json"))
+    hyps = [h for f in files for h in _json_file(f, {})["hypotheses"]]
+    if not hyps:
+        return None
+    sources = [s for h in hyps for s in h["sources"]]
+    return {"check": "references", "file": "docs/audit/references-*.json", "hypotheses": len(hyps),
+            "verdicts": dict(Counter(h["verdict"] for h in hyps)), "sources": len(sources),
+            "unreachable": sum(s["status"] == "unreachable" for s in sources),
+            "uncited": sum(any(s.get("cited") is False for s in h["sources"]) for h in hyps)}
 
 
 def _human_labels() -> int:

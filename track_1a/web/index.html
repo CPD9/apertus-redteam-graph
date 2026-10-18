@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="dash/style.css">
 <link rel="stylesheet" href="dash/cards.css">
 <link rel="stylesheet" href="dash/explain.css">
+<link rel="stylesheet" href="dash/overview.css">
 <script type="module" src="dash/main.js"></script>
 </head>
 <body>
@@ -15,7 +16,6 @@
 <header>
   <div class="brand">
     <h1>Apertus Red-Team Graph <small>Track 1A harness</small></h1>
-    <a id="introLink" href="#intro" aria-controls="intro">What am I looking at?</a>
   </div>
   <div class="controls">
     <label for="runPick">Run</label>
@@ -46,6 +46,7 @@
 </div>
 
 <nav role="tablist" aria-label="Views">
+  <button type="button" role="tab" id="t-overview" aria-controls="tab-overview" data-tab="overview">Overview</button>
   <button type="button" role="tab" id="t-findings" aria-controls="tab-findings" data-tab="findings">Findings</button>
   <button type="button" role="tab" id="t-gap" aria-controls="tab-gap" data-tab="gap">Language gap</button>
   <button type="button" role="tab" id="t-explain" aria-controls="tab-explain" data-tab="explain">How it works</button>
@@ -55,18 +56,13 @@
 
 <div id="notices" class="notices" role="status"></div>
 
-<aside id="intro" class="intro" aria-label="About this dashboard" hidden>
-  <div id="introBody"></div>
-  <div class="introactions">
-    <button type="button" data-intro="explain">Step through one question</button>
-    <button type="button" class="secondary" data-intro="glossary">Glossary</button>
-    <button type="button" class="secondary" data-intro="close">Got it</button>
-  </div>
-</aside>
-
 <main id="main" tabindex="-1">
 
-  <section id="tab-findings" role="tabpanel" aria-labelledby="t-findings">
+  <section id="tab-overview" role="tabpanel" aria-labelledby="t-overview">
+    <div id="overview" class="overview"><p class="empty">Loading…</p></div>
+  </section>
+
+  <section id="tab-findings" role="tabpanel" aria-labelledby="t-findings" hidden>
     <div id="submitted"></div>
     <h2 class="sechead">Reproduced in this run</h2>
     <p id="facts" class="facts"></p>
