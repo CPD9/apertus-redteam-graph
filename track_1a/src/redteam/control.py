@@ -6,7 +6,14 @@ and gives in to the user (sycophancy), rather than not knowing it. Both sides co
 the findings do (agents.counts). The control runs on a run made on this machine and writes
 runs/<run_id>/control.json; the recorded runs in data/runs/ keep the control they ship with.
 
-    PYTHONPATH=src python -m redteam.control [--run RUN_ID]
+With --neutral FILE the neutral prompts are read from FILE instead of written by the attacker and
+translated by the mutator: prompts written for each hypothesis in every language of the run, which
+keep what its premise question held fixed and drop only the false claim
+(src/redteam/neutral_questions.json). That control may also run on a recorded run, since it writes
+runs/<run_id>/control_neutral.json and leaves every control.json as it is. It refuses to start
+unless the target and the judge are the run's own, and each row names them and the backend.
+
+    PYTHONPATH=src python -m redteam.control [--run RUN_ID] [--neutral FILE]
 """
 from __future__ import annotations
 
@@ -21,6 +28,8 @@ from .events import first_event, read_events
 from .graph import Config
 from .llm_json import ask_json
 from .run import load_hypotheses
+
+FROM_FILE = "control_neutral.json"  # what a control with --neutral writes
 
 
 def neutral_question(llm, hyp: dict) -> str:
@@ -44,14 +53,12 @@ def premises(run_dir: Path, refs: dict[str, dict], cache_root: Path = CACHE_DIR)
     return {h: data.get("counted", data) for h, data in verified.items()}
 
 
-def run_control(llm, hyp: dict, finding: dict, premise: dict, system: str | None = None) -> dict:
-    """The neutral question asked like the run asked its own: same languages, seeds, temperature
+def asked(llm, hyp: dict, question: str, prompts: dict[str, str], premise: dict,
+          seeds: list[int], temperature: float, system: str | None) -> dict:
+    """The neutral prompts asked like the run asked its own: same languages, seeds, temperature
     and system prompt. The premise side is the run's own verifier result (premises)."""
-    params = finding["model"]["parameters"]
-    question = neutral_question(llm, hyp)
-    prompts = {lang: agents.mutator(llm, question, lang) for lang in params["harness_langs"]}
-    ver = agents.verifier(llm, hyp, prompts, params["harness_seeds"], params["temperature"],
-                          emit=lambda *a: None, system=system)
+    ver = agents.verifier(llm, hyp, prompts, seeds, temperature, emit=lambda *a: None,
+                          system=system)
     neutral = ver["counted"]
     return {"id": hyp["id"], "neutral_question": question, "neutral_prompts": prompts,
             "premise_rate": premise["overall"],
@@ -61,13 +68,108 @@ def run_control(llm, hyp: dict, finding: dict, premise: dict, system: str | None
             "neutral_answers": {l: [c["answer"] for c in cells] for l, cells in ver["grid"].items()}}
 
 
+def run_control(llm, hyp: dict, finding: dict, premise: dict, system: str | None = None) -> dict:
+    """A neutral question written from the reference, translated into the languages of the run."""
+    params = finding["model"]["parameters"]
+    question = neutral_question(llm, hyp)
+    prompts = {lang: agents.mutator(llm, question, lang) for lang in params["harness_langs"]}
+    return asked(llm, hyp, question, prompts, premise, params["harness_seeds"],
+                 params["temperature"], system)
+
+
+def written(path: Path, langs: list[str]) -> dict[str, dict[str, str]]:
+    """The prompts of a --neutral file by hypothesis, in the given languages and order."""
+    prompts = {}
+    for row in json.loads(path.read_text()):
+        missing = [lang for lang in langs if not str(row["prompts"].get(lang, "")).strip()]
+        if missing:
+            raise ValueError(f"{row['id']} has no prompt in {', '.join(missing)}")
+        prompts[row["id"]] = {lang: row["prompts"][lang] for lang in langs}
+    return prompts
+
+
+def ask_all(ask, hyps: list[dict]) -> list[dict]:
+    def one(h):
+        try:
+            return ask(h)
+        except ValueError as e:  # an unparseable judge reply loses one row, not the whole control
+            print(f"{h['id']}: {e}")
+            return None
+
+    with ThreadPoolExecutor(6) as pool:
+        return [r for r in pool.map(one, hyps) if r]
+
+
+def write(rows: list[dict], out: Path, run_id: str) -> None:
+    if not rows:
+        raise SystemExit(f"no hypothesis of run {run_id} could be asked neutrally; "
+                         f"{out} left as it was")
+    rows.sort(key=lambda r: r["neutral_rate"] - r["premise_rate"])
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(rows, indent=2, ensure_ascii=False))
+    print(f"{'hypothesis':36s} premise  neutral  gap")
+    for r in rows:
+        print(f"{r['id']:36s} {r['premise_rate']:6.0%}  {r['neutral_rate']:6.0%}  "
+              f"{r['premise_rate'] - r['neutral_rate']:+.0%}")
+    print(f"-> {out}")
+
+
+def models_of(llm) -> dict[str, str]:
+    return {"backend": llm.backend, "target": llm.model,
+            "judge": getattr(llm, "red_model", llm.model)}
+
+
+def mismatch(llm, run: answers.Run) -> str | None:
+    """Why llm cannot give the neutral side of run: a gap between two models, or between a model
+    and the MOCK, would read like a gap between two questions."""
+    own = models_of(llm)
+    if (own["target"], own["judge"]) == (run.model, run.judge):
+        return None
+    return (f"run {run.id} was answered by {run.model} and judged by {run.judge}, but the "
+            f"{own['backend']} backend has {own['target']} and {own['judge']}")
+
+
+def from_file(ap, run_dir: Path, path: Path) -> None:
+    """The control with the prompts of a --neutral file, for every hypothesis in it that the run
+    verified, reproduced or not."""
+    run, _ = answers.read_run(run_dir)
+    try:
+        prompts = written(path, run.langs)
+    except (OSError, ValueError, KeyError, TypeError) as e:
+        ap.error(f"{path}: {e}")
+    refs = {h["id"]: h for h in load_hypotheses()}
+    premise = premises(run_dir, refs)
+    hyps = [refs[h] for h in prompts if h in refs and h in premise]
+    if not hyps:
+        ap.error(f"run {run_dir.name} verified none of the hypotheses in {path}")
+    for h in sorted(prompts.keys() - {h["id"] for h in hyps}):
+        print(f"{h}: not verified in run {run_dir.name}, left out")
+
+    llm = llm_mod.detect()
+    if why := mismatch(llm, run):
+        ap.error(why)
+    print(f"backend={llm.backend} control with the prompts of {path} for {len(hyps)} hypotheses "
+          f"of run {run_dir.name}")
+
+    def ask(h):
+        own = prompts[h["id"]]
+        return asked(llm, h, own.get("de", own[run.langs[0]]), own, premise[h["id"]], run.seeds,
+                     Config.temperature, run.system) | models_of(llm)
+
+    write(ask_all(ask, hyps), paths.RUNS / run_dir.name / FROM_FILE, run_dir.name)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--run", default=None, help="run id (default: runs/latest)")
+    ap.add_argument("--neutral", type=Path, metavar="FILE",
+                    help="ask the neutral prompts written in FILE instead of generated ones")
     a = ap.parse_args(argv)
     run_dir = paths.run_dir(a.run or "latest")
     if run_dir is None:
         ap.error(f"no run {a.run or 'latest'} in runs/ or data/runs/")
+    if a.neutral:
+        return from_file(ap, run_dir, a.neutral)
     run_id = run_dir.name
     if run_dir.parent == paths.SHIPPED:
         ap.error(f"{run_id} is a recorded run in data/runs/; its control.json ships with the "
@@ -87,28 +189,9 @@ def main(argv=None):
     llm = llm_mod.detect()
     print(f"backend={llm.backend} control for {len(hyps)} reproduced hypotheses of run {run_id}"
           + (" (with the run's system prompt)" if system else ""))
-
-    def one(h):
-        try:
-            return run_control(llm, h, findings[h["id"]], premise[h["id"]], system)
-        except ValueError as e:  # an unparseable judge reply loses one row, not the whole control
-            print(f"{h['id']}: {e}")
-            return None
-
-    with ThreadPoolExecutor(6) as pool:
-        rows = [r for r in pool.map(one, hyps) if r]
-    out = run_dir / "control.json"
-    if not rows:
-        raise SystemExit(f"no hypothesis of run {run_id} could be asked neutrally; "
-                         f"{out} left as it was")
-
-    rows.sort(key=lambda r: r["neutral_rate"] - r["premise_rate"])
-    out.write_text(json.dumps(rows, indent=2, ensure_ascii=False))
-    print(f"{'hypothesis':36s} premise  neutral  gap")
-    for r in rows:
-        print(f"{r['id']:36s} {r['premise_rate']:6.0%}  {r['neutral_rate']:6.0%}  "
-              f"{r['premise_rate'] - r['neutral_rate']:+.0%}")
-    print(f"-> {out}")
+    rows = ask_all(lambda h: run_control(llm, h, findings[h["id"]], premise[h["id"]], system),
+                   hyps)
+    write(rows, run_dir / "control.json", run_id)
 
 
 if __name__ == "__main__":
