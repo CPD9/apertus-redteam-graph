@@ -47,25 +47,34 @@ def language_sections(runs):
 
 
 def truths_section(runs):
-    rows, contrasts, logged = [], [], []
+    rows, contrasts, same, logged = [], [], [], []
     for r, x in runs.items():
         named = [("premise, all hypotheses", x["different_truths"])]
         control = x.get("control_truths")
         if control:
+            both = control["same_language_under_both"]
             named += [("premise, same hypotheses", control["premise_same_hypotheses"]),
-                      ("neutral", control["neutral"])]
-            contrasts.append(f"`{r}` {split(control['split_in_one_only'], 'premise', 'neutral')}")
+                      ("neutral", control["neutral"]),
+                      ("same language under both, cells shuffled", both)]
+            same.append(f"`{r}` {both['observed']} against {both['expected']} expected "
+                        f"(p {both['p']})")
+            contrasts.append(f"`{r}` {split(control['split_in_one_only'], 'premise', 'neutral')}, "
+                             f"{control['split_under_both']} under both")
             logged.append("{} of {}".format(*control["logged_rates_equal_raw_flags"]))
         rows += [(r, name, t["hypotheses"], t["observed"], t["expected"], t["p"])
                  for name, t in named]
-    notes = ["The null shuffles single answers between the languages of a hypothesis. Shuffling "
-             "whole cells cannot change the count, which depends only on each hypothesis's set of "
-             "cell totals, so no null keeps a prompt's answers together; p here mostly measures "
-             "how closely the answers to one prompt agree, which the cell ICC in item 7 shows too. "
-             "Language and prompt are confounded.",
-             "Both conditions show an excess over the null. Hypotheses split under one condition "
-             f"only (premise/neutral, McNemar): {'; '.join(contrasts)}. A p above 0.05 means no "
-             "detectable difference between the conditions, not equal counts.",
+    notes = ["The null shuffles single answers between the languages of a hypothesis. Within one "
+             "condition, shuffling whole cells cannot change the count, which depends only on each "
+             "hypothesis's set of cell totals; p here mostly measures how closely the answers to "
+             "one prompt agree, which the cell ICC in item 7 shows too. Language and prompt are "
+             "confounded.",
+             "Both conditions show an excess over the single-answer null. Hypotheses split under "
+             f"one condition only (premise/neutral, McNemar): {'; '.join(contrasts)}. A p above "
+             "0.05 means no detectable difference between the conditions, not equal counts.",
+             "The premise and neutral questions give each language two prompts, so one null keeps "
+             "a prompt's answers together: in the last row of each run, one language is at 3/3 "
+             "under both prompts and another at 0/3 under both, against shuffling whole cells "
+             f"within each condition: {', '.join(same)}.",
              "control.json keeps only per-language rates of raw flags (equal to the replayed flags "
              f"in {', '.join(logged)} cells), so the control's verdicts are replayed from the LLM "
              "cache and counted like the findings."]

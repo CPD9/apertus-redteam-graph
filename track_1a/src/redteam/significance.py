@@ -64,13 +64,16 @@ def rate_variance(strata) -> float:
     return sum((r - mean) ** 2 for r in rates) / len(rates)
 
 
+def ends(stratum) -> tuple[set, set]:
+    """The labels with every unit counted, and those with none."""
+    totals = label_totals(stratum).items()
+    return ({label for label, (k, n) in totals if k == n},
+            {label for label, (k, _) in totals if k == 0})
+
+
 def split_strata(strata) -> int:
     """Strata in which every unit of one label counts and none of another label's does."""
-    split = 0
-    for stratum in strata:
-        totals = label_totals(stratum).values()
-        split += any(k == n for k, n in totals) and any(k == 0 for k, _ in totals)
-    return split
+    return sum(all(ends(stratum)) for stratum in strata)
 
 
 def paired_shift(strata) -> float:

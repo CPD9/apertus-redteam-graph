@@ -13,7 +13,6 @@ sys.path[:0] = [str(TRACK / "scripts"), str(TRACK / "src"), str(TRACK / "tests")
 
 import helpers  # noqa: E402
 import report_stats as stats  # noqa: E402
-from report_stats_claims import claims  # noqa: E402
 from report_stats_grid import cells, grid, p3, singles, table  # noqa: E402
 from report_stats_language import (control_truths, coverage, detectable,  # noqa: E402
                                    different_truths, english_vs, language_effect,
@@ -145,6 +144,18 @@ class ControlTest(unittest.TestCase):
         self.assertEqual(result["premise_same_hypotheses"]["observed"], 1)
         self.assertEqual(result["neutral"]["observed"], 1)
         self.assertEqual(result["split_in_one_only"], {"premise": 1, "neutral": 1, "p": 1.0})
+        self.assertEqual(result["split_under_both"], 0)
+
+    def test_same_language_under_both_prompts(self):
+        # Both hypotheses split under both conditions, but only in a does one language have every
+        # answer counted (en) and another none (rm) under both prompts; in b the neutral prompt
+        # turns the split around.
+        premise = run("r", {"a": {"en": "111", "rm": "000"}, "b": {"en": "111", "rm": "000"}})
+        neutral = answers({"a": {"en": "111", "rm": "000"}, "b": {"en": "000", "rm": "111"}})
+        result = control_truths(premise, [], neutral, 200)
+        self.assertEqual(result["split_under_both"], 2)
+        self.assertEqual(result["same_language_under_both"]["hypotheses"], 2)
+        self.assertEqual(result["same_language_under_both"]["observed"], 1)
 
 
 class PairedRunsTest(unittest.TestCase):
@@ -223,7 +234,7 @@ class ClaimsTest(unittest.TestCase):
     def test_lines_of_each_claim_and_unlisted_intervals(self):
         report = "\n".join(["intro", "difference −14 points, 95% CI −23 to −5), but",
                             "a 95% CI here", "![**Figure 2.** caption"])
-        found = claims(report)
+        found = stats.claims(report)
         self.assertEqual(found["claims"][0]["lines"], [2])
         figure = next(c for c in found["claims"] if c["reading"]["assumes_independence"])
         self.assertEqual(figure["lines"], [4])

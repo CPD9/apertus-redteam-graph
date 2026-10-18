@@ -117,6 +117,7 @@ class PermutationTest(unittest.TestCase):
         self.assertEqual(sig.split_strata(whole), 1)
         single = [[("en", (1, 1))] * 3 + [("de", (1, 1)), ("de", (0, 1))] + [("rm", (0, 1))] * 3]
         self.assertEqual(sig.split_strata(single), 1)
+        self.assertEqual(sig.ends(single[0]), ({"en"}, {"rm"}))
 
     def test_paired_shift(self):
         strata = [[("first", 2), ("second", 5)], [("first", 4), ("second", 3)]]

@@ -36,9 +36,11 @@ CMH is stratified by hypothesis but treats the answers within one as independent
 
 ## 3. Different truths: one language at 3/3 and another at 0/3
 
-The null shuffles single answers between the languages of a hypothesis. Shuffling whole cells cannot change the count, which depends only on each hypothesis's set of cell totals, so no null keeps a prompt's answers together; p here mostly measures how closely the answers to one prompt agree, which the cell ICC in item 7 shows too. Language and prompt are confounded.
+The null shuffles single answers between the languages of a hypothesis. Within one condition, shuffling whole cells cannot change the count, which depends only on each hypothesis's set of cell totals; p here mostly measures how closely the answers to one prompt agree, which the cell ICC in item 7 shows too. Language and prompt are confounded.
 
-Both conditions show an excess over the null. Hypotheses split under one condition only (premise/neutral, McNemar): `20261016-172309-1f71` 9/5, p 0.424; `20261017-140533-a21a` 8/9, p 1.0. A p above 0.05 means no detectable difference between the conditions, not equal counts.
+Both conditions show an excess over the single-answer null. Hypotheses split under one condition only (premise/neutral, McNemar): `20261016-172309-1f71` 9/5, p 0.424, 6 under both; `20261017-140533-a21a` 8/9, p 1.0, 3 under both. A p above 0.05 means no detectable difference between the conditions, not equal counts.
+
+The premise and neutral questions give each language two prompts, so one null keeps a prompt's answers together: in the last row of each run, one language is at 3/3 under both prompts and another at 0/3 under both, against shuffling whole cells within each condition: `20261016-172309-1f71` 0 against 1.67 expected (p 1.0), `20261017-140533-a21a` 3 against 0.73 expected (p 0.0141).
 
 control.json keeps only per-language rates of raw flags (equal to the replayed flags in 186 of 186, 192 of 192 cells), so the control's verdicts are replayed from the LLM cache and counted like the findings.
 
@@ -47,9 +49,11 @@ control.json keeps only per-language rates of raw flags (equal to the replayed f
 | 20261016-172309-1f71 | premise, all hypotheses | 41 | 16 | 3.17 | 0.0001 |
 | 20261016-172309-1f71 | premise, same hypotheses | 31 | 15 | 2.77 | 0.0001 |
 | 20261016-172309-1f71 | neutral | 31 | 11 | 3.92 | 0.0001 |
+| 20261016-172309-1f71 | same language under both, cells shuffled | 31 | 0 | 1.67 | 1.0 |
 | 20261017-140533-a21a | premise, all hypotheses | 38 | 12 | 2.69 | 0.0001 |
 | 20261017-140533-a21a | premise, same hypotheses | 32 | 11 | 2.68 | 0.0001 |
 | 20261017-140533-a21a | neutral | 32 | 12 | 3.8 | 0.0001 |
+| 20261017-140533-a21a | same language under both, cells shuffled | 32 | 3 | 0.73 | 0.0141 |
 
 ## 4. Mitigation: `20261017-140533-a21a` without, `20261017-144423-5519` with the prompt
 
@@ -128,12 +132,12 @@ Method and what it rests on are a reading written by hand; only the line numbers
 
 | report lines | method | rests on | assumes independence |
 |---|---|---|---|
-| 116, 117 | bootstrap of the pooled difference over hypotheses | hypotheses as clusters | no |
-| 116 | six per-language bootstrap intervals read as tests, with no multiplicity adjustment (item 5 gives the cell permutation, Holm over six) | hypotheses as clusters | no |
-| 122, 126, 128, 129, 130, 131 | bootstrap over variations x languages; 1 and 2 variations in findings 2 and 4 | variations and languages as clusters, floored at Wilson | no |
-| 132, 135, 170 | bootstrap over 8 dialects (one speaker each) x 60 sentences | dialects and sentences as clusters | no |
-| 107, 186 | pooled rate per language, bootstrap over hypotheses | hypotheses as clusters | no |
-| 134 | Wilson interval of each hypothesis's 18 answers (6 prompts x 3 seeds) | independent answers, though three share each prompt, so it is too narrow | yes |
-| 135 | Wilson interval of each dialect's 60 clips of 60 distinct sentences | independent clips, fair for distinct sentences; one speaker per dialect, so it covers that speaker, not the dialect | yes |
-| 199, 200 | point estimates, no interval | none stated | no |
-| 192 | rates, no interval or test in the text | none stated | no |
+| 110, 111 | bootstrap of the pooled difference over hypotheses | hypotheses as clusters | no |
+| 110 | six per-language bootstrap intervals read as tests, with no multiplicity adjustment (item 5 gives the cell permutation, Holm over six) | hypotheses as clusters | no |
+| 117, 123, 125, 126, 127, 128 | bootstrap over variations x languages; 1 and 2 variations in findings 2 and 4 | variations and languages as clusters, floored at Wilson | no |
+| 129, 149, 167 | bootstrap over 8 dialects (one speaker each) x 60 sentences | dialects and sentences as clusters | no |
+| 121, 222 | pooled rate per language, bootstrap over hypotheses | hypotheses as clusters | no |
+| 148 | Wilson interval of each hypothesis's 18 answers (6 prompts x 3 seeds) | independent answers, though three share each prompt, so it is too narrow | yes |
+| 149 | Wilson interval of each dialect's 60 clips of 60 distinct sentences | independent clips, fair for distinct sentences; one speaker per dialect, so it covers that speaker, not the dialect | yes |
+| 193, 197, 204, 205 | point estimates, no interval | none stated | no |
+| 214 | rates, no interval or test in the text | none stated | no |

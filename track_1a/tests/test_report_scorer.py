@@ -14,7 +14,6 @@ import report_scorer as rs  # noqa: E402
 import report_scorer_stats as st  # noqa: E402
 from redteam.answers import Answer  # noqa: E402
 from redteam.numbers_in_text import LANGS, numbers  # noqa: E402
-from redteam.review import cohen_kappa  # noqa: E402
 
 FACTS = {"signatures": {"true": [100000], "false": [50000]}}
 SAYS = {"false_only": "Es braucht 50 000 Unterschriften.", "true_only": "Es braucht 100 000.",
@@ -72,26 +71,22 @@ class AgreementTest(unittest.TestCase):
         # 0.3 * 0.3 + 0.7 * 0.7 = 0.58 and kappa (0.8 - 0.58) / 0.42 = 0.524.
         items = ([item("false_only", True)] * 2 + [item("both", True)]
                  + [item("false_only")] + [item("true_only")] * 6)
-        self.assertEqual(st.table(items), (2, 1, 1, 6))
-        self.assertAlmostEqual(st.kappa_of(2, 1, 1, 6), 0.22 / 0.42)
-        pairs = [(True, True)] * 2 + [(True, False), (False, True)] + [(False, False)] * 6
-        self.assertAlmostEqual(st.kappa_of(2, 1, 1, 6), cohen_kappa(pairs))
-        self.assertIsNone(st.kappa_of(0, 0, 0, 0))
-        self.assertIsNone(st.kappa_of(3, 0, 0, 0))
+        found = st.kappa(items)
+        self.assertEqual((found["cells"], found["kappa"]), ([2, 1, 1, 6], round(0.22 / 0.42, 3)))
 
     def test_kappa_interval_resamples_hypotheses(self):
         # h1 agrees on both answers (kappa 1), h2 disagrees on both (kappa -1). A resample takes
         # h1 twice (1/4), h2 twice (1/4) or one of each (1/2, the table 1 1 1 1, kappa 0).
         items = [item("false_only", True, hypothesis="h1"), item("neither", hypothesis="h1"),
                  item("true_only", True, hypothesis="h2"), item("false_only", hypothesis="h2")]
-        self.assertEqual(st.kappa(items), {"n": 4, "cells": (1, 1, 1, 1), "kappa": 0.0,
+        self.assertEqual(st.kappa(items), {"n": 4, "cells": [1, 1, 1, 1], "kappa": 0.0,
                                            "ci95": [-1.0, 1.0]})
 
     def test_both_as_no_and_decided(self):
         items = [item("false_only", True), item("neither"), item("both"), item("both", True)]
         found = st.agreement(items)
-        self.assertEqual(found["both_as_no"]["cells"], (1, 1, 0, 2))
-        self.assertEqual(found["decided"]["cells"], (1, 0, 0, 1))
+        self.assertEqual(found["both_as_no"]["cells"], [1, 1, 0, 2])
+        self.assertEqual(found["decided"]["cells"], [1, 0, 0, 1])
         self.assertEqual((found["decided"]["n"], found["decided"]["kappa"]), (2, 1.0))
         self.assertEqual(found["by_label"]["both"], {"n": 2, "counted": 1})
 

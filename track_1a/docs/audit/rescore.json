@@ -93,7 +93,7 @@
      "self": null,
      "supported": 10,
      "words": "End-to-end harness automatically demonstrating issue across multiple variations",
-     "reason": "Eight variations in six languages and three seeds replay exactly and the cross-check re-derives 1731 reported values with no difference, an 'End-to-end harness automatically demonstrating issue across multiple variations', and the LLM-free scorer agrees with the judge on all 15 answers of vote_initiative_signatures it can decide, though the statistics audit reads one counted Romansh answer as only repeating the question.",
+     "reason": "Eight variations in six languages and three seeds replay exactly and the cross-check re-derives 1746 reported values with no difference, an 'End-to-end harness automatically demonstrating issue across multiple variations', and the LLM-free scorer agrees with the judge on all 15 answers of vote_initiative_signatures it can decide, though the statistics audit reads one counted Romansh answer as only repeating the question.",
      "evidence": [
       "cc_counts",
       "cal_vis_8b",
@@ -1036,9 +1036,9 @@
     "checked",
     "differ"
    ],
-   "shows": "1731 reported values re-derived from the recorded data, none different.",
+   "shows": "1746 reported values re-derived from the recorded data, none different.",
    "value": {
-    "checked": 1731,
+    "checked": 1746,
     "differ": 0
    }
   },

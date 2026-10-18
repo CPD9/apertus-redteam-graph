@@ -41,19 +41,31 @@ def english_vs(g):
 def different_truths(g, draws):
     """Hypotheses with one language at all answers counted and another at none, against shuffling
     the language labels of single answers within each hypothesis. Shuffling whole cells leaves the
-    count as it is, so there is no null that keeps a prompt's answers together."""
+    count as it is, so within one condition no null keeps a prompt's answers together."""
     return {"hypotheses": len(g), **permuted(singles(g), sig.split_strata, draws)}
 
 
 def is_split(by_lang):
-    return sig.split_strata([units(by_lang)]) == 1
+    return all(sig.ends(units(by_lang)))
+
+
+def same_language(strata):
+    """Hypotheses where one language has every answer counted under both prompts and another none
+    under both. strata holds each hypothesis's premise cells, then its neutral cells in the same
+    order."""
+    half = len(strata) // 2
+    return sum(bool(wrong & wrong_again) and bool(right & right_again)
+               for (wrong, right), (wrong_again, right_again)
+               in zip(map(sig.ends, strata[:half]), map(sig.ends, strata[half:])))
 
 
 def control_truths(run, rows, neutral, draws):
     """different_truths of the neutral control beside the premise answers of the same hypotheses,
-    and McNemar of the hypotheses split under one condition only. control.json keeps per-language
-    rates of raw flags only, so neutral holds its answers replayed from the cache; the last entry
-    counts the logged rates that equal the replayed flags."""
+    McNemar of the hypotheses split under one condition only, and the one null that keeps a
+    prompt's answers together: the same language split under both prompts, whole cells shuffled
+    within each. control.json keeps per-language rates of raw flags only, so neutral holds its
+    answers replayed from the cache; the last entry counts the logged rates that equal the
+    replayed flags."""
     flags = {}
     for a in neutral:
         flags.setdefault((a.hypothesis, a.lang), []).append(a.flagged)
@@ -62,9 +74,13 @@ def control_truths(run, rows, neutral, draws):
     asked = grid(neutral)
     premise = grid(a for a in run.answers if a.hypothesis in asked)
     splits = [(is_split(premise[h]), is_split(asked[h])) for h in premise]
+    both = cells(premise) + [units(asked[h]) for h in premise]
     return {"premise_same_hypotheses": different_truths(premise, draws),
             "neutral": different_truths(asked, draws),
             "split_in_one_only": paired(sig.mcnemar(splits), "premise", "neutral"),
+            "split_under_both": sum(a and b for a, b in splits),
+            "same_language_under_both": {"hypotheses": len(premise),
+                                         **permuted(both, same_language, draws)},
             "logged_rates_equal_raw_flags": [sum(logged), len(logged)]}
 
 

@@ -192,6 +192,13 @@
      "neutral": 5,
      "p": 0.424
     },
+    "split_under_both": 6,
+    "same_language_under_both": {
+     "hypotheses": 31,
+     "observed": 0,
+     "expected": 1.67,
+     "p": 1.0
+    },
     "logged_rates_equal_raw_flags": [
      186,
      186
@@ -369,6 +376,13 @@
      "premise": 8,
      "neutral": 9,
      "p": 1.0
+    },
+    "split_under_both": 3,
+    "same_language_under_both": {
+     "hypotheses": 32,
+     "observed": 3,
+     "expected": 0.73,
+     "p": 0.0141
     },
     "logged_rates_equal_raw_flags": [
      192,
@@ -788,8 +802,8 @@
   "claims": [
    {
     "lines": [
-     116,
-     117
+     110,
+     111
     ],
     "states": [
      "difference −14 points, 95% CI −23 to −5",
@@ -803,7 +817,7 @@
    },
    {
     "lines": [
-     116
+     110
     ],
     "states": [
      "significant only in English, Swiss"
@@ -816,12 +830,12 @@
    },
    {
     "lines": [
-     122,
+     117,
+     123,
+     125,
      126,
-     128,
-     129,
-     130,
-     131
+     127,
+     128
     ],
     "states": [
      "Wrong answers (95% CI)",
@@ -839,9 +853,9 @@
    },
    {
     "lines": [
-     132,
-     135,
-     170
+     129,
+     149,
+     167
     ],
     "states": [
      "48% (95% CI 36–60)",
@@ -856,8 +870,8 @@
    },
    {
     "lines": [
-     107,
-     186
+     121,
+     222
     ],
     "states": [
      "**Figure 1.**",
@@ -871,7 +885,7 @@
    },
    {
     "lines": [
-     134
+     148
     ],
     "states": [
      "**Figure 2.**"
@@ -884,7 +898,7 @@
    },
    {
     "lines": [
-     135
+     149
     ],
     "states": [
      "**Figure 3.**"
@@ -897,12 +911,16 @@
    },
    {
     "lines": [
-     199,
-     200
+     193,
+     197,
+     204,
+     205
     ],
     "states": [
      "Cohen's κ, agreement beyond",
-     "κ 0.14"
+     "κ 0.14",
+     "κ 0.47",
+     "κ 0.65"
     ],
     "reading": {
      "method": "point estimates, no interval",
@@ -912,7 +930,7 @@
    },
    {
     "lines": [
-     192
+     214
     ],
     "states": [
      "from 29% to 12% (Romansh 52% to 14%)"

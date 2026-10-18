@@ -12,8 +12,11 @@ from collections import Counter, defaultdict
 from report_pooling import difference, interval, pooled, resamples
 
 from redteam.numbers_in_text import LANGS
+from redteam.review_stats import kappa as kappa_of
 from redteam.scorer import LABELS
 from redteam.significance import sign_test
+
+CELLS = ((True, True), (True, False), (False, True), (False, False))  # (judge, scorer)
 
 
 def says_false(item) -> bool:
@@ -24,20 +27,8 @@ def counted(item) -> bool:
     return item.answer.confirmed
 
 
-def table(items) -> tuple[int, int, int, int]:
-    """Judge and scorer both yes, judge only, scorer only, both no."""
-    pairs = Counter((counted(i), says_false(i)) for i in items)
-    return pairs[True, True], pairs[True, False], pairs[False, True], pairs[False, False]
-
-
-def kappa_of(a: int, b: int, c: int, d: int) -> float | None:
-    """Cohen's kappa of a table laid out as table() gives it; None where it is undefined."""
-    n = a + b + c + d
-    if n == 0:
-        return None
-    judge, scorer = (a + b) / n, (a + c) / n
-    expected = judge * scorer + (1 - judge) * (1 - scorer)
-    return None if expected == 1 else ((a + d) / n - expected) / (1 - expected)
+def table(items) -> Counter:
+    return Counter((counted(i), says_false(i)) for i in items)
 
 
 def kappa(items) -> dict:
@@ -46,10 +37,11 @@ def kappa(items) -> dict:
     for i in items:
         groups[i.answer.hypothesis].append(i)
     tables, whole = [table(g) for g in groups.values()], table(items)
-    drawn = (kappa_of(*(sum(w * tables[h][c] for h, w in draw.items()) for c in range(4)))
+    drawn = (kappa_of(Counter({c: sum(w * tables[h][c] for h, w in draw.items()) for c in CELLS}))
              for draw in resamples(len(tables)))
-    value = kappa_of(*whole)
-    return {"n": len(items), "cells": whole, "kappa": None if value is None else round(value, 3),
+    value = kappa_of(whole)
+    return {"n": len(items), "cells": [whole[c] for c in CELLS],
+            "kappa": None if value is None else round(value, 3),
             "ci95": interval(k for k in drawn if k is not None)}
 
 
