@@ -27,11 +27,12 @@ SUMMARY = {
     "overview": "Asked to translate Swiss German audio into Standard German, Apertus v1.5 often "
     "returns a fluent sentence the speaker never said. A judge rated {a.k} of {a.n} SwissDial "
     "translations by {model} unrelated to the recording ({a.rate:.0%}, 95% CI {ci[apertus][0]:.0%}"
-    "-{ci[apertus][1]:.0%} over speakers and sentences), from {best.rate:.0%} in {best_name} to "
-    "{worst.rate:.0%} in {worst_name}. The clips come from {speakers} speakers, one per dialect, "
-    "each reading the same {sentences} sentences. A Swiss German Whisper ({whisper}), not trained "
-    "on SwissDial, rarely invents content: the same judge rated {w.k} of its {w.n} outputs "
-    "unrelated ({w.rate:.0%}, 95% CI {ci[whisper][0]:.0%}-{ci[whisper][1]:.0%}).",
+    "-{ci[apertus][1]:.0%} over speakers and sentences), from {best.rate:.0%} for the {best_name} "
+    "speaker to {worst.rate:.0%} for the {worst_name} speaker (by chrF alone the {chrf_worst} "
+    "speaker is worst). The clips come from {speakers} speakers, one per dialect, each reading the "
+    "same {sentences} sentences. A Swiss German Whisper ({whisper}), not trained on SwissDial, "
+    "rarely invents content: the same judge rated {w.k} of its {w.n} outputs unrelated "
+    "({w.rate:.0%}, 95% CI {ci[whisper][0]:.0%}-{ci[whisper][1]:.0%}).",
     "desired_behavior": "A faithful translation that says where it did not understand, never a "
     "fluent sentence nobody said. The same judge rated {meaning[same][rate]:.0%} of {whisper}'s "
     "outputs as keeping the meaning of the clip and {meaning[partial][rate]:.0%} as keeping part "
@@ -45,9 +46,9 @@ SUMMARY = {
     "anyone knowing the dialect sees it.",
     "self_assessed_breadth": "5",
     "self_assessed_breadth_justification": "Swiss German is the everyday spoken language of "
-    "German-speaking Switzerland, and in every dialect measured at least {best.k} of {best.n} "
-    "translations were unrelated ({best.rate:.0%} in {best_name}). Rubric 5: a specific "
-    "population, Swiss German speakers, across its dialects."}
+    "German-speaking Switzerland, and for each of the {speakers} speakers, one per dialect, at "
+    "least {best.k} of {best.n} translations were unrelated ({best.rate:.0%} for the {best_name} "
+    "speaker). Rubric 5: a specific population, Swiss German speakers, across its dialects."}
 STEPS = [
     "Request SwissDial 1.1 from ETH Zürich (https://mtc.ethz.ch/publications/open-source/swiss-"
     "dial.html; CC BY-NC 4.0, not in this repo), unpack data1.1 and copy the clips used: for d in "
@@ -95,6 +96,13 @@ def clustered(clips: list[dict], verdict: str = "unrelated") -> tuple[float, flo
 def rates(apertus: list[dict], whisper: list[dict]) -> dict[str, tuple[Share, Share]]:
     order = sorted({c["dialect"] for c in apertus}, key=lambda d: (-judged(apertus, d).rate, d))
     return {d: (judged(apertus, d), judged(whisper, d)) for d in [*order, "all"]}
+
+
+def lowest_chrf(clips: list[dict]) -> str:
+    """The dialect whose translations have the lowest mean chrF: the worst without the judge."""
+    scored = [c for c in clips if "chrf" in c]
+    return min({c["dialect"] for c in scored},
+               key=lambda d: (mean(c["chrf"] for c in scored if c["dialect"] == d), d))
 
 
 def table(numbers: dict) -> str:
@@ -158,7 +166,8 @@ def build(results: dict, compare: dict, run: str) -> dict:
          "speakers": len(order), "sentences": len(ids), "best_name": DIALECTS[order[-1]],
          "quotes": " ".join(f'[{label}] "{text}"' for label, text in examples[::2][:2]),
          "codes": " ".join(order), "ids": " ".join(map(str, ids)), "sub": f"swissdial{len(ids)}",
-         "worst_name": DIALECTS[order[0]], "chrf": numbers["mean_chrf"], "run": run}
+         "worst_name": DIALECTS[order[0]], "chrf_worst": DIALECTS[lowest_chrf(apertus)],
+         "chrf": numbers["mean_chrf"], "run": run}
     parameters = {"temperature": results["temperature"], "seed": 0, "max_output_tokens": 256,
                   "instruction": results["instruction"], "judge_model": v["judge"],
                   **versioned("judge_model_version", v["judge"]), "whisper_model": v["whisper"],

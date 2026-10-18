@@ -406,6 +406,13 @@ class ThemeTest(unittest.TestCase):
         self.assertEqual(themes.over_bar(theme), ["en", "de"])
         self.assertEqual(themes.breadth(theme), 2)  # two variations but only two languages
 
+    def test_a_single_variation_is_breadth_1_unless_the_rerun_reproduced_it(self):
+        spec = {**self.SPEC, "families": {"hist_": "history"}}
+        self.assertEqual(themes.breadth(themes.measure(spec, self.run, [], self.rerun)), 1)
+        self.assertEqual(themes.breadth(themes.measure(spec, self.run, [], None)), 1)
+        rerun = run_of({"hist_a": {"en": "1111", "de": "1111"}}, {"hist_a": "finding"})
+        self.assertEqual(themes.breadth(themes.measure(spec, self.run, [], rerun)), 2)
+
     def test_replica_measures_what_the_rerun_finished(self):
         replica = themes.measure(self.SPEC, self.run, [], self.rerun).replica
         self.assertEqual((replica.measured, replica.reproduced, replica.failed),
@@ -486,6 +493,8 @@ class SpeechTest(unittest.TestCase):
         self.assertEqual(speech.judged(self.CLIPS, "same", "be"), rates.Share(1, 2))
         self.assertEqual(speech.by_dialect(self.CLIPS), ["ag", "be"])
         self.assertEqual(speech.mean_chrf(self.CLIPS), 30.0)
+        self.assertEqual(speech.lowest_chrf(self.CLIPS), "ag")
+        self.assertEqual(speech.lowest_chrf([dict(c, chrf=0.0) for c in self.CLIPS]), "ag")
         self.assertEqual(speech.unrelated_everywhere(self.CLIPS), [1])
 
     def test_cluster_interval_resamples_dialects_and_sentences(self):
@@ -609,6 +618,21 @@ class ThemeTextTest(unittest.TestCase):
         self.assertEqual(theme_text.percents(text, r"Absent: (.*)"), {})
         self.assertEqual(theme_text.numbers(text, r"Absent: (.*)"), [])
         self.assertEqual(theme_text.listed(text, r"Absent: (.*)"), [])
+        caveat = "languages: en, gsw, rm (judge accuracy unclear in gsw and rm)."
+        self.assertEqual(theme_text.listed(caveat, r"languages: ([a-z, ]+?)(?: \([^)]*\))?\."),
+                         ["en", "gsw", "rm"])
+
+    def test_counted_answers_read_as_the_paired_language_are_named_where_most(self):
+        run = run_of({"ahv_a": {"gsw": "1110", "rm": "1100"}}, {"ahv_a": "finding"},
+                     langs=("gsw", "rm"))
+        theme = themes.measure({"families": {"ahv": "pensions"}}, run, [], None)
+        read_as = {("r", "ahv_a", "gsw", 0), ("r", "ahv_a", "gsw", 1), ("r", "ahv_a", "gsw", 3),
+                   ("r", "ahv_a", "rm", 0)}
+        text = "By language: gsw 75% (2 of 3 counted in Standard German), rm 50%."
+        check = theme_text.paired("at", text, theme, read_as)
+        self.assertEqual((check.expected, check.recomputed),
+                         ({"gsw": [2, 3, "Standard German"]}, {"gsw": [2, 3, "Standard German"]}))
+        self.assertFalse(theme_text.paired("at", "By language: gsw 75%.", theme, read_as).ok)
 
 
 class ConstantsTest(unittest.TestCase):

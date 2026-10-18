@@ -8,7 +8,7 @@ from . import clusters
 from .answers import Run
 from .graph import Config
 from .models import model_id
-from .theme_finding import join, pct
+from .theme_finding import PAIRED, join, pct, written_in
 
 if TYPE_CHECKING:  # group imports this module to assemble its findings
     from .group import Measured
@@ -33,6 +33,15 @@ def sampled(m: Measured, run: Run, control_id: str) -> str:
     return f"{said}; neutral-question control: {source}, judged the same way."
 
 
+def word_list(m: Measured, run: Run) -> str:
+    """What "counted in Standard German" in the overview rests on, when it says that."""
+    named = [PAIRED[lang][1] for lang in run.langs if written_in(m, lang)]
+    if not named:
+        return ""
+    return (f"Counted in {' or '.join(named)}: the word list of redteam.lang_profile reads the "
+            "answer so, a heuristic and not a native speaker's reading (docs/audit/stimuli.md).")
+
+
 def notes(m: Measured, run: Run, control_id: str, refs: dict) -> str:
     unrated = sum(a.flagged and not a.confirmed for a in m.answers)
     return join([
@@ -49,6 +58,7 @@ def notes(m: Measured, run: Run, control_id: str, refs: dict) -> str:
           for h in m.excluded),
         *m.theme.get("remarks", []),
         sampled(m, run, control_id),
+        word_list(m, run),
         clusters.explained(len(m.ids), len(run.langs)),
         f"System prompt: {run.system}" if run.system else "The harness sent no system prompt, so "
         "the default one of Apertus's chat template applies, as the walkthroughs show.",

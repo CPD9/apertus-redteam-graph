@@ -37,7 +37,7 @@ def finding_checks(audit: Audit, findings: dict[str, dict]) -> list[Check]:
     for theme_id, theme in audit.themes.items():
         if theme_id in findings:
             checks += parameter_checks(theme_id, findings[theme_id], theme)
-            checks += text_checks(theme_id, findings[theme_id], theme, audit.refs)
+            checks += text_checks(theme_id, findings[theme_id], theme, audit.refs, audit.read_as)
     at = f"findings/{SPEECH_FINDING}.json"
     finding = findings[SPEECH_FINDING]
     checks += speech.parameter_checks(f"{at} model.parameters", finding["model"]["parameters"],

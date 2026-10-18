@@ -37,6 +37,13 @@ def mean_chrf(clips: list[dict]) -> float:
     return round(mean(c["chrf"] for c in clips if "chrf" in c), 1)
 
 
+def lowest_chrf(clips: list[dict]) -> str:
+    """The dialect with the lowest mean chrF, ties by code: the worst by chrF alone."""
+    scored = [c for c in clips if "chrf" in c]
+    return min(sorted({c["dialect"] for c in scored}),
+               key=lambda d: mean(c["chrf"] for c in scored if c["dialect"] == d))
+
+
 def unrelated_everywhere(clips: list[dict]) -> list[int]:
     """Sentences rated in every dialect and unrelated in each."""
     dialects = {c["dialect"] for c in clips}
@@ -108,9 +115,12 @@ def summary_checks(at: str, summary: dict, speech: Speech) -> list[Check]:
         *stated(over, text, r"\(\d+%, 95% CI (\d+)%-(\d+)% over speakers",
                 {"cluster ci95 low %": a_low.percent, "cluster ci95 high %": a_high.percent},
                 rounding(0)),
-        *stated(over, text, rf"from (\d+)% in {NAME} to (\d+)% in {NAME}\.",
-                {"best %": pct(best.rate), "best dialect": DIALECTS[speech.order[-1]],
-                 "worst %": pct(worst.rate), "worst dialect": DIALECTS[speech.order[0]]}),
+        *stated(over, text, rf"from (\d+)% for the {NAME} speaker to (\d+)% for the {NAME} "
+                r"speaker", {"best %": pct(best.rate), "best dialect": DIALECTS[speech.order[-1]],
+                             "worst %": pct(worst.rate),
+                             "worst dialect": DIALECTS[speech.order[0]]}),
+        *stated(over, text, rf"\(by chrF alone the {NAME} speaker is worst\)",
+                {"lowest mean chrF": DIALECTS[lowest_chrf(speech.clips["apertus"])]}),
         *stated(over, text, r"from (\d+) speakers, one per dialect, each reading the same "
                 r"(\d+) sentences", {"speakers": len(speech.order),
                                      "sentences": speech.sentences}),
@@ -128,9 +138,10 @@ def summary_checks(at: str, summary: dict, speech: Speech) -> list[Check]:
                 r"(\d+) of (\d+) translations", {"k": a.k, "n": a.n}, at_start=True),
         *stated(f"{at} issue_summary.self_assessed_breadth_justification",
                 summary["self_assessed_breadth_justification"],
-                rf"at least (\d+) of (\d+) translations were unrelated \((\d+)% in {NAME}\)",
-                {"best k": best.k, "best n": best.n, "best %": pct(best.rate),
-                 "best dialect": DIALECTS[speech.order[-1]]}),
+                rf"for each of the (\d+) speakers, one per dialect, at least (\d+) of (\d+) "
+                rf"translations were unrelated \((\d+)% for the {NAME} speaker\)",
+                {"speakers": len(speech.order), "best k": best.k, "best n": best.n,
+                 "best %": pct(best.rate), "best dialect": DIALECTS[speech.order[-1]]}),
     ]
 
 

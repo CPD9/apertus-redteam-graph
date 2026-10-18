@@ -36,6 +36,7 @@ class Audit:
     speech: Speech
     agreement: dict[str, Agreement]
     tally: dict[str, int]  # how the judge replies read
+    read_as: set[tuple]  # (run, hypothesis, lang, seed) the word list reads as the pair language
 
     @property
     def refs(self) -> dict[str, dict]:
@@ -51,7 +52,8 @@ def read_json(path: Path):
 
 
 def load(root: Path) -> Audit:
-    """root is track_1a/: data/runs, data/llm_cache and src/redteam's banks and themes.json."""
+    """root is track_1a/: data/runs, data/llm_cache, src/redteam's banks and themes.json, and the
+    answers docs/audit/stimuli.json reads as Standard German or Italian."""
     source = root / "src" / "redteam"
     banks = {name: read_json(source / "hypotheses" / f"{name}.json") for name in BANKS}
     refs = {h["id"]: h for bank in banks.values() for h in bank}
@@ -67,11 +69,13 @@ def load(root: Path) -> Audit:
     agreements = {name: agreement(shipped / runs[name].id, runs[name].judge, refs, replies)
                   for name in ("canonical", "target70")}
     sizes = [run.model.rsplit("/", 1)[-1] for run in (canonical, runs["target70"])]
+    listed = read_json(root / "docs" / "audit" / "stimuli.json")["answers_listed"]
     return Audit(banks, specs, runs, verdicts, unreplayed, themes,
                  compare(canonical, runs["target70"], sizes),
                  compare(runs["target70"], runs["mitigation"], MITIGATION_NAMES),
                  Speech(read_json(shipped / "speech" / SPEECH_RUN / "scores.json")), agreements,
-                 dict(replies.tally))
+                 dict(replies.tally),
+                 {(a["run"], a["hypothesis"], a["lang"], a["seed"]) for a in listed})
 
 
 def replayed(audit: Audit) -> dict:

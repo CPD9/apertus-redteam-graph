@@ -133,8 +133,9 @@ class DifferenceTest(unittest.TestCase):
         # is wider.
         self.assertEqual(control["premise_minus_neutral_ci95"], [0.597, 1.0])
         self.assertIn("Newcombe", p["harness_ci95_method"]["premise_minus_neutral"])
-        self.assertIn("clearly more likely (premise minus neutral: +60 to +100 points, 95% CI "
-                      "paired by variation and language, never narrower than Newcombe's).",
+        self.assertIn("makes the error more likely (premise minus neutral: +60 to +100 points, "
+                      "95% CI paired by variation and language, never narrower than Newcombe's; "
+                      "biased upward, as the variations were kept for erring on these answers).",
                       theme_finding.contrast(m, LANGS))
 
 

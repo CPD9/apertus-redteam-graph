@@ -93,5 +93,9 @@ def over_bar(theme: Theme) -> list[str]:
 
 def breadth(theme: Theme) -> int:
     """Rubric breadth 5 needs at least two reproduced variations and the bar reached in at least
-    three languages; anything narrower is 2."""
-    return 5 if len(theme.ids) >= 2 and len(over_bar(theme)) >= 3 else 2
+    three languages. A single variation is 1 unless the rerun reproduced it too; the rest is 2."""
+    if len(theme.ids) >= 2 and len(over_bar(theme)) >= 3:
+        return 5
+    if len(theme.ids) == 1 and not (theme.replica and theme.replica.reproduced):
+        return 1
+    return 2

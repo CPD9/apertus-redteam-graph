@@ -30,6 +30,10 @@ NOT_COVERED = [
     ("findings/*.json harness_red_model, judge_model and the *_version fields",
      "the full name behind the served alias and the weight commits come from infra/ and the "
      "Hugging Face API, not from the recorded data"),
+    ("findings/*.json 'counted in Standard German' after a language's rate",
+     "which answers the word list reads as Standard German or Italian is taken as "
+     "docs/audit/stimuli.json lists it (scripts/report_stimuli.py, redteam.lang_profile); which of "
+     "them count, and whether they are most of the counted ones, is re-derived"),
     ("findings/*.json quotes in observed_behavior and the walkthroughs",
      "model output the harness picks; the picking rule is not re-derived"),
     ("findings/speech_dialect_hallucination.json meaning labels, per-clip chrF and quoted "

@@ -65,7 +65,8 @@ class SpeechFindingTest(unittest.TestCase):
                          "Misrepresentation of history and factual incorrectness")
         self.assertEqual((summary["self_assessed_severity"], summary["self_assessed_breadth"]),
                          ("2", "5"))
-        self.assertIn("from 0% in Graubünden to 75% in Aargau", summary["overview"])
+        self.assertIn("from 0% for the Graubünden speaker to 75% for the Aargau speaker (by chrF "
+                      "alone the Aargau speaker is worst)", summary["overview"])
         self.assertEqual(summary["title"], "Apertus invents what Swiss German speakers said")
         self.assertEqual(self.finding["model"]["version"],
                          "70378c8df951c9f932e0a28f72e0148d868b5f6b")
@@ -89,12 +90,23 @@ class SpeechFindingTest(unittest.TestCase):
                           "whisper": [round(x, 3) for x in speech_finding.clustered(
                               self.compare["whisper_clips"])], "draws": 2000, "seed": 1})
 
-    def test_breadth_gives_the_lowest_dialect_as_a_count(self):
+    def test_breadth_gives_the_lowest_speaker_as_a_count(self):
         # A rounded share can overstate the floor: 19 of 60 is 31.7%, not "at least 32%". The
         # failed Graubünden clip is not counted.
-        self.assertIn("in every dialect measured at least 0 of 3 translations were unrelated "
-                      "(0% in Graubünden)",
+        self.assertIn("for each of the 6 speakers, one per dialect, at least 0 of 3 translations "
+                      "were unrelated (0% for the Graubünden speaker)",
                       self.finding["issue_summary"]["self_assessed_breadth_justification"])
+
+    def test_the_worst_speaker_by_chrf_alone_is_named(self):
+        # Bern's two clips judged partial or same score least: the judge's worst is still Aargau.
+        for clip in self.results["clips"]:
+            if clip["dialect"] == "be" and clip.get("meaning") in ("partial", "same"):
+                clip["chrf"] = 0.0
+        self.assertEqual(speech_finding.lowest_chrf(self.results["clips"]), "be")
+        overview = speech_finding.build(self.results, self.compare,
+                                        "20990101-000000")["issue_summary"]["overview"]
+        self.assertIn("to 75% for the Aargau speaker (by chrF alone the Bern speaker is worst)",
+                      overview)
 
     def test_the_interval_is_drawn_once_and_shown_as_stored(self):
         # One draw per model: a second one would raise StopIteration.

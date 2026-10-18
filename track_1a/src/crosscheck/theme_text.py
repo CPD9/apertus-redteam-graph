@@ -8,9 +8,15 @@ from .checks import Check, flat, pct, present, rounding, stated
 from .rates import by_lang, paired_difference, pooled_interval, share
 from .themes import BAR, Theme, breadth, over_bar
 
-READINGS = {"clearly more likely": lambda low, high: low > 0,
+READINGS = {"makes the error more likely": lambda low, high: low > 0,
             "even when nobody suggests a wrong one": lambda low, high: high < 0,
             "within chance": lambda low, high: low <= 0 <= high}
+SELECTED = "biased upward, as the variations were kept for erring on these answers"
+# The language each is most easily mistaken for, as docs/audit/stimuli.json pairs them.
+PAIRED = {"gsw": ("de", "Standard German"), "rm": ("it", "Italian")}
+# Where the judge agrees with the LLM-free scorer near chance (docs/audit/calibration.md); taken
+# as given.
+UNCLEAR_JUDGE = ("gsw", "rm")
 
 
 def numbers(text: str, pattern: str) -> list[int]:
@@ -32,7 +38,7 @@ def percents(text: str, pattern: str) -> dict[str, int]:
     return {name: int(number) for name, number in pairs}
 
 
-def overview(at: str, text: str, theme: Theme) -> list[Check]:
+def overview(at: str, text: str, theme: Theme, read_as: set[tuple]) -> list[Check]:
     run, verdicts = theme.run, theme.verdicts
     s = share(verdicts)
     low, high = pooled_interval(verdicts, run.langs)
@@ -44,10 +50,28 @@ def overview(at: str, text: str, theme: Theme) -> list[Check]:
         *stated(at, text, r"from (\d+) variations? asked in (\d+) languages with (\d+) sampling",
                 {"variations": len(theme.ids), "languages": len(run.langs),
                  "seeds": len(run.seeds)}),
-        Check(f"{at} by language %", percents(text, r"By language: ([^.]*)\."),
+        Check(f"{at} by language %",
+              percents(text, r"By language(?:, one prompt each)?: ([^.]*)\."),
               {lang: pct(x.rate) for lang, x in by_lang(verdicts, run.langs).items()}),
+        present(at, text, "By language, one prompt each:", len(theme.ids) == 1),
+        paired(at, text, theme, read_as),
     ]
     return checks + control(at, text, theme) + replica(at, text, theme)
+
+
+def paired(at: str, text: str, theme: Theme, read_as: set[tuple]) -> Check:
+    """The counted Swiss German and Romansh answers that the stimulus audit reads as the paired
+    language, which a text names where they are most of the counted ones. read_as holds (run,
+    hypothesis, language, seed) of each answer docs/audit/stimuli.json lists as read that way."""
+    found = re.findall(r"(\w+) \d+% \((\d+) of (\d+) counted in ([A-Z][\w ]+)\)", flat(text))
+    mine = {}
+    for lang, (_, name) in PAIRED.items():
+        counted = [v for v in theme.verdicts if v.lang == lang and v.counted]
+        k = sum((theme.run.id, v.hypothesis, lang, v.seed) in read_as for v in counted)
+        if 2 * k > len(counted):
+            mine[lang] = [k, len(counted), name]
+    return Check(f"{at} counted answers read as the paired language",
+                 {lang: [int(k), int(n), name] for lang, k, n, name in found}, mine)
 
 
 def control(at: str, text: str, theme: Theme) -> list[Check]:
@@ -68,6 +92,7 @@ def control(at: str, text: str, theme: Theme) -> list[Check]:
     checks += stated(at, text, r"premise minus neutral: ([+−-]?\d+) to ([+−-]?\d+) points",
                      {"gap low points": low.percent, "gap high points": high.percent},
                      rounding(0))
+    checks.append(present(at, text, SELECTED, True, "that the gap is biased upward"))
     return checks + [present(at, text, phrase, holds(low.value, high.value))
                      for phrase, holds in READINGS.items()]
 
@@ -89,11 +114,16 @@ def replica(at: str, text: str, theme: Theme) -> list[Check]:
 
 def breadth_text(at: str, text: str, theme: Theme) -> list[Check]:
     hit = over_bar(theme)
+    unclear = re.search(r"\(judge accuracy unclear in ([a-z]+(?: and [a-z]+)*)\)", flat(text))
     checks = [*stated(at, text, r"(\d+) variations? reproduced; pooled, the counted rate reaches "
                       r"the harness's bar \((\d+)% of answers\) in (\d+) of (\d+) languages",
                       {"variations": len(theme.ids), "bar %": pct(BAR),
                        "languages over bar": len(hit), "languages": len(theme.run.langs)}),
-              Check(f"{at} languages over bar", listed(text, r"languages: ([a-z, ]+)\."), hit)]
+              Check(f"{at} languages over bar",
+                    listed(text, r"languages: ([a-z, ]+?)(?: \([^)]*\))?\."), hit),
+              Check(f"{at} languages over bar where the judge is unclear",
+                    unclear.group(1).split(" and ") if unclear else [],
+                    [lang for lang in hit if lang in UNCLEAR_JUDGE], constant=True)]
     r = theme.replica
     if r and r.measured:
         checks += stated(at, text, r"as target, (\d+) of (\d+) variations? reproduced\.",
@@ -127,14 +157,15 @@ def notes(at: str, text: str, theme: Theme, refs: dict[str, dict]) -> list[Check
     ]
 
 
-def text_checks(name: str, finding: dict, theme: Theme, refs: dict[str, dict]) -> list[Check]:
+def text_checks(name: str, finding: dict, theme: Theme, refs: dict[str, dict],
+                read_as: set[tuple]) -> list[Check]:
     at = f"findings/{name}.json"
     summary = finding["issue_summary"]
     s = share(theme.verdicts)
     return [
         Check(f"{at} issue_title", finding["issue_title"],
               theme.spec["title"].format(subjects=theme.subjects)),
-        *overview(f"{at} issue_summary.overview", summary["overview"], theme),
+        *overview(f"{at} issue_summary.overview", summary["overview"], theme, read_as),
         *stated(f"{at} issue_summary.observed_behavior", summary["observed_behavior"],
                 r"(\d+) of (\d+) verified answers", {"k": s.k, "n": s.n}, at_start=True),
         Check(f"{at} issue_summary.self_assessed_breadth", summary["self_assessed_breadth"],

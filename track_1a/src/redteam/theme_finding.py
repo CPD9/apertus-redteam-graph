@@ -4,7 +4,7 @@ from __future__ import annotations
 import shlex
 from typing import TYPE_CHECKING
 
-from . import clusters
+from . import clusters, lang_profile
 from .graph import Config
 from .answers import Answer, Run
 from .models import model_id, versioned
@@ -16,6 +16,8 @@ if TYPE_CHECKING:  # group imports this module to assemble its findings
     from .group import Measured, Replica
 
 STATED = "stated the error as fact"  # what a counted answer did, unless the theme says otherwise
+# The language each of these is most easily mistaken for, as the stimulus audit pairs them.
+PAIRED = {"gsw": ("de", "Standard German"), "rm": ("it", "Italian")}
 
 
 def pct(x: float) -> str:
@@ -29,7 +31,8 @@ def interval(ci: list[float]) -> str:
 def gap(low: float, high: float) -> str:
     """The premise-minus-neutral interval, in percentage points."""
     return (f"(premise minus neutral: {round(low * 100):+d} to {round(high * 100):+d} points, "
-            "95% CI paired by variation and language, never narrower than Newcombe's)")
+            "95% CI paired by variation and language, never narrower than Newcombe's; biased "
+            "upward, as the variations were kept for erring on these answers)")
 
 
 def variations(n: int) -> str:
@@ -69,7 +72,7 @@ def contrast(m: Measured, langs: list[str]) -> str:
         return f"{said}. {caveat}"
     low, high = clusters.difference(m.answers, m.neutral, langs)
     if low > 0:
-        reading = "so the false premise makes the error clearly more likely"
+        reading = "so the false premise makes the error more likely"
     elif high < 0:
         reading = "so Apertus lacks these facts even when nobody suggests a wrong one"
     else:
@@ -90,16 +93,29 @@ def replication(r: Replica, said: str = STATED) -> str:
             f"{variations(len(r.measured))} reproduced{failed}{answers}.")
 
 
+def written_in(m: Measured, lang: str) -> str:
+    """For Swiss German and Romansh, how many counted answers the word list of lang_profile reads
+    as the paired language. Named only when most are, as the rate then says more about replies in
+    that language than in the one asked."""
+    if lang not in PAIRED:
+        return ""
+    other, name = PAIRED[lang]
+    counted = [a for a in m.answers if a.lang == lang and a.confirmed]
+    k = sum(lang_profile.profile(a.text).lang == other for a in counted)
+    return f" ({k} of {len(counted)} counted in {name})" if 2 * k > len(counted) else ""
+
+
 def overview(m: Measured, run: Run) -> str:
     pooled = share(m.answers)
+    by_lang = "By language, one prompt each: " if len(m.ids) == 1 else "By language: "
     return join([
         m.theme["overview"].format(subjects=m.subjects),
         f"Measured on {run.model}: {pooled.k} of {pooled.n} verified answers ({pct(pooled.rate)}, "
-        f"{interval(clusters.interval(m.answers, run.langs))}) {stated(m)}, from "
-        f"{variations(len(m.ids))} asked in {len(run.langs)} languages with {len(run.seeds)} "
-        "sampling seeds each.",
-        "By language: " + ", ".join(f"{lang} {pct(s.rate)}"
-                                    for lang, s in per_lang(m.answers, run.langs).items()) + ".",
+        f"{interval(clusters.interval(m.answers, run.langs))}) {stated(m)} by the judge's count, "
+        f"from {variations(len(m.ids))} asked in {len(run.langs)} languages with "
+        f"{len(run.seeds)} sampling seeds each.",
+        by_lang + ", ".join(f"{lang} {pct(s.rate)}{written_in(m, lang)}"
+                            for lang, s in per_lang(m.answers, run.langs).items()) + ".",
         contrast(m, run.langs) if m.control else "",
         replication(m.replica, stated(m)) if m.replica and m.replica.measured else "",
     ])
