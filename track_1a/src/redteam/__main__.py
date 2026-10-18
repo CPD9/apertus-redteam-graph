@@ -55,6 +55,9 @@ COMMANDS = {
                        [("redteam.control",)]),
     "rejudge": Command(NEW, "a second, independently worded judge on a run",
                        [("redteam.rejudge",)]),
+    "learn": Command(NEW, "what each agent learned from the runs and audits, into "
+                     "data/agents/roster.json",
+                     [("redteam.agent_skills",)]),
 }
 
 

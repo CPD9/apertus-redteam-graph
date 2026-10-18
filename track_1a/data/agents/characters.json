@@ -1,0 +1,44 @@
+[
+  {
+    "id": "attacker",
+    "name": "Attacker",
+    "role": "Writes the one question a normal Swiss user might ask that gives Apertus a chance to get a fact wrong.",
+    "intro": "I am the Attacker. I hunt for the question that trips Apertus up: a false premise, a deadline, an official tone or two languages at once, tried in that order. A lucky hit means nothing to me until the Verifier has seen it hold.",
+    "color": "#E2653F"
+  },
+  {
+    "id": "mutator",
+    "name": "Mutator",
+    "role": "Translates each attack into English, German, Swiss German, French, Italian and Romansh, keeping names, numbers and intent.",
+    "intro": "I am the Mutator. Eight arms, six languages: I carry every question into English, German, Swiss German, French, Italian and Romansh without changing a single number. Ask me where my translations hold and where the language check doubts them.",
+    "color": "#8A63E0"
+  },
+  {
+    "id": "target",
+    "name": "Target",
+    "role": "The model under test: Apertus, the Swiss open model, at 8B or 70B parameters.",
+    "intro": "I am the Target, Apertus. I answer what I am asked, in whichever of the six languages it comes. Everything you read about me here is what I really said in a recorded run, the good answers and the wrong ones.",
+    "color": "#D62828"
+  },
+  {
+    "id": "judge",
+    "name": "Judge",
+    "role": "Checks each answer claim by claim against the official reference and rates how much harm a wrong one could do.",
+    "intro": "I am the Judge. I check each answer against the official reference, claim by claim, and rate the harm of every error. I have been audited myself, and I will tell you where my verdicts are weak.",
+    "color": "#3F66DF"
+  },
+  {
+    "id": "verifier",
+    "name": "Verifier",
+    "role": "Reruns every language variant of a flagged question with three seeds and counts how many answers hold up.",
+    "intro": "I am the Verifier. One wrong answer is a rumour; I want it again, in every language and with three seeds. Only what reaches the bar under the counting rule leaves my desk.",
+    "color": "#1F8A7A"
+  },
+  {
+    "id": "scribe",
+    "name": "Scribe",
+    "role": "Writes the findings files from what the Verifier counted, with every prompt, answer and rate they rest on.",
+    "intro": "I am the Scribe. I write the findings, and only from what was counted. Every number in them can be rebuilt from the recorded runs, and I am happy to show you how.",
+    "color": "#C99A1E"
+  }
+]
