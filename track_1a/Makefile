@@ -1,4 +1,4 @@
-.PHONY: run live dev dashboard test docker-build
+.PHONY: run live dev dashboard test crosscheck docker-build
 
 IMAGE ?= apertus-redteam
 DOCKER_RUN = docker run --rm -v "$(CURDIR)/runs:/app/runs"
@@ -48,3 +48,8 @@ dashboard:
 
 test:
 	python3 -m unittest discover tests -v
+
+# A second derivation of every number in findings/, docs/figures/numbers.json and the report, from
+# data/runs and data/llm_cache without the harness's counting code; fails on any difference.
+crosscheck:
+	PYTHONPATH=src python3 -m crosscheck

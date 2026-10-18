@@ -27,6 +27,8 @@ jobs:
         run: python -m redteam.check
       - name: Rebuild the findings from data/runs and compare
         run: python -m redteam.reproduce
+      - name: Re-derive every reported number without the harness's counting code
+        run: PYTHONPATH=src python3 -m crosscheck
 
   make-run:
     runs-on: ubuntu-latest
