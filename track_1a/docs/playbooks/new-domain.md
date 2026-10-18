@@ -73,6 +73,16 @@ adds a translation, a language check, an answer and a judgement per attempt, so 
 and the languages where you expect a gap, and check in the event log that code survived the
 translation.
 
+## Add a language
+
+1. Add the code to `LANGUAGES` in `src/redteam/agents.py` with how the translator should write it
+   (e.g. `"es": "Spanish (as written in Spain)"`), and its short name to `LANG_NAMES`.
+2. Run with `--langs en,es`. Each language only changes its own translation prompt, so every
+   recorded run still replays.
+3. The harness's language check knows the six Swiss languages only and logs a new one as `Other`
+   (a "mismatched" note in the event log, nothing else). For the word-list check of the audit, add
+   marker words to `src/redteam/lang_markers.json` and rerun `python3 scripts/report_stimuli.py`.
+
 ## Read the results and turn them into findings
 
 ```bash
