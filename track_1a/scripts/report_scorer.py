@@ -5,7 +5,7 @@ label from redteam.scorer: false_only, true_only, both or neither, by which of t
 wrong and right values it states. No LLM takes part in the label, but negation is not read either:
 an answer that rejects a wrong number by repeating it states that number. The judge counts an
 answer as the findings do (Answer.confirmed). Answers read by hand, with their reading, are in
-docs/audit/scorer_reading.json. Writes docs/audit/scorer.json, which docs/audit/scorer.md reads.
+docs/audit/scorer_reading.json. Writes docs/audit/scorer.json and, from it, docs/audit/scorer.md.
 
     cd track_1a && python3 scripts/report_scorer.py
 """
@@ -21,6 +21,7 @@ from typing import NamedTuple
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # without pip install -e
 
 from report_pooling import DRAWS  # noqa: E402
+from report_scorer_note import markdown  # noqa: E402
 from report_scorer_stats import (agreement, by_label, contrast, counted, gap,  # noqa: E402
                                  says_false)
 
@@ -190,9 +191,10 @@ def numbers_of_runs(facts: dict, reading: dict) -> dict:
 
 
 def main():
-    found = numbers_of_runs(facts_table(), load_reading())
+    text = json.dumps(numbers_of_runs(facts_table(), load_reading()), indent=1, ensure_ascii=False)
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "scorer.json").write_text(json.dumps(found, indent=1, ensure_ascii=False) + "\n")
+    (OUT / "scorer.json").write_text(text + "\n")
+    (OUT / "scorer.md").write_text(markdown(json.loads(text), WIDTH))
 
 
 if __name__ == "__main__":

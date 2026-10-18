@@ -1,5 +1,5 @@
-"""scripts/report_stats.py on answers small enough to count by hand, and once end to end on recorded
-runs as the harness leaves them."""
+"""scripts/report_stats.py and its modules on answers small enough to count by hand, and once end
+to end on recorded runs as the harness leaves them."""
 import json
 import sys
 import tempfile
@@ -13,6 +13,13 @@ sys.path[:0] = [str(TRACK / "scripts"), str(TRACK / "src"), str(TRACK / "tests")
 
 import helpers  # noqa: E402
 import report_stats as stats  # noqa: E402
+from report_stats_claims import claims  # noqa: E402
+from report_stats_grid import cells, grid, p3, singles, table  # noqa: E402
+from report_stats_language import (control_truths, coverage, detectable,  # noqa: E402
+                                   different_truths, english_vs, language_effect,
+                                   per_hypothesis)
+from report_stats_runs import (cell_changes, concordance, mitigation, sizes,  # noqa: E402
+                               split_sample)
 from redteam import significance as sig  # noqa: E402
 from redteam.answers import Answer, Run  # noqa: E402
 
@@ -39,28 +46,28 @@ def run(run_id, spec, outcome=None, prompt="p"):
 
 class GridTest(unittest.TestCase):
     def test_strata(self):
-        g = stats.grid(answers({"h": {"en": "110", "rm": "000"}}))
+        g = grid(answers({"h": {"en": "110", "rm": "000"}}))
         self.assertEqual(g, {"h": {"en": [1, 1, 0], "rm": [0, 0, 0]}})
-        self.assertEqual(stats.cells(g), [[("en", (2, 3)), ("rm", (0, 3))]])
-        self.assertEqual(stats.singles(g)[0][:3], [("en", (1, 1)), ("en", (1, 1)), ("en", (0, 1))])
-        self.assertEqual(stats.table([1, 1, 0], [0, 0, 0]), (2, 1, 0, 3))
+        self.assertEqual(cells(g), [[("en", (2, 3)), ("rm", (0, 3))]])
+        self.assertEqual(singles(g)[0][:3], [("en", (1, 1)), ("en", (1, 1)), ("en", (0, 1))])
+        self.assertEqual(table([1, 1, 0], [0, 0, 0]), (2, 1, 0, 3))
 
     def test_answers_count_only_when_confirmed(self):
         flagged_at_zero = Answer("h", "en", 0, "p", "t", True, 0, "")
-        self.assertEqual(stats.grid([flagged_at_zero]), {"h": {"en": [0]}})
+        self.assertEqual(grid([flagged_at_zero]), {"h": {"en": [0]}})
 
     def test_coverage_names_hypotheses_without_answers(self):
         r = run("r", {"a": {"en": "100"}}, outcome={"b": "no_issue", "c": "error"})
-        self.assertEqual(stats.coverage(r), {"hypotheses": 1,
-                                             "left_out": {"b": "no_issue", "c": "error"}})
+        self.assertEqual(coverage(r), {"hypotheses": 1,
+                                       "left_out": {"b": "no_issue", "c": "error"}})
 
 
 class LanguageTest(unittest.TestCase):
     def test_language_effect(self):
         # Two hypotheses, en none and rm all: variance 1/4. Swapping the two cells of a hypothesis
         # leaves it at 1/4 only when both swap or neither does: p about 1/2, expected 1/8.
-        g = stats.grid(answers({h: {"en": "000", "rm": "111"} for h in ("a", "b")}))
-        effect = stats.language_effect(g, DRAWS)
+        g = grid(answers({h: {"en": "000", "rm": "111"} for h in ("a", "b")}))
+        effect = language_effect(g, DRAWS)
         self.assertEqual(effect["rates"], {"en": 0.0, "rm": 1.0})
         self.assertEqual(effect["cells_shuffled"]["observed"], 0.25)
         self.assertAlmostEqual(effect["cells_shuffled"]["p"], 0.5, delta=0.03)
@@ -71,19 +78,19 @@ class LanguageTest(unittest.TestCase):
         # Tables (de counted, de not, en counted, en not): (3,0,0,3) twice and (2,1,1,2). Each has
         # E[a] 1.5 and Var 0.45, so deviation 3.5 and variance 1.35; MH odds ratio
         # (1.5 + 1.5 + 4/6) / (1/6) = 22.
-        g = stats.grid(answers({"a": {"en": "000", "de": "111"}, "b": {"en": "000", "de": "111"},
+        g = grid(answers({"a": {"en": "000", "de": "111"}, "b": {"en": "000", "de": "111"},
                                 "c": {"en": "100", "de": "110"}}))
-        row = stats.english_vs(g)["de"]
+        row = english_vs(g)["de"]
         self.assertEqual(row["odds_ratio"], 22.0)
-        self.assertEqual(row["p"], stats.p3(erfc(sqrt(3.0 ** 2 / 1.35 / 2))))
+        self.assertEqual(row["p"], p3(erfc(sqrt(3.0 ** 2 / 1.35 / 2))))
         self.assertEqual(row["p_holm"], row["p"])
         self.assertEqual(row["sign"], {"higher": 3, "lower": 0, "p": 0.25, "p_holm": 0.25})
 
     def test_different_truths(self):
         # Hypothesis a splits 3/3 against 0/3; a shuffle splits it when all three 1s land in one
         # cell, 2 of the 20 ways. b has only two 1s, so it can never split.
-        g = stats.grid(answers({"a": {"en": "111", "rm": "000"}, "b": {"en": "110", "rm": "000"}}))
-        truths = stats.different_truths(g, DRAWS)
+        g = grid(answers({"a": {"en": "111", "rm": "000"}, "b": {"en": "110", "rm": "000"}}))
+        truths = different_truths(g, DRAWS)
         self.assertEqual((truths["hypotheses"], truths["observed"]), (2, 1))
         self.assertAlmostEqual(truths["expected"], 0.1, delta=0.015)
         self.assertAlmostEqual(truths["p"], 0.1, delta=0.015)
@@ -96,27 +103,27 @@ class LanguageTest(unittest.TestCase):
         spec = {h: {"en": "000", **dict.fromkeys(OTHERS, "111")} for h in ("a", "b")}
         spec["c"] = {"en": "000", **dict.fromkeys(OTHERS, "000")}
         spec["d"] = {"en": "000", "de": "110", "gsw": "110", "fr": "111", "it": "111", "rm": "111"}
-        result = stats.per_hypothesis(stats.grid(answers(spec)))
+        result = per_hypothesis(grid(answers(spec)))
         self.assertEqual([b["hypothesis"] for b in result["below_alpha"]], ["a", "b", "d"])
         self.assertEqual(result["below_alpha"][0], {
-            "hypothesis": "a", "english": "0/3", "others": "15/15", "p": stats.p3(1 / 816),
-            "p_holm": stats.p3(4 / 816), "p_tarone": stats.p3(3 / 816)})
-        self.assertEqual(result["below_alpha"][2]["p"], stats.p3(10 / 816))
-        self.assertEqual(result["below_alpha"][2]["p_holm"], stats.p3(20 / 816))
+            "hypothesis": "a", "english": "0/3", "others": "15/15", "p": p3(1 / 816),
+            "p_holm": p3(4 / 816), "p_tarone": p3(3 / 816)})
+        self.assertEqual(result["below_alpha"][2]["p"], p3(10 / 816))
+        self.assertEqual(result["below_alpha"][2]["p_holm"], p3(20 / 816))
         self.assertEqual(result["holm_below_alpha"], ["a", "b", "d"])
         self.assertEqual(result["tarone_family"], 3)
         self.assertEqual(result["tarone_below_alpha"], ["a", "b", "d"])
-        self.assertEqual(result["floor_p"], stats.p3(1 / 816))
-        self.assertEqual(result["floor_p_holm"], stats.p3(4 / 816))
-        self.assertEqual(result["cell_floor_p"], stats.p3(1 / 6))
+        self.assertEqual(result["floor_p"], p3(1 / 816))
+        self.assertEqual(result["floor_p_holm"], p3(4 / 816))
+        self.assertEqual(result["cell_floor_p"], p3(1 / 6))
 
     def test_detectable(self):
         spec = {h: {"en": "100", **dict.fromkeys(OTHERS, "110")} for h in "abcd"}
-        result = stats.detectable(stats.grid(answers(spec)), 200)
+        result = detectable(grid(answers(spec)), 200)
         self.assertEqual(result["english_rate"], 0.333)
         # Every hypothesis alike: no spread between them, so the ICC is -1 / (18 - 1), every
         # simulated hypothesis sits at the English rate, and both rates needed agree.
-        self.assertEqual(result["icc_hypothesis"], stats.p3(-1 / 17))
+        self.assertEqual(result["icc_hypothesis"], p3(-1 / 17))
         self.assertEqual(result["one_hypothesis"]["answers"], [3, 15])
         pooled = result["one_language_pooled"]
         self.assertEqual((pooled["hypotheses"], pooled["answers"]), (4, [3, 3]))
@@ -133,7 +140,7 @@ class ControlTest(unittest.TestCase):
         premise = run("r", {"a": {"en": "111", "rm": "000"}, "b": {"en": "110", "rm": "000"}})
         neutral = answers({"a": {"en": "100", "rm": "000"}, "b": {"en": "111", "rm": "000"}})
         rows = [{"id": "a", "neutral_by_lang": {"en": 1 / 3, "rm": 0.5}}]
-        result = stats.control_truths(premise, rows, neutral, 200)
+        result = control_truths(premise, rows, neutral, 200)
         self.assertEqual(result["logged_rates_equal_raw_flags"], [1, 2])
         self.assertEqual(result["premise_same_hypotheses"]["observed"], 1)
         self.assertEqual(result["neutral"]["observed"], 1)
@@ -149,13 +156,13 @@ class PairedRunsTest(unittest.TestCase):
                     outcome={"a": "finding", "b": "not_reproducible", "c": "error"})
         after.answers = [replace(a, prompt="other") if a.hypothesis == "b" else a
                          for a in after.answers]
-        result = stats.mitigation(before, after, DRAWS)
+        result = mitigation(before, after, DRAWS)
         self.assertEqual((result["hypotheses"], result["pairs"]), (2, 12))
         self.assertEqual(result["identical_prompts"], 6)
-        self.assertEqual(result["counted_rate"], [stats.p3(5 / 12), stats.p3(2 / 12)])
+        self.assertEqual(result["counted_rate"], [p3(5 / 12), p3(2 / 12)])
         # Only without: rm 3 + 2; only with: en 2.
         self.assertEqual(result["mcnemar"], {"only_without": 5, "only_with": 2,
-                                             "p": stats.p3(sig.binomial_p(2, 7))})
+                                             "p": p3(sig.binomial_p(2, 7))})
         english = result["per_lang"]["en"]
         self.assertEqual((english["without"], english["with"]), (0, 2))
         self.assertEqual(english["cmh_by_cell"]["odds_ratio"], 0.0)  # nothing counts without
@@ -164,29 +171,28 @@ class PairedRunsTest(unittest.TestCase):
         self.assertEqual(result["by_hypothesis"], {"higher": 0, "lower": 2, "p": 0.5})
         self.assertEqual(result["selection"]["retested_by_outcome"], {"finding": 3})
         self.assertEqual(result["selection"]["finished_not_retested"], {})
-        self.assertEqual(result["selection"]["raw_flag_rate_before"], stats.p3(5 / 12))
+        self.assertEqual(result["selection"]["raw_flag_rate_before"], p3(5 / 12))
 
     def test_concordance_beside_random_matching(self):
         # One cell, 1 of 3 counted on both sides, matched seed to seed: all 3 pairs agree. Matched
         # at random they agree in (1 * 1 + 2 * 2) / 3 = 5/3 pairs on average.
         pairs = list(zip(answers({"a": {"en": "100"}}), answers({"a": {"en": "100"}})))
-        self.assertEqual(stats.concordance(pairs), {"concordant": 3,
-                                                    "concordant_if_unpaired": 1.7})
+        self.assertEqual(concordance(pairs), {"concordant": 3, "concordant_if_unpaired": 1.7})
 
     def test_split_sample(self):
         # Seeds 0 and 1 of a are flagged, so a is chosen on them; there it counts 2 of 2, on the
         # other seeds' answers 2 of 4 (seeds 1, 2 and then 0, 2). b is never chosen.
-        result = stats.split_sample(run("r", {"a": {"en": "110"}, "b": {"en": "000"}}))
-        self.assertEqual(result, {"chosen_per_seed": stats.p3(2 / 3), "choosing_seed": 1.0,
+        result = split_sample(run("r", {"a": {"en": "110"}, "b": {"en": "000"}}))
+        self.assertEqual(result, {"chosen_per_seed": p3(2 / 3), "choosing_seed": 1.0,
                                   "other_seeds": 0.5, "fall": 0.5,
                                   "fall_per_lang": {"en": 0.5}})
 
     def test_cell_changes_and_the_paired_permutations(self):
         # Both hypotheses rise by 3 answers: flipping the sign of either gives 0, so p about 1/2.
         # Per language en rises by a whole rate in both cells, the same p; rm never changes, p 1.
-        first = stats.grid(answers({h: {"en": "000", "rm": "000"} for h in "ab"}))
-        second = stats.grid(answers({h: {"en": "111", "rm": "000"} for h in "ab"}))
-        changes = stats.cell_changes(first, second, ["en", "rm"], DRAWS)
+        first = grid(answers({h: {"en": "000", "rm": "000"} for h in "ab"}))
+        second = grid(answers({h: {"en": "111", "rm": "000"} for h in "ab"}))
+        changes = cell_changes(first, second, ["en", "rm"], DRAWS)
         self.assertEqual(changes["cells"], {"higher": 2, "lower": 0, "p": 0.5})
         self.assertEqual(changes["cells_per_lang"]["rm"], {"higher": 0, "lower": 0, "p": 1.0,
                                                            "p_holm": 1.0})
@@ -202,7 +208,7 @@ class PairedRunsTest(unittest.TestCase):
                           "d": {"en": "111", "rm": "000"}})
         large = run("l", {"a": {"en": "000", "rm": "111"}, "c": {"en": "000", "rm": "000"}},
                     outcome={"d": "no_issue"}, prompt="q")
-        result = stats.sizes(small, large, DRAWS)
+        result = sizes(small, large, DRAWS)
         self.assertEqual((result["hypotheses"], result["cells_compared"]), (1, 2))
         self.assertEqual(result["identical_prompts"], 0)
         self.assertEqual(result["cells"], {"higher": 0, "lower": 1, "p": 1.0})
@@ -217,7 +223,7 @@ class ClaimsTest(unittest.TestCase):
     def test_lines_of_each_claim_and_unlisted_intervals(self):
         report = "\n".join(["intro", "difference −14 points, 95% CI −23 to −5), but",
                             "a 95% CI here", "![**Figure 2.** caption"])
-        found = stats.claims(report)
+        found = claims(report)
         self.assertEqual(found["claims"][0]["lines"], [2])
         figure = next(c for c in found["claims"] if c["reading"]["assumes_independence"])
         self.assertEqual(figure["lines"], [4])

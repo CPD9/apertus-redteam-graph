@@ -13,6 +13,7 @@ TRACK = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(TRACK / "scripts"), str(TRACK / "src")]
 
 import report_calibration as rc  # noqa: E402
+import report_calibration_speech as rcs  # noqa: E402
 import report_scorer as rs  # noqa: E402
 from redteam import calibration as cal  # noqa: E402
 from redteam.answers import Answer, load_run  # noqa: E402
@@ -219,7 +220,7 @@ class SpeechTest(unittest.TestCase):
         clips = [clip("zh", 1, "unrelated", 20), clip("zh", 2, "unrelated", 30),
                  clip("zh", 3, "same", 80), clip("zh", 4, "partial", 60),
                  clip("zh", 5, "unrelated", 45), clip("zh", 6, "unknown", 5)]
-        found = rc.speech_agreement(clips)["per_dialect"]["zh"]
+        found = rcs.speech_agreement(clips)["per_dialect"]["zh"]
         del found["kappa_ci95"]
         self.assertEqual(found, {"n": 5, "both": 2, "judge_only": 1, "chrf_only": 0,
                                  "neither": 2, "raw": 0.8, "kappa": 0.615})
@@ -228,7 +229,7 @@ class SpeechTest(unittest.TestCase):
         # Every draw with both classes has kappa 1; draws with one class have none and drop out.
         clips = [clip("zh", 1, "unrelated", 20), clip("zh", 2, "same", 80),
                  clip("be", 1, "unrelated", 10), clip("be", 2, "partial", 70)]
-        found = rc.speech_agreement(clips)
+        found = rcs.speech_agreement(clips)
         self.assertEqual(found["all"]["kappa_ci95"], [1.0, 1.0])
         self.assertEqual(found["per_dialect"]["be"]["kappa_ci95"], [1.0, 1.0])
 
@@ -236,7 +237,7 @@ class SpeechTest(unittest.TestCase):
         clips = [clip("a", 1, "unrelated", 10), clip("a", 2, "unrelated", 20),
                  clip("b", 1, "unrelated", 50), clip("b", 2, "same", 30),
                  clip("c", 1, "same", 90), clip("c", 2, "partial", 35)]
-        found = rc.ranking(clips)
+        found = rcs.ranking(clips)
         self.assertEqual(found["per_dialect"]["b"],
                          {"unrelated": 0.5, "low_chrf": 0.5, "mean_chrf": 40.0})
         self.assertEqual(found["by_unrelated"], [["a"], ["b"], ["c"]])
@@ -266,7 +267,7 @@ class RecordedTest(unittest.TestCase):
                              se["n"])
 
     def test_speech_clips_per_dialect(self):
-        found = rc.speech(json.loads(rc.SPEECH.read_text()))
+        found = rcs.speech(json.loads(rcs.SPEECH.read_text()))
         apertus = found["apertus"]["agreement"]["all"]
         self.assertEqual([apertus[k] for k in ("n", "both", "judge_only", "chrf_only", "neither")],
                          [480, 196, 33, 51, 200])
