@@ -7,12 +7,9 @@ you ask for the reveal.
 
 ## How to run it
 
-```
-cd track_1a
-make dashboard          # http://127.0.0.1:8765; another port: PORT=8766 make dashboard
-```
-
-Open `http://127.0.0.1:8765/review.html`, type your name and pick a task.
+The steps, with what to expect, are in [the labelling playbook](playbooks/label-the-judge.md):
+`make dashboard` (another port: `PORT=8766 make dashboard`), then open
+`http://127.0.0.1:8765/review.html`, type your name and pick a task.
 
 - **Check the judge**: 60 answers, about 30 seconds each. Keys: `Y` yes, `N` no, `C` can't tell,
   `H` hedges, `B` back, `→` next; a box under the buttons turns them off. Every label is saved at
@@ -28,7 +25,7 @@ Open `http://127.0.0.1:8765/review.html`, type your name and pick a task.
   not label the set again under a new name.
 - Labels go to `data/labels/judge.jsonl` and `data/labels/language.jsonl`, one row per decision.
   A row keeps your name, the item's id, your label and note; the judge's verdict is not in it.
-- The analysis: `PYTHONPATH=src python3 -m redteam.review`. Until someone labels, it says so.
+- The analysis: `PYTHONPATH=src python3 -m redteam labels`. Until someone labels, it says so.
 
 ## Does the answer assert the error?
 

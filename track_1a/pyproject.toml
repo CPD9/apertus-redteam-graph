@@ -12,6 +12,9 @@ requires-python = ">=3.12"
 license = "Apache-2.0"
 dependencies = []
 
+[project.scripts]
+apertus-redteam = "redteam.__main__:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

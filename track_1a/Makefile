@@ -1,6 +1,12 @@
-.PHONY: run live dev dashboard test crosscheck docker-build
+# Commands of python -m redteam with a make target of the same name: make reproduce runs
+# python -m redteam reproduce, with ARGS passed on; PYTHONPATH=src python3 -m redteam lists them
+# all. make run is not one of them: it is the Docker replay judges use, and make dev runs
+# python -m redteam run.
+COMMANDS = replay check reproduce crosscheck audit figures report labels
+.PHONY: run live dev dashboard test docker-build $(COMMANDS)
 
 IMAGE ?= apertus-redteam
+REDTEAM = PYTHONPATH=src python3 -m redteam
 DOCKER_RUN = docker run --rm -v "$(CURDIR)/runs:/app/runs"
 
 # Judges: builds the image, replays the canonical run from data/llm_cache, validates every findings
@@ -29,27 +35,25 @@ LIVE_RUN = $(DOCKER_RUN) --add-host=host.docker.internal:host-gateway \
   -e RED_LLM_BASE_URL="$(LIVE_RED_LLM_BASE_URL)" -e RED_LLM_NAME -e RED_LLM_API_KEY $(IMAGE)
 live: docker-build
 	$(LIVE_RUN) python -c 'from redteam import llm; llm.require_servers()'
-	$(LIVE_RUN) python -m redteam.run $(ARGS)
-	$(DOCKER_RUN) $(IMAGE) python -m redteam.check
+	$(LIVE_RUN) python -m redteam run $(ARGS)
+	$(DOCKER_RUN) $(IMAGE) python -m redteam check
 
 docker-build:
 	docker build -t $(IMAGE) .
 
 # Local development (no Docker), reaches the tunnels on 127.0.0.1:8000 and :8002 directly.
 dev:
-	PYTHONPATH=src python3 -m redteam.run
+	$(REDTEAM) run $(ARGS)
 
 # Reuses an already-running dashboard instead of failing on the busy port.
 PORT ?= 8765
 dashboard:
 	@if curl -sf -o /dev/null http://127.0.0.1:$(PORT)/api/runs; then \
 	  echo "dashboard already running: http://127.0.0.1:$(PORT)"; open http://127.0.0.1:$(PORT) 2>/dev/null || true; \
-	else PORT=$(PORT) PYTHONPATH=src python3 -m redteam.server; fi
+	else PORT=$(PORT) $(REDTEAM) dashboard; fi
 
 test:
 	python3 -m unittest discover tests -v
 
-# A second derivation of every number in findings/, docs/figures/numbers.json and the report, from
-# data/runs and data/llm_cache without the harness's counting code; fails on any difference.
-crosscheck:
-	PYTHONPATH=src python3 -m crosscheck
+$(COMMANDS):
+	$(REDTEAM) $@ $(ARGS)

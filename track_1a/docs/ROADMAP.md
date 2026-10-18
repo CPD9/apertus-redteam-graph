@@ -48,7 +48,7 @@ report's table.
   gated 8B), then `infra/runpod/batches.sh rejudge` (second judge on full answers; a bare
   `batches.sh` means `all` and reruns the recorded 70B and mitigation runs). The official 8B on
   bank 2 has no batch yet: serve the 8B on :8000 and run
-  `PYTHONPATH=src python3 -m redteam.run --label "8B bank 2" --only <the 35 ids in bank2.json>`.
+  `PYTHONPATH=src python3 -m redteam run --label "8B bank 2" --only <the 35 ids in bank2.json>`.
   A privacy control that names the person and more invented people need new code and hypotheses
   first (`control.py` has no option to name the person). Copy the cache back, **stop the pod**.
 - [x] **`fix/hygiene`:** atomic cache writes (temp file and `os.replace` in `cache.py`)
@@ -80,7 +80,7 @@ the judge's details folded away.
 - [ ] **Before the 23:00 freeze:** screenshots in one theme; **Mon:** final ones in the README and report
 
 **Done when** each screenshot is understandable without reading judge text, and tests, replay and
-`redteam.check` stay green.
+`python -m redteam check` stay green.
 
 ## Peter: findings and report
 
