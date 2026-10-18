@@ -11,8 +11,8 @@ from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from helpers import HYP, RUN, START, patch, use_runs  # noqa: E402
-from redteam import dashboard, server  # noqa: E402
+from helpers import RUN, START, patch, use_runs, write_run  # noqa: E402
+from redteam import dashboard, review, review_set, server  # noqa: E402
 
 
 class LoopbackTest(unittest.TestCase):
@@ -61,7 +61,8 @@ class ServerTest(unittest.TestCase):
         here = f"127.0.0.1:{self.port}"
         for origin in ("http://evil.example", f"http://evil.example:{self.port}", f"https://{here}",
                        f"http://localhost:{self.port + 1}", "null"):
-            for path in ("/api/run", "/api/review/label", "/api/avatar/judge"):
+            for path in ("/api/run", "/api/review/label", "/api/review/reveal",
+                         "/api/review/rating", "/api/avatar/judge"):
                 status, body = self.request("POST", path, b"{}", Origin=origin)
                 self.assertEqual(status, 403, (origin, path))
                 self.assertIn("error", body)
@@ -95,17 +96,37 @@ class ServerTest(unittest.TestCase):
         self.assertEqual([r["id"] for r in runs], [RUN])
         self.assertEqual((latest["run_id"], recorded["run_id"]), (None, RUN))
 
-    def test_the_review_page_opens_recorded_runs(self):
-        hyp, d = HYP["id"], {"lang": "de"}
-        self.ship([START] + [
-            {"node": node, "status": "done", "hypothesis": hyp, "data": data} for node, data in (
-                ("mutator", {"prompts": {"de": "P"}}), ("target", {**d, "answer": "A"}),
-                ("judge", {**d, "violation": True, "reason": "R"}))])
-        status, s = self.request("GET", f"/api/review/sample?run={RUN}")
-        self.assertEqual((status, s["run_id"]), (200, RUN))
-        self.assertEqual([(it["answer"], it["judge_violation"]) for it in s["items"]], [("A", True)])
-        status, s = self.request("GET", "/api/review/sample?run=latest")
-        self.assertEqual((status, s), (404, {"error": "no run on this machine yet"}))
+    def post(self, path: str, body: dict) -> tuple[int, dict]:
+        return self.request("POST", path, json.dumps(body).encode(),
+                            Origin=f"http://127.0.0.1:{self.port}")
+
+    def test_the_review_page_labels_blind_and_shows_the_verdicts_on_request(self):
+        root, runs = self.shipped.parent, {"20261001-000000-aaaa": "8B", "20261002-000000-bbbb": "70B"}
+        for run_id in runs:
+            write_run(self.shipped, root / "cache", run_id)
+        patch(self, mock.patch.object(review_set, "RUNS", runs),
+              mock.patch.object(review_set, "CACHE_DIR", root / "cache"),
+              mock.patch.object(review, "LABELS", root / "judge.jsonl"))
+        status, s = self.request("GET", "/api/review/set?labeller=Ann")
+        self.assertEqual((status, len(s["items"]), s["reveal"]), (200, 60, None))
+        self.assertNotIn("judge_counts", s["items"][0])
+        first = s["items"][0]["id"]
+        ann = {"labeller": "Ann", "id": first}
+        for body in ({**ann, "label": "yes"}, {"id": first, "label": "asserts"},
+                     {"labeller": "Ann", "id": "r:1", "label": "asserts"}, {**ann, "label": []},
+                     {**ann, "label": {}}, ann, {**ann, "label": "asserts", "hedged": "yes"},
+                     {**ann, "label": "asserts", "note": {"a": 1}}):
+            self.assertEqual(self.post("/api/review/label", body)[0], 400, body)
+        label = {**ann, "label": "asserts", "hedged": True}
+        self.assertEqual(self.post("/api/review/label", label), (200, {"saved": first}))
+        self.assertIsNone(self.request("GET", "/api/review/report")[1]["judge_human"])
+        status, shown = self.post("/api/review/reveal", {"labeller": "Ann"})
+        self.assertEqual((status, shown["agreement"]["n"], shown["items"][0]["id"]), (200, 1, first))
+        self.assertTrue(shown["items"][0]["hedged"])
+        self.assertEqual(self.post("/api/review/label", label)[0], 409)
+        _, report = self.request("GET", "/api/review/report")
+        self.assertEqual((report["labels"], report["judge_human"]["all"]["n"]), (1, 1))
+        self.assertEqual(self.request("GET", "/api/review/stimuli?lang=de&labeller=Ann")[0], 400)
 
     def test_the_studio_is_offered_only_where_a_local_copy_exists(self):
         # web/studio/ is not in git; the page hides its tab unless this says it is there.
