@@ -802,8 +802,8 @@
   "claims": [
    {
     "lines": [
-     110,
-     111
+     111,
+     112
     ],
     "states": [
      "difference −14 points, 95% CI −23 to −5",
@@ -817,7 +817,7 @@
    },
    {
     "lines": [
-     110
+     111
     ],
     "states": [
      "significant only in English, Swiss"
@@ -830,12 +830,12 @@
    },
    {
     "lines": [
-     117,
-     123,
-     125,
+     118,
+     124,
      126,
      127,
-     128
+     128,
+     129
     ],
     "states": [
      "Wrong answers (95% CI)",
@@ -853,9 +853,9 @@
    },
    {
     "lines": [
-     129,
-     149,
-     167
+     130,
+     150,
+     169
     ],
     "states": [
      "48% (95% CI 36–60)",
@@ -870,8 +870,8 @@
    },
    {
     "lines": [
-     121,
-     222
+     122,
+     231
     ],
     "states": [
      "**Figure 1.**",
@@ -885,7 +885,7 @@
    },
    {
     "lines": [
-     148
+     149
     ],
     "states": [
      "**Figure 2.**"
@@ -898,7 +898,7 @@
    },
    {
     "lines": [
-     149
+     150
     ],
     "states": [
      "**Figure 3.**"
@@ -911,10 +911,10 @@
    },
    {
     "lines": [
-     193,
-     197,
-     204,
-     205
+     198,
+     202,
+     210,
+     212
     ],
     "states": [
      "Cohen's κ, agreement beyond",
@@ -930,7 +930,7 @@
    },
    {
     "lines": [
-     214
+     222
     ],
     "states": [
      "from 29% to 12% (Romansh 52% to 14%)"
@@ -942,6 +942,8 @@
     }
    }
   ],
-  "unlisted_lines": []
+  "unlisted_lines": [
+   189
+  ]
  }
 }

@@ -128,16 +128,16 @@ One hypothesis: 3 answers in one language against 15 in the others, Fisher's exa
 
 ## 8. Intervals and tests the report states
 
-Method and what it rests on are a reading written by hand; only the line numbers are computed. Unlisted lines that look like an interval: none.
+Method and what it rests on are a reading written by hand; only the line numbers are computed. Unlisted lines that look like an interval: 189.
 
 | report lines | method | rests on | assumes independence |
 |---|---|---|---|
-| 110, 111 | bootstrap of the pooled difference over hypotheses | hypotheses as clusters | no |
-| 110 | six per-language bootstrap intervals read as tests, with no multiplicity adjustment (item 5 gives the cell permutation, Holm over six) | hypotheses as clusters | no |
-| 117, 123, 125, 126, 127, 128 | bootstrap over variations x languages; 1 and 2 variations in findings 2 and 4 | variations and languages as clusters, floored at Wilson | no |
-| 129, 149, 167 | bootstrap over 8 dialects (one speaker each) x 60 sentences | dialects and sentences as clusters | no |
-| 121, 222 | pooled rate per language, bootstrap over hypotheses | hypotheses as clusters | no |
-| 148 | Wilson interval of each hypothesis's 18 answers (6 prompts x 3 seeds) | independent answers, though three share each prompt, so it is too narrow | yes |
-| 149 | Wilson interval of each dialect's 60 clips of 60 distinct sentences | independent clips, fair for distinct sentences; one speaker per dialect, so it covers that speaker, not the dialect | yes |
-| 193, 197, 204, 205 | point estimates, no interval | none stated | no |
-| 214 | rates, no interval or test in the text | none stated | no |
+| 111, 112 | bootstrap of the pooled difference over hypotheses | hypotheses as clusters | no |
+| 111 | six per-language bootstrap intervals read as tests, with no multiplicity adjustment (item 5 gives the cell permutation, Holm over six) | hypotheses as clusters | no |
+| 118, 124, 126, 127, 128, 129 | bootstrap over variations x languages; 1 and 2 variations in findings 2 and 4 | variations and languages as clusters, floored at Wilson | no |
+| 130, 150, 169 | bootstrap over 8 dialects (one speaker each) x 60 sentences | dialects and sentences as clusters | no |
+| 122, 231 | pooled rate per language, bootstrap over hypotheses | hypotheses as clusters | no |
+| 149 | Wilson interval of each hypothesis's 18 answers (6 prompts x 3 seeds) | independent answers, though three share each prompt, so it is too narrow | yes |
+| 150 | Wilson interval of each dialect's 60 clips of 60 distinct sentences | independent clips, fair for distinct sentences; one speaker per dialect, so it covers that speaker, not the dialect | yes |
+| 198, 202, 210, 212 | point estimates, no interval | none stated | no |
+| 222 | rates, no interval or test in the text | none stated | no |
