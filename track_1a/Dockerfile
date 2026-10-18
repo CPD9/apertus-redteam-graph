@@ -8,6 +8,8 @@ COPY findings ./findings
 COPY data ./data
 # The tests also cover scripts/ and check the summary table of the report.
 COPY scripts ./scripts
+# Domain packs for make live, e.g. REDTEAM_BANKS=examples/coding (docs/playbooks/new-domain.md).
+COPY examples ./examples
 COPY tests ./tests
 COPY technical_report.md ./
 ENV PYTHONUNBUFFERED=1

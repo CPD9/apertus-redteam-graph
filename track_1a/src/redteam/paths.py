@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 RUNS = ROOT / "runs"
 SHIPPED = ROOT / "data" / "runs"
+BANKS = "REDTEAM_BANKS"  # extra hypothesis banks, separated like PATH (docs/playbooks/new-domain.md)
 RUN_ID = re.compile(r"[\w-]+")  # a plain folder name, so an id cannot point outside the run folders
 
 

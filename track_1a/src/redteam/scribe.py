@@ -12,6 +12,7 @@ import shlex
 from pathlib import Path
 
 from .models import model_card, model_id, versioned
+from .paths import BANKS
 
 SCHEMA_PATH = Path(__file__).resolve().parents[2] / "findings" / "findings.schema"
 MAX_OUTPUT_TOKENS = 700  # agents.target leaves max_tokens at the client's default
@@ -128,14 +129,16 @@ def steps(llm, seed, cfg, run_id: str) -> list[str]:
                f"--seeds {','.join(map(str, cfg.verify_seeds))} --attempts {cfg.max_attempts}"
                + (f" --system {shlex.quote(cfg.system)}" if cfg.system else ""))
     red = getattr(llm, "red_model", llm.model)
+    # A hypothesis from an extra bank is only found again with the same banks named.
+    banks = f"{BANKS}={shlex.quote(os.environ[BANKS])} " if os.environ.get(BANKS) else ""
     if llm.backend == "MOCK":
-        return ["From track_1a/: REDTEAM_BACKEND=mock PYTHONPATH=src python3 -m redteam.run "
-                + options]
+        return [f"From track_1a/: {banks}REDTEAM_BACKEND=mock PYTHONPATH=src python3 -m "
+                f"redteam.run {options}"]
     return [
-        f"From track_1a/, replay the recorded answers without a GPU: LLM_NAME={llm.model} "
+        f"From track_1a/, replay the recorded answers without a GPU: {banks}LLM_NAME={llm.model} "
         f"RED_LLM_NAME={red} PYTHONPATH=src python3 -m redteam.run --replay {options}",
         f"Or live: serve {llm.model} on 127.0.0.1:8000 and {red} on 127.0.0.1:8002 with vLLM "
-        f"(infra/runpod/README.md), then: PYTHONPATH=src python3 -m redteam.run {options}",
+        f"(infra/runpod/README.md), then: {banks}PYTHONPATH=src python3 -m redteam.run {options}",
         f"Target temperature {cfg.temperature}, judge temperature 0; every step is logged in "
         f"runs/{run_id}/events.jsonl.",
     ]

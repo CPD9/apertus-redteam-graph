@@ -11,10 +11,9 @@ from pathlib import Path
 from . import llm as llm_mod
 from .agents import LANGUAGES
 from .graph import Config, run
-from .paths import ROOT, RUNS
+from .paths import BANKS, ROOT, RUNS
 
 HYPOTHESES = Path(__file__).with_name("hypotheses")
-BANKS = "REDTEAM_BANKS"
 
 
 def bank_files(extra: list[str] | None = None) -> list[Path]:

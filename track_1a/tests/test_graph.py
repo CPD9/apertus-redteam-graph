@@ -197,3 +197,18 @@ class GraphTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class StepsTest(unittest.TestCase):
+    def steps(self, env):
+        fake = mock.Mock(backend="MOCK", model="m", red_model="m")
+        with mock.patch.dict(os.environ, env, clear=False):
+            return scribe.steps(fake, {"id": "py_sort_returns_list"}, Config(), "r1")
+
+    def test_a_hypothesis_from_an_extra_bank_names_the_bank_in_its_steps(self):
+        self.assertIn("REDTEAM_BANKS=examples/coding ", self.steps({paths.BANKS: "examples/coding"})[0])
+
+    def test_without_extra_banks_the_steps_are_unchanged(self):
+        with mock.patch.dict(os.environ):
+            os.environ.pop(paths.BANKS, None)
+            self.assertTrue(self.steps({})[0].startswith("From track_1a/: REDTEAM_BACKEND=mock"))
